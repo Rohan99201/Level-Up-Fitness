@@ -14,22 +14,22 @@ const DEMO = {
   ],
   targets: { diet_type:'veg', calories:2036, protein_g:137.78, fats_g:61.05, carbs_g:233.87, fibre_g:15.51, daily_steps:'8k', cardio:'Daily: 20min' },
   workoutProgram: [
-    { id:'w1', day_number:1, day_name:'DAY 1', workout_type:'Legs',         exercise_name:'Leg extension',            set_rep:'3x9-11',      tempo:'3010', rest_seconds:120, sets:3, video_url:'https://youtu.be/wrU4hx4W3do' },
-    { id:'w2', day_number:1, day_name:'DAY 1', workout_type:'Legs',         exercise_name:'Smith machine calf raises',set_rep:'2x2-Failure', tempo:'3010', rest_seconds:180, sets:2, video_url:'https://youtu.be/1lKjFPrYqf0' },
-    { id:'w3', day_number:1, day_name:'DAY 1', workout_type:'Legs',         exercise_name:'Belt squats',              set_rep:'3x9-11',      tempo:'3010', rest_seconds:120, sets:3, video_url:'https://youtu.be/FCIZZvIM-I0' },
-    { id:'w4', day_number:2, day_name:'DAY 2', workout_type:'Push',         exercise_name:'Incline Db press',         set_rep:'3x9-11',      tempo:'3010', rest_seconds:120, sets:3, video_url:'https://youtu.be/IP4oeKh1Sd4' },
-    { id:'w5', day_number:2, day_name:'DAY 2', workout_type:'Push',         exercise_name:'Machine press flat',       set_rep:'2x2-Failure', tempo:'3010', rest_seconds:180, sets:2, video_url:'https://youtu.be/sreMgnjczh4' },
-    { id:'w6', day_number:2, day_name:'DAY 2', workout_type:'Push',         exercise_name:'Db lateral raises',        set_rep:'2x2-Failure', tempo:'3010', rest_seconds:180, sets:2, video_url:'https://youtu.be/PzsMitRdI_8' },
-    { id:'w7', day_number:3, day_name:'DAY 3', workout_type:'Pull',         exercise_name:'Cable row',                set_rep:'3x9-11',      tempo:'3010', rest_seconds:120, sets:3, video_url:null },
-    { id:'w8', day_number:3, day_name:'DAY 3', workout_type:'Pull',         exercise_name:'Lat pulldown',             set_rep:'3x9-11',      tempo:'3010', rest_seconds:120, sets:3, video_url:null },
-    { id:'w9', day_number:4, day_name:'DAY 4', workout_type:'Rest',         exercise_name:'REST DAY',                 set_rep:null,          tempo:null,   rest_seconds:null, sets:null, video_url:null },
-    { id:'w10',day_number:5, day_name:'DAY 5', workout_type:'Legs & Chest', exercise_name:'Stiff leg deadlift',       set_rep:'2x2-Failure', tempo:'3010', rest_seconds:180, sets:2, video_url:'https://youtu.be/CN_7cz3P-1U' },
-    { id:'w11',day_number:5, day_name:'DAY 5', workout_type:'Legs & Chest', exercise_name:'Bulgarian Split squats',   set_rep:'2x2-Failure', tempo:'3010', rest_seconds:180, sets:2, video_url:'https://youtu.be/SkNsa3eBwLA' },
+    { id:'w1', day_number:1, workout_type:'Legs',         exercise_name:'Leg extension',            set_rep:'3x9-11',      tempo:'3010', rest_seconds:120, sets:3, video_url:'https://youtu.be/wrU4hx4W3do' },
+    { id:'w2', day_number:1, workout_type:'Legs',         exercise_name:'Smith machine calf raises',set_rep:'2x2-Failure', tempo:'3010', rest_seconds:180, sets:2, video_url:'https://youtu.be/1lKjFPrYqf0' },
+    { id:'w3', day_number:1, workout_type:'Legs',         exercise_name:'Belt squats',              set_rep:'3x9-11',      tempo:'3010', rest_seconds:120, sets:3, video_url:'https://youtu.be/FCIZZvIM-I0' },
+    { id:'w4', day_number:2, workout_type:'Push',         exercise_name:'Incline Db press',         set_rep:'3x9-11',      tempo:'3010', rest_seconds:120, sets:3, video_url:'https://youtu.be/IP4oeKh1Sd4' },
+    { id:'w5', day_number:2, workout_type:'Push',         exercise_name:'Machine press flat',       set_rep:'2x2-Failure', tempo:'3010', rest_seconds:180, sets:2, video_url:'https://youtu.be/sreMgnjczh4' },
+    { id:'w6', day_number:2, workout_type:'Push',         exercise_name:'Db lateral raises',        set_rep:'2x2-Failure', tempo:'3010', rest_seconds:180, sets:2, video_url:'https://youtu.be/PzsMitRdI_8' },
+    { id:'w7', day_number:3, workout_type:'Pull',         exercise_name:'Cable row',                set_rep:'3x9-11',      tempo:'3010', rest_seconds:120, sets:3, video_url:null },
+    { id:'w8', day_number:3, workout_type:'Pull',         exercise_name:'Lat pulldown',             set_rep:'3x9-11',      tempo:'3010', rest_seconds:120, sets:3, video_url:null },
+    { id:'w9', day_number:4, workout_type:'Rest',         exercise_name:'REST DAY',                 set_rep:null,          tempo:null,   rest_seconds:null, sets:null, video_url:null },
+    { id:'w10',day_number:5, workout_type:'Legs & Chest', exercise_name:'Stiff leg deadlift',       set_rep:'2x2-Failure', tempo:'3010', rest_seconds:180, sets:2, video_url:'https://youtu.be/CN_7cz3P-1U' },
+    { id:'w11',day_number:5, workout_type:'Legs & Chest', exercise_name:'Bulgarian Split squats',   set_rep:'2x2-Failure', tempo:'3010', rest_seconds:180, sets:2, video_url:'https://youtu.be/SkNsa3eBwLA' },
   ],
   mealPlan: [
-    { id:'m1', meal_number:1, meal_name:'MEAL 1', food_name:'Whey protein', category:'Proteins',      qty_g:35, calories:131.6, protein_g:25,   fat_g:2.4,  carbs_g:2.5,  fibre_g:0 },
-    { id:'m2', meal_number:1, meal_name:'MEAL 1', food_name:'Oats',         category:'Carbohydrates', qty_g:60, calories:219.2, protein_g:7.56, fat_g:3.18, carbs_g:40.1, fibre_g:6.18 },
-    { id:'m3', meal_number:2, meal_name:'MEAL 2', food_name:'Paneer raw',   category:'Proteins',      qty_g:100,calories:265.2, protein_g:18.3, fat_g:20.8, carbs_g:1.2,  fibre_g:0 },
+    { id:'m1', meal_number:1, meal_name:'MEAL 1', food_name:'Whey protein', category:'Proteins',      qty_g:35,  calories:131.6, protein_g:25,   fat_g:2.4,  carbs_g:2.5,  fibre_g:0 },
+    { id:'m2', meal_number:1, meal_name:'MEAL 1', food_name:'Oats',         category:'Carbohydrates', qty_g:60,  calories:219.2, protein_g:7.56, fat_g:3.18, carbs_g:40.1, fibre_g:6.18 },
+    { id:'m3', meal_number:2, meal_name:'MEAL 2', food_name:'Paneer raw',   category:'Proteins',      qty_g:100, calories:265.2, protein_g:18.3, fat_g:20.8, carbs_g:1.2,  fibre_g:0 },
   ],
   roadmap: [
     { id:'r1',  month_number:1,  month_name:'JANUARY',   phase:'Lean Gain', notes:'' },
@@ -89,7 +89,7 @@ async function sbDelete(table, id) {
   if (error) throw error
 }
 
-// ─── RESPONSIVE HOOK ──────────────────────────────────────────────────────────
+// ─── HOOKS ────────────────────────────────────────────────────────────────────
 function useIsMobile() {
   const [mobile, setMobile] = useState(typeof window!=='undefined' && window.innerWidth<640)
   useEffect(()=>{
@@ -100,67 +100,194 @@ function useIsMobile() {
   return mobile
 }
 
-// ─── COLORS & STYLES ──────────────────────────────────────────────────────────
-const C = { accent:'#FF6B35', accentL:'#fff4f0', green:'#16a34a', greenL:'#f0fdf4', blue:'#2563eb', blueL:'#eff6ff', red:'#dc2626', redL:'#fef2f2', amber:'#d97706', amberL:'#fef3c7', gray:'#6b7280', border:'rgba(0,0,0,0.09)' }
-
-const S = {
-  inp: { width:'100%', padding:'10px 13px', borderRadius:10, border:`1.5px solid ${C.border}`, fontSize:15, outline:'none', boxSizing:'border-box', background:'#fff', WebkitAppearance:'none', appearance:'none' },
-  card: { background:'#fff', borderRadius:16, border:`1px solid ${C.border}`, padding:'18px', marginBottom:14 },
-  cardS: { background:'#fff', borderRadius:12, border:`1px solid ${C.border}`, padding:'14px' },
-  lbl: { fontSize:11, fontWeight:600, color:C.gray, textTransform:'uppercase', letterSpacing:'0.5px', marginBottom:5, display:'block' },
-  th: { padding:'9px 11px', textAlign:'left', fontSize:11, fontWeight:600, color:C.gray, textTransform:'uppercase', letterSpacing:'0.4px', borderBottom:`1px solid ${C.border}`, whiteSpace:'nowrap' },
-  td: { padding:'10px 11px', fontSize:13, borderBottom:`1px solid ${C.border}` },
-  table: { width:'100%', borderCollapse:'collapse' },
-  page: { padding:'16px 14px', maxWidth:1080, margin:'0 auto' },
-  h1: { fontSize:22, fontWeight:700, margin:'0 0 4px' },
+function useAdminClient(user, isAdmin) {
+  const [clients, setClients] = useState([])
+  const [selClientId, setSelClientId] = useState('')
+  useEffect(()=>{
+    if (!isAdmin||isDemo) return
+    sbQuery('clients',{order:'name',asc:true}).then(d=>{
+      const list=d||[]; setClients(list)
+      if (list.length>0) setSelClientId(list[0].id)
+    })
+  },[isAdmin])
+  const clientId = isAdmin ? selClientId : (user.clientId||'demo')
+  return { clients, selClientId, setSelClientId, clientId }
 }
 
-function Btn({ children, variant='primary', onClick, disabled, style={}, small }) {
-  const base = { border:'none', cursor:'pointer', fontWeight:600, WebkitTapHighlightColor:'transparent', borderRadius:9, transition:'opacity .15s',
-    padding: small ? '6px 12px' : '10px 18px',
+// ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
+const T = {
+  // Brand
+  orange:    '#FF5C00',
+  orangeD:   '#E05000',
+  orangeL:   '#FFF3ED',
+  // Neutrals
+  bg:        '#F7F5F2',
+  surface:   '#FFFFFF',
+  surfaceAlt:'#FAFAF8',
+  border:    'rgba(0,0,0,0.08)',
+  borderMid: 'rgba(0,0,0,0.14)',
+  ink:       '#0F0F0F',
+  inkMid:    '#4A4A4A',
+  inkLight:  '#8A8A8A',
+  // Semantic
+  green:     '#1A7A4A',
+  greenL:    '#EDFBF2',
+  blue:      '#1A5FD4',
+  blueL:     '#EBF3FF',
+  red:       '#CC2B2B',
+  redL:      '#FFF0F0',
+  amber:     '#B45309',
+  amberL:    '#FFFBEB',
+  purple:    '#6D28D9',
+  purpleL:   '#F5F3FF',
+  // Dark nav
+  navBg:     '#0C0C0C',
+}
+
+// Global font injection
+const STYLE_TAG = `
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: ${T.bg}; color: ${T.ink}; font-family: 'DM Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  input, select, textarea, button { font-family: inherit; }
+  input[type=text], input[type=number], input[type=email], input[type=date], input[type=password], select, textarea { font-size: 16px !important; }
+  ::selection { background: ${T.orange}; color: #fff; }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
+`
+
+// ─── BASE COMPONENTS ──────────────────────────────────────────────────────────
+
+function StyleInjector() {
+  useEffect(()=>{
+    const el = document.createElement('style')
+    el.textContent = STYLE_TAG
+    document.head.appendChild(el)
+    return ()=>document.head.removeChild(el)
+  },[])
+  return null
+}
+
+function Btn({ children, variant='primary', onClick, disabled, style={}, small, full }) {
+  const base = {
+    display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6,
+    border:'none', cursor: disabled?'not-allowed':'pointer', fontWeight:600,
+    fontFamily:"'DM Sans',sans-serif",
+    WebkitTapHighlightColor:'transparent', borderRadius:10, transition:'all .15s',
+    padding: small ? '6px 12px' : '11px 20px',
     fontSize: small ? 12 : 14,
-    opacity: disabled ? 0.5 : 1,
-    background: variant==='primary'?C.accent : variant==='danger'?C.redL : variant==='green'?C.greenL : variant==='ghost'?'transparent' : '#f3f4f6',
-    color: variant==='primary'?'#fff' : variant==='danger'?C.red : variant==='green'?C.green : variant==='ghost'?C.gray : '#111',
+    width: full ? '100%' : undefined,
+    opacity: disabled ? 0.45 : 1,
   }
-  return <button onClick={onClick} disabled={disabled} style={{...base,...style}}>{children}</button>
+  const variants = {
+    primary:   { background: T.orange,   color:'#fff',    boxShadow:'0 2px 8px rgba(255,92,0,0.35)' },
+    secondary: { background: T.surface,  color: T.ink,    border:`1.5px solid ${T.border}` },
+    ghost:     { background:'transparent', color: T.inkMid, border:`1.5px solid ${T.border}` },
+    danger:    { background: T.redL,     color: T.red,    border:`1.5px solid rgba(204,43,43,0.15)` },
+    green:     { background: T.greenL,   color: T.green,  border:`1.5px solid rgba(26,122,74,0.15)` },
+    dark:      { background: T.ink,      color:'#fff' },
+  }
+  return <button onClick={onClick} disabled={disabled} style={{...base,...variants[variant],...style}}>{children}</button>
 }
 
-function Badge({ children, color='accent' }) {
-  const bg = color==='green'?C.greenL:color==='red'?C.redL:color==='blue'?C.blueL:color==='amber'?C.amberL:C.accentL
-  const tc = color==='green'?C.green:color==='red'?C.red:color==='blue'?C.blue:color==='amber'?C.amber:C.accent
-  return <span style={{ display:'inline-flex', alignItems:'center', padding:'3px 9px', borderRadius:6, fontSize:11, fontWeight:600, background:bg, color:tc }}>{children}</span>
-}
-
-function Stat({ label, value, sub, color }) {
+function Badge({ children, color='orange', dot }) {
+  const map = {
+    orange: [T.orangeL, T.orange],
+    green:  [T.greenL,  T.green],
+    red:    [T.redL,    T.red],
+    blue:   [T.blueL,   T.blue],
+    amber:  [T.amberL,  T.amber],
+    purple: [T.purpleL, T.purple],
+    gray:   ['#F0F0EE',  T.inkLight],
+  }
+  const [bg, tc] = map[color]||map.orange
   return (
-    <div style={S.cardS}>
-      <span style={S.lbl}>{label}</span>
-      <div style={{ fontSize:20, fontWeight:700, color:color==='green'?C.green:color==='red'?C.red:color==='blue'?C.blue:color==='amber'?C.amber:'#111' }}>{value}</div>
-      {sub && <div style={{ fontSize:11, color:C.gray, marginTop:2 }}>{sub}</div>}
+    <span style={{ display:'inline-flex', alignItems:'center', gap:4, padding:'3px 9px', borderRadius:20, fontSize:11, fontWeight:600, letterSpacing:'0.2px', background:bg, color:tc }}>
+      {dot && <span style={{ width:5, height:5, borderRadius:'50%', background:tc, flexShrink:0 }}/>}
+      {children}
+    </span>
+  )
+}
+
+function Card({ children, style={}, onClick, hover }) {
+  const [hov, setHov] = useState(false)
+  return (
+    <div onClick={onClick}
+      onMouseEnter={()=>hover&&setHov(true)} onMouseLeave={()=>setHov(false)}
+      style={{ background:T.surface, borderRadius:18, border:`1px solid ${T.border}`, padding:'20px', marginBottom:14, cursor:onClick?'pointer':undefined, transition:'transform .2s, box-shadow .2s', transform: hov?'translateY(-2px)':'translateY(0)', boxShadow: hov?'0 8px 24px rgba(0,0,0,0.08)':'0 1px 4px rgba(0,0,0,0.04)', ...style }}>
+      {children}
     </div>
   )
 }
 
-function Bar({ pct, color=C.accent }) {
-  return <div style={{ height:8, background:'#f0f0f0', borderRadius:4 }}><div style={{ height:8, width:`${Math.min(100,Math.max(0,pct))}%`, background:color, borderRadius:4, transition:'width .6s' }}/></div>
+function KpiCard({ label, value, sub, color, icon }) {
+  const colors = { green:[T.green,T.greenL], blue:[T.blue,T.blueL], orange:[T.orange,T.orangeL], red:[T.red,T.redL], amber:[T.amber,T.amberL], purple:[T.purple,T.purpleL] }
+  const [tc, bg] = colors[color]||['#0F0F0F','#F7F5F2']
+  return (
+    <div style={{ background:T.surface, borderRadius:16, border:`1px solid ${T.border}`, padding:'16px', display:'flex', flexDirection:'column', gap:8 }}>
+      {icon && <div style={{ width:36, height:36, borderRadius:10, background:bg, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18 }}>{icon}</div>}
+      <div>
+        <div style={{ fontSize:11, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.7px', marginBottom:4 }}>{label}</div>
+        <div style={{ fontSize:24, fontWeight:700, color:tc||T.ink, fontFamily:"'Syne',sans-serif", letterSpacing:'-0.5px', lineHeight:1 }}>{value}</div>
+        {sub && <div style={{ fontSize:12, color:T.inkLight, marginTop:4 }}>{sub}</div>}
+      </div>
+    </div>
+  )
+}
+
+function SectionHeader({ title, sub, action }) {
+  return (
+    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:18, flexWrap:'wrap', gap:10 }}>
+      <div>
+        <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:22, fontWeight:700, letterSpacing:'-0.5px', color:T.ink }}>{title}</h2>
+        {sub && <p style={{ fontSize:13, color:T.inkLight, marginTop:3 }}>{sub}</p>}
+      </div>
+      {action}
+    </div>
+  )
+}
+
+function Inp({ label, ...props }) {
+  return (
+    <div>
+      {label && <label style={{ fontSize:11, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px', marginBottom:6, display:'block' }}>{label}</label>}
+      <input {...props} style={{ width:'100%', padding:'10px 14px', borderRadius:10, border:`1.5px solid ${T.border}`, fontSize:15, outline:'none', boxSizing:'border-box', background:T.surface, color:T.ink, transition:'border-color .15s', fontFamily:"'DM Sans',sans-serif", ...(props.style||{}) }}
+        onFocus={e=>{ e.target.style.borderColor=T.orange }}
+        onBlur={e=>{ e.target.style.borderColor=T.border }}
+      />
+    </div>
+  )
+}
+
+function Sel({ label, children, ...props }) {
+  return (
+    <div>
+      {label && <label style={{ fontSize:11, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px', marginBottom:6, display:'block' }}>{label}</label>}
+      <select {...props} style={{ width:'100%', padding:'10px 14px', borderRadius:10, border:`1.5px solid ${T.border}`, fontSize:15, outline:'none', boxSizing:'border-box', background:T.surface, color:T.ink, WebkitAppearance:'none', appearance:'none', fontFamily:"'DM Sans',sans-serif", ...(props.style||{}) }}>{children}</select>
+    </div>
+  )
 }
 
 function MsgBox({ msg }) {
   if (!msg) return null
   const err = msg.startsWith('Error')||msg.startsWith('error')
-  return <div style={{ padding:'10px 14px', background:err?C.redL:C.greenL, borderRadius:9, fontSize:13, color:err?C.red:C.green, marginTop:12 }}>{msg}</div>
+  return (
+    <div style={{ display:'flex', alignItems:'center', gap:8, padding:'10px 14px', background:err?T.redL:T.greenL, borderRadius:10, fontSize:13, color:err?T.red:T.green, marginTop:12, border:`1px solid ${err?'rgba(204,43,43,0.2)':'rgba(26,122,74,0.2)'}` }}>
+      <span>{err?'⚠️':'✓'}</span>{msg}
+    </div>
+  )
 }
 
-// Simple modal overlay
 function Modal({ title, onClose, children }) {
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', zIndex:500, display:'flex', alignItems:'flex-end', justifyContent:'center' }}
+    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.6)', backdropFilter:'blur(4px)', zIndex:500, display:'flex', alignItems:'flex-end', justifyContent:'center', animation:'fadeIn .2s' }}
       onClick={e=>{ if(e.target===e.currentTarget) onClose() }}>
-      <div style={{ background:'#fff', borderRadius:'20px 20px 0 0', padding:'20px 18px', width:'100%', maxWidth:640, maxHeight:'90vh', overflowY:'auto', WebkitOverflowScrolling:'touch' }}>
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
-          <div style={{ fontSize:17, fontWeight:700 }}>{title}</div>
-          <button onClick={onClose} style={{ background:'#f3f4f6', border:'none', borderRadius:8, width:32, height:32, cursor:'pointer', fontSize:18, lineHeight:1 }}>×</button>
+      <div style={{ background:T.surface, borderRadius:'24px 24px 0 0', padding:'24px 20px 32px', width:'100%', maxWidth:560, maxHeight:'92vh', overflowY:'auto', WebkitOverflowScrolling:'touch', boxShadow:'0 -8px 40px rgba(0,0,0,0.15)' }}>
+        <div style={{ width:36, height:4, background:T.border, borderRadius:2, margin:'0 auto 20px' }}/>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
+          <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:18, fontWeight:700 }}>{title}</h3>
+          <button onClick={onClose} style={{ width:32, height:32, borderRadius:'50%', background:T.surfaceAlt, border:`1px solid ${T.border}`, cursor:'pointer', fontSize:16, display:'flex', alignItems:'center', justifyContent:'center' }}>×</button>
         </div>
         {children}
       </div>
@@ -168,15 +295,40 @@ function Modal({ title, onClose, children }) {
   )
 }
 
-// ─── INTERACTIVE WEIGHT CHART ─────────────────────────────────────────────────
+function ProgressRing({ pct, size=72, stroke=6, color=T.orange }) {
+  const r = (size-stroke)/2, c = 2*Math.PI*r
+  const dash = c*Math.min(pct,100)/100
+  return (
+    <svg width={size} height={size} style={{ transform:'rotate(-90deg)' }}>
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={T.border} strokeWidth={stroke}/>
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round"
+        strokeDasharray={`${dash} ${c}`} style={{ transition:'stroke-dasharray .8s cubic-bezier(.4,0,.2,1)' }}/>
+    </svg>
+  )
+}
+
+function Bar({ pct, color=T.orange, height=8 }) {
+  return (
+    <div style={{ height, background:'#EEECE9', borderRadius:99 }}>
+      <div style={{ height, width:`${Math.min(100,Math.max(0,pct))}%`, background:color, borderRadius:99, transition:'width .8s cubic-bezier(.4,0,.2,1)' }}/>
+    </div>
+  )
+}
+
+// ─── WEIGHT CHART ─────────────────────────────────────────────────────────────
 function WeightChart({ data }) {
   const [tip, setTip] = useState(null)
   const svgRef = useRef(null)
   const isMobile = useIsMobile()
-  if (!data||data.length<2) return <div style={{ textAlign:'center', padding:'28px 0', color:C.gray, fontSize:13 }}>Log at least 2 entries to see chart</div>
+  if (!data||data.length<2) return (
+    <div style={{ textAlign:'center', padding:'40px 0', color:T.inkLight, fontSize:13 }}>
+      <div style={{ fontSize:32, marginBottom:8 }}>📊</div>
+      Log at least 2 entries to see your chart
+    </div>
+  )
   const sorted=[...data].sort((a,b)=>new Date(a.date)-new Date(b.date))
-  const ws=sorted.map(d=>d.weight), minW=Math.min(...ws)-1, maxW=Math.max(...ws)+1
-  const W=520,H=150,PL=36,PR=12,PT=14,PB=26
+  const ws=sorted.map(d=>d.weight), minW=Math.min(...ws)-1.5, maxW=Math.max(...ws)+1.5
+  const W=560,H=160,PL=40,PR=16,PT=16,PB=28
   const iW=W-PL-PR, iH=H-PT-PB
   const px=i=>PL+(i/(sorted.length-1||1))*iW
   const py=w=>PT+iH-((w-minW)/(maxW-minW||1))*iH
@@ -194,35 +346,43 @@ function WeightChart({ data }) {
     setTip(minD<40?closest:null)
   }
   return (
-    <div style={{ touchAction:'pan-y' }}>
-      <svg ref={svgRef} width="100%" viewBox={`0 0 ${W} ${H}`} style={{ overflow:'visible', display:'block', cursor:'crosshair' }}
+    <div style={{ touchAction:'pan-y', position:'relative' }}>
+      <svg ref={svgRef} width="100%" viewBox={`0 0 ${W} ${H}`}
+        style={{ overflow:'visible', display:'block', cursor:'crosshair' }}
         onMouseMove={interact} onMouseLeave={()=>setTip(null)}
-        onTouchMove={interact} onTouchEnd={()=>setTimeout(()=>setTip(null),2000)}>
-        <defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={C.accent} stopOpacity=".2"/><stop offset="100%" stopColor={C.accent} stopOpacity="0"/></linearGradient></defs>
+        onTouchMove={interact} onTouchEnd={()=>setTimeout(()=>setTip(null),2500)}>
+        <defs>
+          <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={T.orange} stopOpacity=".18"/>
+            <stop offset="100%" stopColor={T.orange} stopOpacity="0"/>
+          </linearGradient>
+        </defs>
         {yTicks.map((w,i)=>(
           <g key={i}>
-            <line x1={PL} y1={py(w)} x2={W-PR} y2={py(w)} stroke={C.border} strokeWidth="1" strokeDasharray="3,3"/>
-            <text x={PL-4} y={py(w)+4} textAnchor="end" fontSize="9" fill={C.gray}>{w.toFixed(0)}</text>
+            <line x1={PL} y1={py(w)} x2={W-PR} y2={py(w)} stroke="rgba(0,0,0,0.06)" strokeWidth="1"/>
+            <text x={PL-6} y={py(w)+4} textAnchor="end" fontSize="9" fill={T.inkLight} fontFamily="DM Sans">{w.toFixed(0)}</text>
           </g>
         ))}
-        <path d={area} fill="url(#wg)"/>
-        <path d={line} fill="none" stroke={C.accent} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round"/>
+        <path d={area} fill="url(#cg)"/>
+        <path d={line} fill="none" stroke={T.orange} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round"/>
         {pts.map((p,i)=>(
           <g key={i}>
-            <circle cx={p.x} cy={p.y} r={tip?.date===p.date?7:4} fill="#fff" stroke={C.accent} strokeWidth="2" style={{transition:'r .1s'}}/>
-            {(i===0||i===pts.length-1||i%Math.ceil(pts.length/4)===0)&&<text x={p.x} y={H-4} textAnchor="middle" fontSize={isMobile?'8':'9'} fill={C.gray}>{p.date?.slice(5)}</text>}
+            <circle cx={p.x} cy={p.y} r={tip?.date===p.date?7:4.5} fill={T.surface} stroke={T.orange} strokeWidth="2.5" style={{transition:'r .1s'}}/>
+            {(i===0||i===pts.length-1||i%Math.ceil(pts.length/4)===0)&&(
+              <text x={p.x} y={H-4} textAnchor="middle" fontSize={isMobile?'8':'9'} fill={T.inkLight} fontFamily="DM Sans">{p.date?.slice(5)}</text>
+            )}
           </g>
         ))}
         {tip&&(
           <g>
-            <line x1={tip.x} y1={PT} x2={tip.x} y2={PT+iH} stroke={C.accent} strokeWidth="1" strokeDasharray="4,3" strokeOpacity="0.5"/>
-            <rect x={Math.min(tip.x+8,W-108)} y={tip.y-40} width={100} height={36} rx="7" fill="#111" fillOpacity="0.9"/>
-            <text x={Math.min(tip.x+58,W-58)} y={tip.y-23} textAnchor="middle" fontSize="12" fill="#fff" fontWeight="700">{tip.weight} kg</text>
-            <text x={Math.min(tip.x+58,W-58)} y={tip.y-8}  textAnchor="middle" fontSize="9"  fill="rgba(255,255,255,0.55)">{tip.date}</text>
+            <line x1={tip.x} y1={PT} x2={tip.x} y2={PT+iH} stroke={T.orange} strokeWidth="1.5" strokeDasharray="4,3" strokeOpacity="0.4"/>
+            <rect x={Math.min(tip.x+10,W-120)} y={tip.y-46} width={112} height={40} rx="10" fill={T.ink} fillOpacity="0.92"/>
+            <text x={Math.min(tip.x+66,W-64)} y={tip.y-28} textAnchor="middle" fontSize="13" fill="#fff" fontWeight="700" fontFamily="Syne">{tip.weight} kg</text>
+            <text x={Math.min(tip.x+66,W-64)} y={tip.y-12} textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.5)" fontFamily="DM Sans">{tip.date}</text>
           </g>
         )}
       </svg>
-      <div style={{ fontSize:11, color:C.gray, textAlign:'center', marginTop:4 }}>{isMobile?'Tap point for details':'Hover for details'}</div>
+      <p style={{ fontSize:11, color:T.inkLight, textAlign:'center', marginTop:6 }}>{isMobile?'Tap for details':'Hover to inspect'}</p>
     </div>
   )
 }
@@ -230,14 +390,28 @@ function WeightChart({ data }) {
 // ─── BOTTOM NAV ───────────────────────────────────────────────────────────────
 function BottomNav({ tabs, tab, setTab }) {
   return (
-    <div style={{ position:'fixed', bottom:0, left:0, right:0, background:'#0d0d0d', borderTop:'1px solid rgba(255,255,255,0.08)', display:'flex', zIndex:200, paddingBottom:'env(safe-area-inset-bottom,0px)' }}>
+    <div style={{ position:'fixed', bottom:0, left:0, right:0, background:T.navBg, borderTop:'1px solid rgba(255,255,255,0.06)', display:'flex', zIndex:200, paddingBottom:'env(safe-area-inset-bottom,0px)' }}>
       {tabs.map(([id,label,icon])=>(
         <button key={id} onClick={()=>setTab(id)} style={{ flex:1, padding:'10px 4px 8px', background:'transparent', border:'none', cursor:'pointer', display:'flex', flexDirection:'column', alignItems:'center', gap:3, WebkitTapHighlightColor:'transparent' }}>
           <span style={{ fontSize:20 }}>{icon}</span>
-          <span style={{ fontSize:10, fontWeight:600, color:tab===id?C.accent:'rgba(255,255,255,0.4)' }}>{label}</span>
-          {tab===id&&<div style={{ width:18, height:2, background:C.accent, borderRadius:1 }}/>}
+          <span style={{ fontSize:10, fontWeight:600, letterSpacing:'0.3px', color:tab===id?T.orange:'rgba(255,255,255,0.35)', transition:'color .15s' }}>{label}</span>
+          {tab===id&&<div style={{ width:20, height:2.5, background:T.orange, borderRadius:99 }}/>}
         </button>
       ))}
+    </div>
+  )
+}
+
+// ─── CLIENT SELECTOR ──────────────────────────────────────────────────────────
+function ClientSelector({ clients, selClientId, setSelClientId }) {
+  if (!clients.length) return null
+  return (
+    <div style={{ display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
+      <span style={{ fontSize:12, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px' }}>Client</span>
+      <select value={selClientId} onChange={e=>setSelClientId(e.target.value)}
+        style={{ padding:'8px 14px', borderRadius:10, border:`1.5px solid ${T.border}`, fontSize:14, fontWeight:500, background:T.surface, color:T.ink, outline:'none', WebkitAppearance:'none', appearance:'none', fontFamily:"'DM Sans',sans-serif", minWidth:200 }}>
+        {clients.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}
+      </select>
     </div>
   )
 }
@@ -249,13 +423,14 @@ function Login({ onLogin }) {
   const [mode,setMode]=useState('client')
   const [err,setErr]=useState('')
   const [loading,setLoading]=useState(false)
+
   const handle=async e=>{
     e.preventDefault(); setErr(''); setLoading(true)
     try {
       if (isDemo) {
         if (mode==='admin'&&email==='admin@levelup.com'&&pass==='admin123') onLogin({role:'admin',name:'Admin',email})
         else if (mode==='client'&&email&&pass) onLogin({role:'client',name:'ROHAN CHOUBEY',email,clientId:'demo'})
-        else setErr('Demo: admin@levelup.com / admin123 for admin, any email+pass for client')
+        else setErr('Demo: admin@levelup.com / admin123, or any client credentials')
       } else {
         const { data, error }=await supabase.auth.signInWithPassword({email,password:pass})
         if (error) throw error
@@ -271,27 +446,68 @@ function Login({ onLogin }) {
     } catch(ex){ setErr(ex.message||'Login failed') }
     finally{ setLoading(false) }
   }
+
   return (
-    <div style={{ minHeight:'100vh', background:'#0d0d0d', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'24px 20px' }}>
-      <div style={{ marginBottom:28, textAlign:'center' }}>
-        <div style={{ fontSize:30, fontWeight:800, color:'#fff', letterSpacing:'-1px' }}>LEVELUP📈</div>
-        <div style={{ fontSize:13, color:'rgba(255,255,255,0.4)', marginTop:4 }}>Coaching Portal</div>
-        {isDemo&&<div style={{ fontSize:11, color:C.accent, marginTop:8, padding:'4px 12px', background:'rgba(255,107,53,0.1)', borderRadius:6, display:'inline-block' }}>Demo mode</div>}
-      </div>
-      <div style={{ background:'#1a1a1a', borderRadius:18, padding:'24px 20px', width:'100%', maxWidth:400, border:'1px solid rgba(255,255,255,0.07)' }}>
-        <div style={{ display:'flex', gap:6, marginBottom:22, background:'rgba(255,255,255,0.05)', borderRadius:10, padding:4 }}>
-          {['client','admin'].map(m=><button key={m} onClick={()=>setMode(m)} style={{ flex:1, padding:'9px', borderRadius:8, border:'none', cursor:'pointer', fontWeight:600, fontSize:13, background:mode===m?C.accent:'transparent', color:mode===m?'#fff':'rgba(255,255,255,0.4)', textTransform:'capitalize', WebkitTapHighlightColor:'transparent' }}>{m}</button>)}
+    <div style={{ minHeight:'100vh', background:'#080808', display:'flex', fontFamily:"'DM Sans',sans-serif" }}>
+      {/* Left panel — branding */}
+      <div style={{ flex:1, display:'none', background:'linear-gradient(135deg,#1a1a1a 0%,#0c0c0c 100%)', padding:60, flexDirection:'column', justifyContent:'space-between', minWidth:420 }} className="login-left">
+        <div style={{ fontSize:28, fontWeight:800, color:'#fff', fontFamily:"'Syne',sans-serif", letterSpacing:'-1px' }}>LEVELUP📈</div>
+        <div>
+          <div style={{ fontSize:48, fontWeight:800, color:'#fff', fontFamily:"'Syne',sans-serif", lineHeight:1.1, letterSpacing:'-2px', marginBottom:20 }}>
+            Train smarter.<br/><span style={{ color:T.orange }}>Level up.</span>
+          </div>
+          <p style={{ fontSize:16, color:'rgba(255,255,255,0.45)', lineHeight:1.7 }}>
+            Your personalised coaching portal — workouts, nutrition, and progress tracking in one place.
+          </p>
         </div>
-        <form onSubmit={handle}>
-          {[['Email','email',email,setEmail,'your@email.com'],['Password','password',pass,setPass,'••••••••']].map(([lbl,type,val,set,ph])=>(
-            <div key={lbl} style={{ marginBottom:14 }}>
-              <label style={{ fontSize:12, color:'rgba(255,255,255,0.45)', display:'block', marginBottom:6 }}>{lbl}</label>
-              <input type={type} value={val} onChange={e=>set(e.target.value)} placeholder={ph} required style={{ ...S.inp, background:'rgba(255,255,255,0.07)', color:'#fff', borderColor:'rgba(255,255,255,0.1)', fontSize:16 }}/>
+        <div style={{ fontSize:12, color:'rgba(255,255,255,0.2)' }}>© 2026 LevelUp Coaching</div>
+      </div>
+
+      {/* Right panel — form */}
+      <div style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'40px 24px', minWidth:0 }}>
+        <div style={{ width:'100%', maxWidth:400 }}>
+          {/* Logo (mobile) */}
+          <div style={{ fontSize:24, fontWeight:800, color:'#fff', fontFamily:"'Syne',sans-serif", letterSpacing:'-0.5px', marginBottom:36, textAlign:'center' }}>
+            LEVELUP📈
+          </div>
+
+          <div style={{ background:'rgba(255,255,255,0.04)', borderRadius:20, padding:'32px 28px', border:'1px solid rgba(255,255,255,0.07)' }}>
+            <h1 style={{ fontFamily:"'Syne',sans-serif", fontSize:22, fontWeight:700, color:'#fff', marginBottom:6 }}>Sign in</h1>
+            <p style={{ fontSize:13, color:'rgba(255,255,255,0.35)', marginBottom:24 }}>
+              {isDemo ? 'Running in demo mode' : 'Welcome back to your portal'}
+            </p>
+
+            {/* Mode toggle */}
+            <div style={{ display:'flex', background:'rgba(255,255,255,0.06)', borderRadius:12, padding:4, marginBottom:24, gap:4 }}>
+              {['client','admin'].map(m=>(
+                <button key={m} onClick={()=>setMode(m)} style={{ flex:1, padding:'9px', borderRadius:9, border:'none', cursor:'pointer', fontWeight:600, fontSize:13, fontFamily:"'DM Sans',sans-serif", background:mode===m?T.orange:'transparent', color:mode===m?'#fff':'rgba(255,255,255,0.35)', textTransform:'capitalize', transition:'all .2s', WebkitTapHighlightColor:'transparent' }}>{m}</button>
+              ))}
             </div>
-          ))}
-          {err&&<div style={{ fontSize:13, color:'#f87171', marginBottom:12, padding:'9px 13px', background:'rgba(239,68,68,0.08)', borderRadius:8 }}>{err}</div>}
-          <Btn disabled={loading} style={{ width:'100%', fontSize:15, padding:'13px' }}>{loading?'Signing in…':'Sign In'}</Btn>
-        </form>
+
+            <form onSubmit={handle} style={{ display:'flex', flexDirection:'column', gap:14 }}>
+              {[['Email','email',email,setEmail,'you@email.com'],['Password','password',pass,setPass,'••••••••']].map(([lbl,type,val,set,ph])=>(
+                <div key={lbl}>
+                  <label style={{ fontSize:11, fontWeight:600, color:'rgba(255,255,255,0.4)', textTransform:'uppercase', letterSpacing:'0.6px', display:'block', marginBottom:7 }}>{lbl}</label>
+                  <input type={type} value={val} onChange={e=>set(e.target.value)} placeholder={ph} required
+                    style={{ width:'100%', padding:'12px 16px', borderRadius:12, border:'1.5px solid rgba(255,255,255,0.08)', background:'rgba(255,255,255,0.06)', color:'#fff', fontSize:16, outline:'none', fontFamily:"'DM Sans',sans-serif", transition:'border-color .15s', boxSizing:'border-box' }}
+                    onFocus={e=>e.target.style.borderColor=T.orange} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.08)'}
+                  />
+                </div>
+              ))}
+              {err && <div style={{ padding:'10px 14px', background:'rgba(204,43,43,0.12)', borderRadius:10, fontSize:13, color:'#ff8080', border:'1px solid rgba(204,43,43,0.2)' }}>⚠️ {err}</div>}
+              <button type="submit" disabled={loading} style={{ padding:'13px', borderRadius:12, border:'none', cursor:loading?'wait':'pointer', fontWeight:700, fontSize:15, background: loading?'rgba(255,92,0,0.5)':T.orange, color:'#fff', fontFamily:"'DM Sans',sans-serif", boxShadow:'0 4px 16px rgba(255,92,0,0.4)', transition:'all .2s', marginTop:4 }}>
+                {loading ? 'Signing in…' : 'Sign in →'}
+              </button>
+            </form>
+
+            {isDemo && (
+              <div style={{ marginTop:20, padding:'12px 14px', background:'rgba(255,255,255,0.04)', borderRadius:10, fontSize:12, color:'rgba(255,255,255,0.3)', lineHeight:1.7 }}>
+                Demo — Admin: <span style={{ color:'rgba(255,255,255,0.5)' }}>admin@levelup.com / admin123</span><br/>
+                Client: any email + any password
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -307,7 +523,7 @@ function Dashboard({ user }) {
 
   const load=async()=>{
     try {
-      if (isDemo||user.clientId==='demo') { setClient(DEMO.client); setLogs(DEMO.weightLogs); setTargets(DEMO.targets) }
+      if (isDemo||user.clientId==='demo'){setClient(DEMO.client);setLogs(DEMO.weightLogs);setTargets(DEMO.targets)}
       else {
         const [c,l,t]=await Promise.all([
           sbQuery('clients',{eq:{auth_user_id:user.userId},single:true}),
@@ -318,7 +534,6 @@ function Dashboard({ user }) {
       }
     } catch(e){console.error(e)} finally{setLoading(false)}
   }
-
   useEffect(()=>{ load() },[user])
   useEffect(()=>{
     if (isDemo||user.clientId==='demo') return
@@ -330,60 +545,113 @@ function Dashboard({ user }) {
     return ()=>supabase.removeChannel(sub)
   },[user])
 
-  if (loading) return <div style={{ textAlign:'center', padding:60, color:C.gray }}>Loading…</div>
+  if (loading) return <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:'50vh', color:T.inkLight, fontSize:14 }}>Loading your data…</div>
   if (!client) return null
+
   const latest=logs.length?logs[logs.length-1]:{weight:client.current_weight,bmi:null}
-  const loss=((client.start_weight||0)-(latest.weight||0)).toFixed(2)
+  const loss=((client.start_weight||0)-(latest.weight||0)).toFixed(1)
   const pct=Math.max(0,Math.min(100,((client.start_weight-latest.weight)/(client.start_weight-client.goal_weight))*100))
   const weeks=Math.max(0,Math.floor((new Date()-new Date(client.start_date))/(7*864e5)))
-  const bmi=latest.bmi||((latest.weight/((client.height_cm/100)**2)).toFixed(1))
-  const gridCols=isMobile?'repeat(2,1fr)':'repeat(4,1fr)'
+  const bmi=latest.bmi||(latest.weight/((client.height_cm/100)**2)).toFixed(1)
 
   return (
-    <div style={S.page}>
-      <div style={{ marginBottom:18 }}>
-        <div style={S.h1}>{client.name}</div>
-        <div style={{ color:C.gray, fontSize:12, marginTop:3, display:'flex', flexWrap:'wrap', gap:'4px 10px', alignItems:'center' }}>
-          <span>Age {client.age}</span><span>·</span><span>{client.gender}</span><span>·</span><span>{client.height_cm}cm</span><span>·</span><span>BMI {bmi}</span>
-          <Badge color="blue">Week {weeks}</Badge>
+    <div style={{ padding: isMobile?'20px 16px 24px':'28px 24px', maxWidth:1080, margin:'0 auto' }}>
+
+      {/* Hero header */}
+      <div style={{ background:`linear-gradient(135deg, ${T.ink} 0%, #2a1a10 100%)`, borderRadius:20, padding: isMobile?'20px':'28px 32px', marginBottom:20, position:'relative', overflow:'hidden' }}>
+        <div style={{ position:'absolute', top:-20, right:-20, width:140, height:140, borderRadius:'50%', background:T.orange, opacity:.08 }}/>
+        <div style={{ position:'absolute', bottom:-30, right:60, width:80, height:80, borderRadius:'50%', background:T.orange, opacity:.06 }}/>
+        <div style={{ position:'relative' }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:12 }}>
+            <div>
+              <p style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.4)', textTransform:'uppercase', letterSpacing:'1px', marginBottom:6 }}>Welcome back</p>
+              <h1 style={{ fontFamily:"'Syne',sans-serif", fontSize: isMobile?26:34, fontWeight:800, color:'#fff', letterSpacing:'-1px', lineHeight:1, marginBottom:8 }}>{client.name}</h1>
+              <div style={{ display:'flex', flexWrap:'wrap', gap:'6px 14px', fontSize:13, color:'rgba(255,255,255,0.45)' }}>
+                <span>Age {client.age}</span><span>·</span><span>{client.gender}</span><span>·</span><span>{client.height_cm}cm</span><span>·</span><span>BMI {bmi}</span>
+              </div>
+            </div>
+            <div style={{ textAlign: isMobile?'left':'right' }}>
+              <div style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.35)', textTransform:'uppercase', letterSpacing:'0.7px', marginBottom:4 }}>Program week</div>
+              <div style={{ fontFamily:"'Syne',sans-serif", fontSize:42, fontWeight:800, color:T.orange, lineHeight:1 }}>{weeks}</div>
+            </div>
+          </div>
+
+          {/* Progress bar inside hero */}
+          <div style={{ marginTop:20, paddingTop:20, borderTop:'1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:12, color:'rgba(255,255,255,0.45)', marginBottom:8 }}>
+              <span>Fat loss journey</span>
+              <span style={{ color:T.orange, fontWeight:600 }}>{pct.toFixed(1)}% complete</span>
+            </div>
+            <div style={{ height:6, background:'rgba(255,255,255,0.1)', borderRadius:99 }}>
+              <div style={{ height:6, width:`${pct}%`, background:`linear-gradient(90deg,${T.orange},#FF8C00)`, borderRadius:99, transition:'width 1s cubic-bezier(.4,0,.2,1)', boxShadow:'0 0 12px rgba(255,92,0,0.5)' }}/>
+            </div>
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:11, color:'rgba(255,255,255,0.3)', marginTop:6 }}>
+              <span>Start {client.start_weight}kg</span><span>Now {latest.weight}kg</span><span>Goal {client.goal_weight}kg</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div style={{ display:'grid', gridTemplateColumns:gridCols, gap:10, marginBottom:14 }}>
-        <Stat label="Start"   value={`${client.start_weight}kg`}/>
-        <Stat label="Current" value={`${latest.weight}kg`} color="blue"/>
-        <Stat label="Goal"    value={`${client.goal_weight}kg`}/>
-        <Stat label="Lost"    value={`${loss}kg`} color={parseFloat(loss)>0?'green':'red'} sub="since start"/>
+
+      {/* KPI grid */}
+      <div style={{ display:'grid', gridTemplateColumns: isMobile?'repeat(2,1fr)':'repeat(4,1fr)', gap:12, marginBottom:20 }}>
+        <KpiCard label="Start weight" value={`${client.start_weight}`} sub="kg" icon="⚖️"/>
+        <KpiCard label="Current" value={`${latest.weight}`} sub="kg" color="blue" icon="📍"/>
+        <KpiCard label="Goal weight" value={`${client.goal_weight}`} sub="kg" color="green" icon="🎯"/>
+        <KpiCard label="Lost so far" value={`${loss}`} sub="kg" color={parseFloat(loss)>0?'orange':'red'} icon="📉"/>
       </div>
-      <div style={S.card}>
-        <div style={{ fontSize:16, fontWeight:600, marginBottom:12 }}>Weight progress</div>
-        <div style={{ display:'flex', justifyContent:'space-between', fontSize:12, color:C.gray, marginBottom:6 }}>
-          <span>Fat loss</span><span>{pct.toFixed(1)}%</span>
+
+      {/* Chart */}
+      <Card style={{ marginBottom:20 }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
+          <div>
+            <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:16, fontWeight:700, marginBottom:2 }}>Weight trend</h3>
+            <p style={{ fontSize:12, color:T.inkLight }}>{logs.length} data points</p>
+          </div>
+          <Badge color="orange" dot>{pct.toFixed(0)}% to goal</Badge>
         </div>
-        <Bar pct={pct}/>
-        <div style={{ display:'flex', justifyContent:'space-between', fontSize:11, color:C.gray, marginTop:5 }}>
-          <span>Start {client.start_weight}kg</span><span>Now {latest.weight}kg</span><span>Goal {client.goal_weight}kg</span>
-        </div>
-        <div style={{ marginTop:18 }}><WeightChart data={logs}/></div>
-      </div>
-      {targets&&(
-        <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr', gap:14 }}>
-          <div style={S.card}>
-            <div style={{ fontSize:16, fontWeight:600, marginBottom:12 }}>Daily targets</div>
-            {[['Calories',`${Number(targets.calories).toFixed(0)} kcal`,C.accent],['Protein',`${Number(targets.protein_g).toFixed(0)}g`,C.blue],['Carbs',`${Number(targets.carbs_g).toFixed(0)}g`,C.green],['Fats',`${Number(targets.fats_g).toFixed(0)}g`,'#f59e0b'],['Fibre',`${Number(targets.fibre_g).toFixed(1)}g`,'#8b5cf6']].map(([lbl,val,clr])=>(
-              <div key={lbl} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'9px 0', borderBottom:`1px solid ${C.border}` }}>
-                <div style={{ display:'flex', alignItems:'center', gap:8 }}><div style={{ width:8, height:8, borderRadius:'50%', background:clr, flexShrink:0 }}/><span style={{ fontSize:14 }}>{lbl}</span></div>
-                <span style={{ fontWeight:600, fontSize:14 }}>{val}</span>
+        <WeightChart data={logs}/>
+      </Card>
+
+      {/* Macros + Info */}
+      {targets && (
+        <div style={{ display:'grid', gridTemplateColumns: isMobile?'1fr':'1fr 1fr', gap:14 }}>
+          <Card>
+            <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:16, fontWeight:700, marginBottom:16 }}>Daily targets</h3>
+            {[
+              ['Calories',`${Number(targets.calories).toFixed(0)} kcal`,T.orange,85],
+              ['Protein', `${Number(targets.protein_g).toFixed(0)}g`,  T.blue,  Number(targets.protein_g)/2],
+              ['Carbs',   `${Number(targets.carbs_g).toFixed(0)}g`,    T.green, Number(targets.carbs_g)/3],
+              ['Fats',    `${Number(targets.fats_g).toFixed(0)}g`,     T.amber, Number(targets.fats_g)/1.5],
+              ['Fibre',   `${Number(targets.fibre_g).toFixed(1)}g`,    T.purple,Number(targets.fibre_g)*3],
+            ].map(([lbl,val,clr,pct2])=>(
+              <div key={lbl} style={{ marginBottom:14 }}>
+                <div style={{ display:'flex', justifyContent:'space-between', marginBottom:6 }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+                    <div style={{ width:8, height:8, borderRadius:'50%', background:clr }}/>
+                    <span style={{ fontSize:13, fontWeight:500 }}>{lbl}</span>
+                  </div>
+                  <span style={{ fontSize:13, fontWeight:700, color:clr }}>{val}</span>
+                </div>
+                <Bar pct={Math.min(100,pct2)} color={clr} height={5}/>
               </div>
             ))}
-          </div>
-          <div style={S.card}>
-            <div style={{ fontSize:16, fontWeight:600, marginBottom:12 }}>Program info</div>
-            {[['Daily steps',targets.daily_steps],['Cardio',targets.cardio],['Diet',targets.diet_type?.toUpperCase()],['Start',client.start_date],['End',client.end_date]].map(([lbl,val])=>(
-              <div key={lbl} style={{ display:'flex', justifyContent:'space-between', padding:'9px 0', borderBottom:`1px solid ${C.border}`, fontSize:14 }}>
-                <span style={{ color:C.gray }}>{lbl}</span><span style={{ fontWeight:500 }}>{val||'—'}</span>
+          </Card>
+          <Card>
+            <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:16, fontWeight:700, marginBottom:16 }}>Program details</h3>
+            {[
+              ['🚶 Daily steps', targets.daily_steps],
+              ['🏃 Cardio',      targets.cardio],
+              ['🥗 Diet type',   targets.diet_type?.toUpperCase()],
+              ['📅 Start date',  client.start_date],
+              ['🏁 End date',    client.end_date],
+              ['📆 Join date',   client.join_date],
+            ].map(([lbl,val])=>(
+              <div key={lbl} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'10px 0', borderBottom:`1px solid ${T.border}`, fontSize:13 }}>
+                <span style={{ color:T.inkMid }}>{lbl}</span>
+                <span style={{ fontWeight:600 }}>{val||'—'}</span>
               </div>
             ))}
-          </div>
+          </Card>
         </div>
       )}
     </div>
@@ -418,306 +686,244 @@ function WeightLogger({ user }) {
       const w=parseFloat(wt), bmi=parseFloat((w/1.80**2).toFixed(2))
       if (isDemo||clientId==='demo'){setLogs(prev=>[...prev,{id:Date.now(),date,weight:w,unit,bmi}])}
       else { await sbInsert('weight_logs',{client_id:clientId,date,weight:w,unit,bmi}); await supabase.from('clients').update({current_weight:w}).eq('id',clientId) }
-      setMsg(`✓ Logged ${w}${unit}`); setWt(''); setTimeout(()=>setMsg(''),3000)
+      setMsg(`✓ Logged ${w} ${unit}`); setWt(''); setTimeout(()=>setMsg(''),3000)
     } catch(e){setMsg(`Error: ${e.message}`)} finally{setSaving(false)}
   }
-
   const deleteLog=async(id)=>{
     if (!window.confirm('Delete this entry?')) return
     if (isDemo||clientId==='demo'){setLogs(prev=>prev.filter(l=>l.id!==id));return}
     try { await sbDelete('weight_logs',id); load() } catch(e){setMsg(`Error: ${e.message}`)}
   }
-
   const sorted=[...logs].sort((a,b)=>new Date(b.date)-new Date(a.date))
 
   return (
-    <div style={S.page}>
-      <div style={{ marginBottom:18 }}><div style={S.h1}>Weight logger</div><div style={{ fontSize:13, color:C.gray }}>{logs.length} entries</div></div>
-      <div style={S.card}>
-        <div style={{ fontSize:16, fontWeight:600, marginBottom:14 }}>Log today</div>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:12 }}>
-          <div><span style={S.lbl}>Date</span><input type="date" value={date} onChange={e=>setDate(e.target.value)} style={S.inp}/></div>
-          <div><span style={S.lbl}>Weight</span><input type="number" value={wt} onChange={e=>setWt(e.target.value)} placeholder="e.g. 91.5" step=".1" inputMode="decimal" style={S.inp}/></div>
+    <div style={{ padding:'20px 16px 24px', maxWidth:1080, margin:'0 auto' }}>
+      <SectionHeader title="Weight log" sub={`${logs.length} entries tracked`}/>
+      <Card>
+        <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:15, fontWeight:700, marginBottom:16 }}>Log today's weight</h3>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+          <Inp label="Date" type="date" value={date} onChange={e=>setDate(e.target.value)}/>
+          <Inp label="Weight" type="number" value={wt} onChange={e=>setWt(e.target.value)} placeholder="92.5" step=".1" inputMode="decimal"/>
         </div>
-        <div style={{ display:'flex', gap:10 }}>
-          <div style={{ width:100 }}><span style={S.lbl}>Unit</span><select value={unit} onChange={e=>setUnit(e.target.value)} style={S.inp}><option>Kg</option><option>Lbs</option></select></div>
-          <Btn onClick={addLog} disabled={saving} style={{ flex:1, marginTop:18 }}>{saving?'Saving…':'Log weight'}</Btn>
+        <div style={{ display:'flex', gap:10, alignItems:'flex-end' }}>
+          <Sel label="Unit" value={unit} onChange={e=>setUnit(e.target.value)} style={{ width:90 }}>
+            <option>Kg</option><option>Lbs</option>
+          </Sel>
+          <Btn onClick={addLog} disabled={saving} style={{ flex:1, padding:'12px' }}>{saving?'Saving…':'Log weight →'}</Btn>
         </div>
         <MsgBox msg={msg}/>
-      </div>
-      <div style={S.card}>
-        <div style={{ fontSize:16, fontWeight:600, marginBottom:14 }}>History</div>
+      </Card>
+
+      <Card>
+        <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:15, fontWeight:700, marginBottom:16 }}>History</h3>
         <WeightChart data={[...logs].sort((a,b)=>new Date(a.date)-new Date(b.date))}/>
-        <div style={{ marginTop:16, overflowX:'auto', WebkitOverflowScrolling:'touch' }}>
-          <table style={S.table}>
-            <thead><tr>{['Date','Weight','BMI','Change',''].map(h=><th key={h} style={S.th}>{h}</th>)}</tr></thead>
+        <div style={{ marginTop:20, overflowX:'auto', WebkitOverflowScrolling:'touch' }}>
+          <table style={{ width:'100%', borderCollapse:'collapse' }}>
+            <thead>
+              <tr style={{ borderBottom:`2px solid ${T.border}` }}>
+                {['Date','Weight','BMI','Change',''].map(h=><th key={h} style={{ padding:'8px 12px', textAlign:'left', fontSize:11, fontWeight:700, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px' }}>{h}</th>)}
+              </tr>
+            </thead>
             <tbody>
               {sorted.map((l,i)=>{
                 const prev=sorted[i+1], chg=prev?+(l.weight-prev.weight).toFixed(2):null
                 return (
-                  <tr key={l.id}>
-                    <td style={S.td}>{l.date}</td>
-                    <td style={{ ...S.td, fontWeight:600 }}>{l.weight} kg</td>
-                    <td style={S.td}>{l.bmi||'—'}</td>
-                    <td style={S.td}>{chg!=null&&<Badge color={chg<0?'green':chg>0?'red':'blue'}>{chg>0?'+':''}{chg}</Badge>}</td>
-                    <td style={S.td}><Btn variant="danger" small onClick={()=>deleteLog(l.id)}>Delete</Btn></td>
+                  <tr key={l.id} style={{ borderBottom:`1px solid ${T.border}`, background:i%2===0?T.surfaceAlt:T.surface }}>
+                    <td style={{ padding:'11px 12px', fontSize:13, color:T.inkMid }}>{l.date}</td>
+                    <td style={{ padding:'11px 12px', fontSize:14, fontWeight:700, fontFamily:"'Syne',sans-serif" }}>{l.weight} <span style={{ fontSize:11, fontWeight:400, color:T.inkLight }}>{l.unit}</span></td>
+                    <td style={{ padding:'11px 12px', fontSize:13, color:T.inkMid }}>{l.bmi||'—'}</td>
+                    <td style={{ padding:'11px 12px' }}>{chg!=null&&<Badge color={chg<0?'green':chg>0?'red':'gray'}>{chg>0?'+':''}{chg}</Badge>}</td>
+                    <td style={{ padding:'11px 12px' }}><Btn variant="danger" small onClick={()=>deleteLog(l.id)}>✕</Btn></td>
                   </tr>
                 )
               })}
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
-  )
-}
-
-
-// ─── CLIENT SELECTOR (admin uses this to pick which client to edit) ────────────
-function useAdminClient(user, isAdmin) {
-  const [clients, setClients] = useState([])
-  const [selClientId, setSelClientId] = useState('')
-
-  useEffect(() => {
-    if (!isAdmin || isDemo) return
-    sbQuery('clients', { order: 'name', asc: true }).then(d => {
-      const list = d || []
-      setClients(list)
-      if (list.length > 0) setSelClientId(list[0].id)
-    })
-  }, [isAdmin])
-
-  const clientId = isAdmin ? selClientId : (user.clientId || 'demo')
-  return { clients, selClientId, setSelClientId, clientId }
-}
-
-function ClientSelector({ clients, selClientId, setSelClientId }) {
-  if (!clients.length) return null
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-      <span style={{ fontSize: 12, color: C.gray, fontWeight: 600 }}>Client:</span>
-      <select value={selClientId} onChange={e => setSelClientId(e.target.value)}
-        style={{ ...S.inp, width: 'auto', minWidth: 180, padding: '7px 12px', fontSize: 13 }}>
-        {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-      </select>
+      </Card>
     </div>
   )
 }
 
 // ─── WORKOUT PAGE ─────────────────────────────────────────────────────────────
 function WorkoutPage({ user, isAdmin }) {
-  const { clients, selClientId, setSelClientId, clientId } = useAdminClient(user, isAdmin)
-  const [program, setProgram] = useState([])
-  const [logs, setLogs] = useState([])
-  const [dayIdx, setDayIdx] = useState(0)
-  const [week, setWeek] = useState(1)
-  const [inputs, setInputs] = useState({})
-  const [saving, setSaving] = useState('')
-  const [showDayPicker, setShowDayPicker] = useState(false)
-  const [showAddModal, setShowAddModal] = useState(false)
-  const [editEx, setEditEx] = useState(null)
-  const [exForm, setExForm] = useState({ day_number: 1, workout_type: 'Legs', exercise_name: '', set_rep: '', tempo: '3010', rest_seconds: 120, sets: 3, video_url: '' })
-  const [formMsg, setFormMsg] = useState('')
-  const isMobile = useIsMobile()
+  const { clients, selClientId, setSelClientId, clientId }=useAdminClient(user, isAdmin)
+  const [program,setProgram]=useState([])
+  const [logs,setLogs]=useState([])
+  const [dayIdx,setDayIdx]=useState(0)
+  const [week,setWeek]=useState(1)
+  const [inputs,setInputs]=useState({})
+  const [saving,setSaving]=useState('')
+  const [showDayPicker,setShowDayPicker]=useState(false)
+  const [showAddModal,setShowAddModal]=useState(false)
+  const [editEx,setEditEx]=useState(null)
+  const [exForm,setExForm]=useState({day_number:1,workout_type:'Legs',exercise_name:'',set_rep:'',tempo:'3010',rest_seconds:120,sets:3,video_url:''})
+  const [formMsg,setFormMsg]=useState('')
+  const isMobile=useIsMobile()
+  const isDemoMode=isDemo||clientId==='demo'||!clientId
 
-  const isDemoMode = isDemo || clientId === 'demo' || !clientId
-
-  const load = async () => {
-    if (isDemoMode) { setProgram(DEMO.workoutProgram); return }
-    const d = await sbQuery('workout_programs', { eq: { client_id: clientId }, order: 'day_number', asc: true })
-    setProgram(d || [])
+  const load=async()=>{
+    if (isDemoMode){setProgram(DEMO.workoutProgram);return}
+    const d=await sbQuery('workout_programs',{eq:{client_id:clientId},order:'day_number',asc:true})
+    setProgram(d||[])
   }
-  const loadLogs = async () => {
+  const loadLogs=async()=>{
     if (isDemoMode) return
-    const d = await sbQuery('workout_logs', { eq: { client_id: clientId, week }, order: 'logged_at', asc: false })
-    setLogs(d || [])
+    const d=await sbQuery('workout_logs',{eq:{client_id:clientId,week},order:'logged_at',asc:false})
+    setLogs(d||[])
   }
-  useEffect(() => { if (clientId) load() }, [clientId])
-  useEffect(() => { if (clientId) loadLogs() }, [clientId, week])
+  useEffect(()=>{ if(clientId) load() },[clientId])
+  useEffect(()=>{ if(clientId) loadLogs() },[clientId,week])
 
-  const days = [...new Set(program.map(p => p.day_number))].sort((a, b) => a - b)
-  const selDay = days[dayIdx] || 1
-  const dayExs = program.filter(p => p.day_number === selDay)
-  const dayType = dayExs[0]?.workout_type || ''
+  const days=[...new Set(program.map(p=>p.day_number))].sort((a,b)=>a-b)
+  const selDay=days[dayIdx]||1
+  const dayExs=program.filter(p=>p.day_number===selDay)
+  const dayType=dayExs[0]?.workout_type||''
 
-  const logSet = async (exName, setNum) => {
-    const key = `${exName}_${setNum}`, inp = inputs[key] || {}
-    if (!inp.reps && !inp.weight) return
-    setSaving(key)
+  const logSet=async(exName,setNum)=>{
+    const key=`${exName}_${setNum}`,inp=inputs[key]||{}
+    if (!inp.reps&&!inp.weight) return; setSaving(key)
     try {
-      const entry = { client_id: clientId, week, day_number: selDay, exercise_name: exName, set_number: setNum, reps: parseInt(inp.reps) || 0, weight_kg: parseFloat(inp.weight) || 0 }
-      if (isDemoMode) setLogs(prev => [...prev, { id: Date.now(), ...entry }])
-      else { const saved = await sbInsert('workout_logs', entry); setLogs(prev => [...prev, saved]) }
-      setInputs(prev => ({ ...prev, [key]: { reps: '', weight: '' } }))
-    } catch (e) { console.error(e) }
-    finally { setSaving('') }
+      const entry={client_id:clientId,week,day_number:selDay,exercise_name:exName,set_number:setNum,reps:parseInt(inp.reps)||0,weight_kg:parseFloat(inp.weight)||0}
+      if (isDemoMode) setLogs(prev=>[...prev,{id:Date.now(),...entry}])
+      else { const saved=await sbInsert('workout_logs',entry); setLogs(prev=>[...prev,saved]) }
+      setInputs(prev=>({...prev,[key]:{reps:'',weight:''}}))
+    } catch(e){console.error(e)} finally{setSaving('')}
   }
-  const getLog = (exName, setNum) => logs.find(l => l.exercise_name === exName && l.set_number === setNum && l.day_number === selDay)
+  const getLog=(exName,setNum)=>logs.find(l=>l.exercise_name===exName&&l.set_number===setNum&&l.day_number===selDay)
 
-  const saveExercise = async () => {
-    setFormMsg('')
-    if (!exForm.exercise_name) { setFormMsg('Error: Exercise name required'); return }
+  const saveExercise=async()=>{
+    setFormMsg(''); if(!exForm.exercise_name){setFormMsg('Error: Name required');return}
     try {
-      if (isDemoMode) {
-        if (editEx) setProgram(prev => prev.map(p => p.id === editEx.id ? { ...p, ...exForm } : p))
-        else setProgram(prev => [...prev, { id: 'w' + Date.now(), ...exForm, client_id: clientId }])
+      if (isDemoMode){
+        if(editEx) setProgram(prev=>prev.map(p=>p.id===editEx.id?{...p,...exForm}:p))
+        else setProgram(prev=>[...prev,{id:'w'+Date.now(),...exForm,client_id:clientId}])
       } else {
-        if (editEx) await sbUpdate('workout_programs', editEx.id, exForm)
-        else await sbInsert('workout_programs', { ...exForm, client_id: clientId })
+        if(editEx) await sbUpdate('workout_programs',editEx.id,exForm)
+        else await sbInsert('workout_programs',{...exForm,client_id:clientId})
         await load()
       }
-      setFormMsg('✓ Saved'); setTimeout(() => { setShowAddModal(false); setEditEx(null); setFormMsg('') }, 800)
-      setExForm({ day_number: 1, workout_type: 'Legs', exercise_name: '', set_rep: '', tempo: '3010', rest_seconds: 120, sets: 3, video_url: '' })
-    } catch (e) { setFormMsg(`Error: ${e.message}`) }
+      setFormMsg('✓ Saved'); setTimeout(()=>{setShowAddModal(false);setEditEx(null);setFormMsg('')},700)
+      setExForm({day_number:1,workout_type:'Legs',exercise_name:'',set_rep:'',tempo:'3010',rest_seconds:120,sets:3,video_url:''})
+    } catch(e){setFormMsg(`Error: ${e.message}`)}
   }
-
-  const deleteExercise = async (ex) => {
-    if (!window.confirm(`Delete "${ex.exercise_name}"?`)) return
-    if (isDemoMode) { setProgram(prev => prev.filter(p => p.id !== ex.id)); return }
-    try { await sbDelete('workout_programs', ex.id); await load() } catch (e) { alert(e.message) }
+  const deleteExercise=async(ex)=>{
+    if(!window.confirm(`Delete "${ex.exercise_name}"?`)) return
+    if(isDemoMode){setProgram(prev=>prev.filter(p=>p.id!==ex.id));return}
+    try{ await sbDelete('workout_programs',ex.id); await load() }catch(e){alert(e.message)}
   }
+  const openEditEx=(ex)=>{ setEditEx(ex); setExForm({day_number:ex.day_number,workout_type:ex.workout_type,exercise_name:ex.exercise_name,set_rep:ex.set_rep||'',tempo:ex.tempo||'3010',rest_seconds:ex.rest_seconds||120,sets:ex.sets||3,video_url:ex.video_url||''}); setShowAddModal(true) }
 
-  const openEdit = (ex) => {
-    setEditEx(ex)
-    setExForm({ day_number: ex.day_number, workout_type: ex.workout_type, exercise_name: ex.exercise_name, set_rep: ex.set_rep || '', tempo: ex.tempo || '3010', rest_seconds: ex.rest_seconds || 120, sets: ex.sets || 3, video_url: ex.video_url || '' })
-    setShowAddModal(true)
-  }
-
-  const ExForm = (
-    <div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
-        <div><span style={S.lbl}>Day number</span><input type="number" value={exForm.day_number} onChange={e => setExForm(p => ({ ...p, day_number: parseInt(e.target.value) || 1 }))} style={S.inp} min="1" max="7" /></div>
-        <div><span style={S.lbl}>Workout type</span><input value={exForm.workout_type} onChange={e => setExForm(p => ({ ...p, workout_type: e.target.value }))} placeholder="Legs, Push, Pull…" style={S.inp} /></div>
-        <div style={{ gridColumn: '1/-1' }}><span style={S.lbl}>Exercise name *</span><input value={exForm.exercise_name} onChange={e => setExForm(p => ({ ...p, exercise_name: e.target.value }))} placeholder="Incline Db press" style={S.inp} /></div>
-        <div><span style={S.lbl}>Set & Rep</span><input value={exForm.set_rep} onChange={e => setExForm(p => ({ ...p, set_rep: e.target.value }))} placeholder="3x9-11" style={S.inp} /></div>
-        <div><span style={S.lbl}>Tempo</span><input value={exForm.tempo} onChange={e => setExForm(p => ({ ...p, tempo: e.target.value }))} placeholder="3010" style={S.inp} /></div>
-        <div><span style={S.lbl}>Rest (sec)</span><input type="number" value={exForm.rest_seconds} onChange={e => setExForm(p => ({ ...p, rest_seconds: parseInt(e.target.value) || 120 }))} style={S.inp} /></div>
-        <div><span style={S.lbl}>Sets</span><input type="number" value={exForm.sets} onChange={e => setExForm(p => ({ ...p, sets: parseInt(e.target.value) || 3 }))} style={S.inp} /></div>
-        <div style={{ gridColumn: '1/-1' }}><span style={S.lbl}>Video URL</span><input value={exForm.video_url} onChange={e => setExForm(p => ({ ...p, video_url: e.target.value }))} placeholder="https://youtu.be/…" style={S.inp} /></div>
+  const ExForm=(
+    <div style={{display:'flex',flexDirection:'column',gap:12}}>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+        <Inp label="Day number" type="number" value={exForm.day_number} onChange={e=>setExForm(p=>({...p,day_number:parseInt(e.target.value)||1}))} min="1" max="7"/>
+        <Inp label="Workout type" value={exForm.workout_type} onChange={e=>setExForm(p=>({...p,workout_type:e.target.value}))} placeholder="Legs, Push…"/>
       </div>
-      <MsgBox msg={formMsg} />
-      <div style={{ display: 'flex', gap: 9, marginTop: 14 }}>
-        <Btn onClick={saveExercise} style={{ flex: 1 }}>{editEx ? 'Save changes' : 'Add exercise'}</Btn>
-        <Btn variant="secondary" onClick={() => { setShowAddModal(false); setEditEx(null) }} style={{ flex: 1 }}>Cancel</Btn>
+      <Inp label="Exercise name *" value={exForm.exercise_name} onChange={e=>setExForm(p=>({...p,exercise_name:e.target.value}))} placeholder="Incline Db press"/>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+        <Inp label="Set & Rep" value={exForm.set_rep} onChange={e=>setExForm(p=>({...p,set_rep:e.target.value}))} placeholder="3x9-11"/>
+        <Inp label="Tempo" value={exForm.tempo} onChange={e=>setExForm(p=>({...p,tempo:e.target.value}))} placeholder="3010"/>
+        <Inp label="Rest (sec)" type="number" value={exForm.rest_seconds} onChange={e=>setExForm(p=>({...p,rest_seconds:parseInt(e.target.value)||120}))}/>
+        <Inp label="Sets" type="number" value={exForm.sets} onChange={e=>setExForm(p=>({...p,sets:parseInt(e.target.value)||3}))}/>
+      </div>
+      <Inp label="Video URL" value={exForm.video_url} onChange={e=>setExForm(p=>({...p,video_url:e.target.value}))} placeholder="https://youtu.be/…"/>
+      <MsgBox msg={formMsg}/>
+      <div style={{display:'flex',gap:9,marginTop:4}}>
+        <Btn onClick={saveExercise} full>{editEx?'Save changes':'Add exercise'}</Btn>
+        <Btn variant="ghost" onClick={()=>{setShowAddModal(false);setEditEx(null)}} full>Cancel</Btn>
       </div>
     </div>
   )
 
   return (
-    <div style={S.page}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
-        <div><div style={S.h1}>Workout</div><div style={{ fontSize: 12, color: C.gray }}>Log your sets</div></div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-          {isAdmin && <ClientSelector clients={clients} selClientId={selClientId} setSelClientId={setSelClientId} />}
-          {isAdmin && <Btn variant="green" small onClick={() => { setEditEx(null); setShowAddModal(true) }}>+ Add exercise</Btn>}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 12, color: C.gray }}>Week</span>
-            <select value={week} onChange={e => setWeek(Number(e.target.value))} style={{ ...S.inp, width: 85, padding: '8px 10px', fontSize: 14 }}>
-              {Array.from({ length: 48 }, (_, i) => <option key={i + 1} value={i + 1}>Wk {i + 1}</option>)}
+    <div style={{padding:'20px 16px 24px',maxWidth:1080,margin:'0 auto'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:20,flexWrap:'wrap',gap:12}}>
+        <SectionHeader title="Workout" sub="Track your sets & progress" action={null}/>
+        <div style={{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}}>
+          {isAdmin&&<ClientSelector clients={clients} selClientId={selClientId} setSelClientId={setSelClientId}/>}
+          {isAdmin&&<Btn variant="green" small onClick={()=>{setEditEx(null);setShowAddModal(true)}}>+ Add</Btn>}
+          <div style={{display:'flex',alignItems:'center',gap:6,background:T.surface,border:`1px solid ${T.border}`,borderRadius:10,padding:'4px 4px 4px 12px'}}>
+            <span style={{fontSize:12,color:T.inkLight,fontWeight:600}}>Week</span>
+            <select value={week} onChange={e=>setWeek(Number(e.target.value))} style={{border:'none',background:'transparent',fontSize:14,fontWeight:600,color:T.ink,outline:'none',fontFamily:"'DM Sans',sans-serif",padding:'4px 8px',cursor:'pointer'}}>
+              {Array.from({length:48},(_,i)=><option key={i+1} value={i+1}>{i+1}</option>)}
             </select>
           </div>
         </div>
       </div>
 
-      {isMobile ? (
-        <div style={{ marginBottom: 14 }}>
-          <button onClick={() => setShowDayPicker(!showDayPicker)} style={{ ...S.inp, display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', background: '#fff', fontWeight: 600 }}>
-            <span>Day {selDay} — {dayType}</span><span style={{ fontSize: 10 }}>{showDayPicker ? '▲' : '▼'}</span>
+      {/* Day tabs */}
+      {isMobile?(
+        <div style={{marginBottom:16}}>
+          <button onClick={()=>setShowDayPicker(!showDayPicker)} style={{width:'100%',padding:'12px 16px',background:T.surface,border:`1.5px solid ${T.border}`,borderRadius:12,display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',fontSize:14,fontWeight:600,fontFamily:"'DM Sans',sans-serif"}}>
+            <span>Day {selDay} — {dayType}</span><span style={{color:T.orange}}>{showDayPicker?'▲':'▼'}</span>
           </button>
-          {showDayPicker && (
-            <div style={{ background: '#fff', border: `1px solid ${C.border}`, borderRadius: 10, marginTop: 6, overflow: 'hidden' }}>
-              {days.map((d, i) => { const t = program.find(p => p.day_number === d)?.workout_type || ''; return (<button key={d} onClick={() => { setDayIdx(i); setShowDayPicker(false) }} style={{ width: '100%', padding: '13px 16px', background: dayIdx === i ? C.accentL : '#fff', border: 'none', borderBottom: `1px solid ${C.border}`, textAlign: 'left', cursor: 'pointer', fontSize: 14, color: dayIdx === i ? C.accent : '#111', fontWeight: dayIdx === i ? 600 : 400 }}>Day {d} — {t}</button>) })}
+          {showDayPicker&&(
+            <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:12,marginTop:6,overflow:'hidden',boxShadow:'0 8px 24px rgba(0,0,0,0.1)'}}>
+              {days.map((d,i)=>{ const t=program.find(p=>p.day_number===d)?.workout_type||''; return (
+                <button key={d} onClick={()=>{setDayIdx(i);setShowDayPicker(false)}} style={{width:'100%',padding:'13px 16px',background:dayIdx===i?T.orangeL:T.surface,border:'none',borderBottom:`1px solid ${T.border}`,textAlign:'left',cursor:'pointer',fontSize:14,color:dayIdx===i?T.orange:T.ink,fontWeight:dayIdx===i?700:400,fontFamily:"'DM Sans',sans-serif"}}>Day {d} — {t}</button>
+              )})}
             </div>
           )}
         </div>
-      ) : (
-        <div style={{ display: 'flex', gap: 7, marginBottom: 16, flexWrap: 'wrap' }}>
-          {days.map((d, i) => { const t = program.find(p => p.day_number === d)?.workout_type || ''; return <Btn key={d} variant={dayIdx === i ? 'primary' : 'secondary'} small onClick={() => setDayIdx(i)}>Day {d} · {t}</Btn> })}
+      ):(
+        <div style={{display:'flex',gap:6,marginBottom:18,flexWrap:'wrap'}}>
+          {days.map((d,i)=>{ const t=program.find(p=>p.day_number===d)?.workout_type||''; return (
+            <button key={d} onClick={()=>setDayIdx(i)} style={{padding:'8px 16px',borderRadius:20,border:`1.5px solid ${dayIdx===i?T.orange:T.border}`,background:dayIdx===i?T.orange:T.surface,color:dayIdx===i?'#fff':T.inkMid,fontWeight:600,fontSize:13,cursor:'pointer',transition:'all .2s',fontFamily:"'DM Sans',sans-serif"}}>Day {d} · {t}</button>
+          )})}
         </div>
       )}
 
-      {showAddModal && <Modal title={editEx ? `Edit: ${editEx.exercise_name}` : 'Add exercise'} onClose={() => { setShowAddModal(false); setEditEx(null) }}>{ExForm}</Modal>}
+      {showAddModal&&<Modal title={editEx?`Edit: ${editEx.exercise_name}`:'Add exercise'} onClose={()=>{setShowAddModal(false);setEditEx(null)}}>{ExForm}</Modal>}
 
-      {dayType === 'Rest' ? (
-        <div style={{ ...S.card, textAlign: 'center', padding: '50px 24px' }}>
-          <div style={{ fontSize: 40 }}>😴</div>
-          <div style={{ fontSize: 17, fontWeight: 600, marginTop: 10 }}>Rest & Recovery Day</div>
-          <div style={{ fontSize: 13, color: C.gray, marginTop: 6 }}>Sleep, hydrate, stretch</div>
-        </div>
-      ) : isMobile ? (
-        dayExs.map((ex, i) => (
-          <div key={ex.id || i} style={{ ...S.card, marginBottom: 12 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-              <div style={{ fontWeight: 600, fontSize: 15, flex: 1, marginRight: 8 }}>{ex.exercise_name}</div>
-              <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-                {ex.video_url && <a href={ex.video_url} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: C.accent, textDecoration: 'none', fontWeight: 600 }}>Watch</a>}
-                {isAdmin && <><Btn variant="secondary" small onClick={() => openEdit(ex)}>Edit</Btn><Btn variant="danger" small onClick={() => deleteExercise(ex)}>Del</Btn></>}
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 12 }}>
-              <Badge color="blue">{ex.set_rep}</Badge>
-              <Badge color="amber">{ex.tempo}</Badge>
-              <span style={{ fontSize: 12, color: C.gray }}>Rest: {ex.rest_seconds}s</span>
-            </div>
-            {Array.from({ length: ex.sets || 2 }, (_, si) => {
-              const setNum = si + 1, key = `${ex.exercise_name}_${setNum}`, done = getLog(ex.exercise_name, setNum)
-              return (
-                <div key={si} style={{ padding: '10px 0', borderTop: `1px solid ${C.border}` }}>
-                  <div style={{ fontSize: 12, color: C.gray, marginBottom: 8, fontWeight: 600 }}>Set {setNum}</div>
-                  {done ? <Badge color="green">✓ {done.reps} reps @ {done.weight_kg}kg</Badge> : (
-                    <div style={{ display: 'flex', gap: 8 }}>
-                      <input value={inputs[key]?.reps || ''} onChange={e => setInputs(p => ({ ...p, [key]: { ...p[key], reps: e.target.value } }))} placeholder="Reps" inputMode="numeric" style={{ ...S.inp, flex: 1 }} />
-                      <input value={inputs[key]?.weight || ''} onChange={e => setInputs(p => ({ ...p, [key]: { ...p[key], weight: e.target.value } }))} placeholder="kg" inputMode="decimal" style={{ ...S.inp, flex: 1 }} />
-                      <Btn onClick={() => logSet(ex.exercise_name, setNum)} disabled={saving === key} style={{ flexShrink: 0 }}>{saving === key ? '…' : 'Log'}</Btn>
-                    </div>
-                  )}
+      {dayType==='Rest'?(
+        <Card style={{textAlign:'center',padding:'60px 24px',background:`linear-gradient(135deg,${T.surfaceAlt},${T.surface})`}}>
+          <div style={{fontSize:52,marginBottom:12}}>😴</div>
+          <h2 style={{fontFamily:"'Syne',sans-serif",fontSize:22,fontWeight:700,marginBottom:8}}>Rest & Recovery</h2>
+          <p style={{color:T.inkLight,fontSize:14}}>Sleep well, hydrate, light stretching only</p>
+        </Card>
+      ):(
+        <div style={{display:'flex',flexDirection:'column',gap:12}}>
+          {dayExs.map((ex,i)=>(
+            <Card key={ex.id||i} style={{padding:'18px 20px'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:12,gap:10}}>
+                <div style={{flex:1}}>
+                  <h4 style={{fontFamily:"'Syne',sans-serif",fontSize:16,fontWeight:700,marginBottom:6}}>{ex.exercise_name}</h4>
+                  <div style={{display:'flex',gap:7,flexWrap:'wrap'}}>
+                    <Badge color="blue">{ex.set_rep}</Badge>
+                    <Badge color="amber">{ex.tempo}</Badge>
+                    {ex.rest_seconds&&<Badge color="gray">Rest {ex.rest_seconds}s</Badge>}
+                    {ex.video_url&&<a href={ex.video_url} target="_blank" rel="noreferrer" style={{fontSize:11,color:T.orange,textDecoration:'none',fontWeight:600,padding:'3px 9px',background:T.orangeL,borderRadius:20}}>▶ Watch</a>}
+                  </div>
                 </div>
-              )
-            })}
-          </div>
-        ))
-      ) : (
-        <div style={S.card}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <div style={{ fontSize: 17, fontWeight: 600 }}>Day {selDay} — {dayType}</div>
-            <Badge color="blue">Week {week}</Badge>
-          </div>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={S.table}>
-              <thead><tr>{['Exercise', 'Scheme', 'Tempo', 'Rest', 'Video', 'Set', 'Log', isAdmin ? 'Actions' : ''].map((h, i) => <th key={i} style={S.th}>{h}</th>)}</tr></thead>
-              <tbody>
-                {dayExs.map((ex, i) => {
-                  const sets = ex.sets || 2
-                  return Array.from({ length: sets }, (_, si) => {
-                    const setNum = si + 1, key = `${ex.exercise_name}_${setNum}`, done = getLog(ex.exercise_name, setNum)
-                    return (
-                      <tr key={`${i}_${si}`} style={{ background: i % 2 === 0 ? '#fafafa' : '#fff' }}>
-                        {si === 0 && <>
-                          <td style={{ ...S.td, fontWeight: 600 }} rowSpan={sets}>{ex.exercise_name}</td>
-                          <td style={S.td} rowSpan={sets}><Badge color="blue">{ex.set_rep}</Badge></td>
-                          <td style={S.td} rowSpan={sets}>{ex.tempo}</td>
-                          <td style={S.td} rowSpan={sets}>{ex.rest_seconds}s</td>
-                          <td style={S.td} rowSpan={sets}>{ex.video_url && <a href={ex.video_url} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: C.accent, textDecoration: 'none', fontWeight: 500 }}>Watch →</a>}</td>
-                        </>}
-                        <td style={{ ...S.td, color: C.gray, fontSize: 12 }}>Set {setNum}</td>
-                        <td style={S.td}>
-                          {done ? <Badge color="green">✓ {done.reps}r @ {done.weight_kg}kg</Badge> : (
-                            <div style={{ display: 'flex', gap: 5 }}>
-                              <input value={inputs[key]?.reps || ''} onChange={e => setInputs(p => ({ ...p, [key]: { ...p[key], reps: e.target.value } }))} placeholder="reps" style={{ ...S.inp, width: 54, padding: '5px 7px', fontSize: 13 }} />
-                              <input value={inputs[key]?.weight || ''} onChange={e => setInputs(p => ({ ...p, [key]: { ...p[key], weight: e.target.value } }))} placeholder="kg" style={{ ...S.inp, width: 54, padding: '5px 7px', fontSize: 13 }} />
-                              <Btn small onClick={() => logSet(ex.exercise_name, setNum)} disabled={saving === key}>{saving === key ? '…' : 'Log'}</Btn>
-                            </div>
-                          )}
-                        </td>
-                        {isAdmin && si === 0 && <td style={S.td} rowSpan={sets}><div style={{ display: 'flex', gap: 5 }}><Btn variant="secondary" small onClick={() => openEdit(ex)}>Edit</Btn><Btn variant="danger" small onClick={() => deleteExercise(ex)}>Del</Btn></div></td>}
-                        {isAdmin && si > 0 && <td style={S.td} />}
-                      </tr>
-                    )
-                  })
+                {isAdmin&&(
+                  <div style={{display:'flex',gap:6,flexShrink:0}}>
+                    <Btn variant="ghost" small onClick={()=>openEditEx(ex)}>Edit</Btn>
+                    <Btn variant="danger" small onClick={()=>deleteExercise(ex)}>✕</Btn>
+                  </div>
+                )}
+              </div>
+              <div style={{display:'flex',flexDirection:'column',gap:8}}>
+                {Array.from({length:ex.sets||2},(_,si)=>{
+                  const setNum=si+1,key=`${ex.exercise_name}_${setNum}`,done=getLog(ex.exercise_name,setNum)
+                  return (
+                    <div key={si} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',background:done?T.greenL:T.surfaceAlt,borderRadius:10,border:`1px solid ${done?'rgba(26,122,74,0.15)':T.border}`}}>
+                      <div style={{width:26,height:26,borderRadius:'50%',background:done?T.green:T.border,color:done?'#fff':T.inkLight,display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:700,flexShrink:0}}>{setNum}</div>
+                      {done?(
+                        <span style={{fontSize:13,fontWeight:600,color:T.green}}>✓ {done.reps} reps @ {done.weight_kg} kg</span>
+                      ):(
+                        <div style={{display:'flex',gap:8,flex:1,flexWrap:'wrap'}}>
+                          <input value={inputs[key]?.reps||''} onChange={e=>setInputs(p=>({...p,[key]:{...p[key],reps:e.target.value}}))} placeholder="Reps" inputMode="numeric" style={{flex:1,minWidth:70,padding:'7px 10px',borderRadius:8,border:`1.5px solid ${T.border}`,fontSize:15,outline:'none',fontFamily:"'DM Sans',sans-serif"}}/>
+                          <input value={inputs[key]?.weight||''} onChange={e=>setInputs(p=>({...p,[key]:{...p[key],weight:e.target.value}}))} placeholder="kg" inputMode="decimal" style={{flex:1,minWidth:70,padding:'7px 10px',borderRadius:8,border:`1.5px solid ${T.border}`,fontSize:15,outline:'none',fontFamily:"'DM Sans',sans-serif"}}/>
+                          <Btn small onClick={()=>logSet(ex.exercise_name,setNum)} disabled={saving===key} style={{flexShrink:0}}>{saving===key?'…':'Log'}</Btn>
+                        </div>
+                      )}
+                    </div>
+                  )
                 })}
-              </tbody>
-            </table>
-          </div>
+              </div>
+            </Card>
+          ))}
         </div>
       )}
     </div>
@@ -726,400 +932,338 @@ function WorkoutPage({ user, isAdmin }) {
 
 // ─── NUTRITION PAGE ───────────────────────────────────────────────────────────
 function NutritionPage({ user, isAdmin }) {
-  const { clients, selClientId, setSelClientId, clientId } = useAdminClient(user, isAdmin)
-  const [meals, setMeals] = useState([])
-  const [foods, setFoods] = useState([])
-  const [targets, setTargets] = useState(null)
-  const [search, setSearch] = useState('')
-  const [dietType, setDietType] = useState('veg')
-  const [showMealModal, setShowMealModal] = useState(false)
-  const [showFoodModal, setShowFoodModal] = useState(false)
-  const [editItem, setEditItem] = useState(null)
-  const [editFood, setEditFood] = useState(null)
-  const [mealForm, setMealForm] = useState({ meal_number: 1, meal_name: 'MEAL 1', food_name: '', category: 'Proteins', qty_g: 100, calories: 0, protein_g: 0, fat_g: 0, carbs_g: 0, fibre_g: 0 })
-  const [foodForm, setFoodForm] = useState({ food_name: '', portion_g: 100, protein_g: 0, fat_g: 0, carbs_g: 0, fibre_g: 0, calories: 0, is_veg: true })
-  const [formMsg, setFormMsg] = useState('')
-  const [foodMsg, setFoodMsg] = useState('')
-  const isMobile = useIsMobile()
+  const { clients, selClientId, setSelClientId, clientId }=useAdminClient(user, isAdmin)
+  const [meals,setMeals]=useState([])
+  const [foods,setFoods]=useState([])
+  const [targets,setTargets]=useState(null)
+  const [search,setSearch]=useState('')
+  const [dietType,setDietType]=useState('veg')
+  const [showMealModal,setShowMealModal]=useState(false)
+  const [showFoodModal,setShowFoodModal]=useState(false)
+  const [editItem,setEditItem]=useState(null)
+  const [editFood,setEditFood]=useState(null)
+  const [mealForm,setMealForm]=useState({meal_number:1,meal_name:'MEAL 1',food_name:'',category:'Proteins',qty_g:100,calories:0,protein_g:0,fat_g:0,carbs_g:0,fibre_g:0})
+  const [foodForm,setFoodForm]=useState({food_name:'',portion_g:100,protein_g:0,fat_g:0,carbs_g:0,fibre_g:0,calories:0,is_veg:true})
+  const [formMsg,setFormMsg]=useState('')
+  const [foodMsg,setFoodMsg]=useState('')
+  const isMobile=useIsMobile()
+  const isDemoMode=isDemo||clientId==='demo'||!clientId
 
-  const isDemoMode = isDemo || clientId === 'demo' || !clientId
-
-  const load = async () => {
-    if (isDemoMode) { setMeals(DEMO.mealPlan); setFoods(DEMO.foodDb); setTargets(DEMO.targets); return }
-    const [m, t, f] = await Promise.all([
-      sbQuery('meal_plans', { eq: { client_id: clientId, diet_type: dietType }, order: 'meal_number', asc: true }),
-      sbQuery('weekly_targets', { eq: { client_id: clientId }, order: 'created_at', asc: false, single: true }),
-      sbQuery('food_database', { order: 'food_name', asc: true })
+  const load=async()=>{
+    if (isDemoMode){setMeals(DEMO.mealPlan);setFoods(DEMO.foodDb);setTargets(DEMO.targets);return}
+    const [m,t,f]=await Promise.all([
+      sbQuery('meal_plans',{eq:{client_id:clientId,diet_type:dietType},order:'meal_number',asc:true}),
+      sbQuery('weekly_targets',{eq:{client_id:clientId},order:'created_at',asc:false,single:true}),
+      sbQuery('food_database',{order:'food_name',asc:true})
     ])
-    setMeals(m || []); setTargets(t); setFoods(f || [])
+    setMeals(m||[]); setTargets(t); setFoods(f||[])
   }
-  useEffect(() => { if (clientId || isDemoMode) load() }, [clientId, dietType])
-
-  // Real-time subscription
-  useEffect(() => {
+  useEffect(()=>{ if(clientId||isDemoMode) load() },[clientId,dietType])
+  useEffect(()=>{
     if (isDemoMode) return
-    const sub = supabase.channel('nutrition-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'meal_plans', filter: `client_id=eq.${clientId}` }, () => load())
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'food_database' }, () => load())
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'weekly_targets', filter: `client_id=eq.${clientId}` }, () => load())
+    const sub=supabase.channel('nutr')
+      .on('postgres_changes',{event:'*',schema:'public',table:'meal_plans',filter:`client_id=eq.${clientId}`},()=>load())
+      .on('postgres_changes',{event:'*',schema:'public',table:'food_database'},()=>load())
       .subscribe()
-    return () => supabase.removeChannel(sub)
-  }, [clientId])
+    return ()=>supabase.removeChannel(sub)
+  },[clientId])
 
-  // ── Meal plan CRUD ──
-  const saveMealItem = async () => {
-    setFormMsg('')
-    if (!mealForm.food_name) { setFormMsg('Error: Food name required'); return }
+  const saveMealItem=async()=>{
+    setFormMsg(''); if(!mealForm.food_name){setFormMsg('Error: Food name required');return}
     try {
-      if (isDemoMode) {
-        if (editItem) setMeals(prev => prev.map(m => m.id === editItem.id ? { ...m, ...mealForm } : m))
-        else setMeals(prev => [...prev, { id: 'm' + Date.now(), ...mealForm }])
+      if (isDemoMode){
+        if(editItem) setMeals(prev=>prev.map(m=>m.id===editItem.id?{...m,...mealForm}:m))
+        else setMeals(prev=>[...prev,{id:'m'+Date.now(),...mealForm}])
       } else {
-        if (editItem) {
-          await sbUpdate('meal_plans', editItem.id, { ...mealForm, client_id: clientId, diet_type: dietType })
-        } else {
-          await sbInsert('meal_plans', { ...mealForm, client_id: clientId, diet_type: dietType })
-        }
+        if(editItem) await sbUpdate('meal_plans',editItem.id,{...mealForm,client_id:clientId,diet_type:dietType})
+        else await sbInsert('meal_plans',{...mealForm,client_id:clientId,diet_type:dietType})
         await load()
       }
-      setFormMsg('✓ Saved')
-      setTimeout(() => { setShowMealModal(false); setEditItem(null); setFormMsg('') }, 700)
-      setMealForm({ meal_number: 1, meal_name: 'MEAL 1', food_name: '', category: 'Proteins', qty_g: 100, calories: 0, protein_g: 0, fat_g: 0, carbs_g: 0, fibre_g: 0 })
-    } catch (e) { setFormMsg(`Error: ${e.message}`) }
+      setFormMsg('✓ Saved'); setTimeout(()=>{setShowMealModal(false);setEditItem(null);setFormMsg('')},700)
+      setMealForm({meal_number:1,meal_name:'MEAL 1',food_name:'',category:'Proteins',qty_g:100,calories:0,protein_g:0,fat_g:0,carbs_g:0,fibre_g:0})
+    } catch(e){setFormMsg(`Error: ${e.message}`)}
   }
-
-  const deleteMealItem = async (item) => {
-    if (!window.confirm(`Delete "${item.food_name}" from meal plan?`)) return
-    if (isDemoMode) { setMeals(prev => prev.filter(m => m.id !== item.id)); return }
-    try { await sbDelete('meal_plans', item.id); await load() } catch (e) { alert(e.message) }
+  const deleteMealItem=async(item)=>{
+    if(!window.confirm(`Delete "${item.food_name}"?`)) return
+    if(isDemoMode){setMeals(prev=>prev.filter(m=>m.id!==item.id));return}
+    try{ await sbDelete('meal_plans',item.id); await load() }catch(e){alert(e.message)}
   }
+  const openEditMeal=(item)=>{ setEditItem(item); setMealForm({meal_number:item.meal_number,meal_name:item.meal_name||'MEAL 1',food_name:item.food_name,category:item.category||'Proteins',qty_g:item.qty_g||0,calories:item.calories||0,protein_g:item.protein_g||0,fat_g:item.fat_g||0,carbs_g:item.carbs_g||0,fibre_g:item.fibre_g||0}); setShowMealModal(true) }
 
-  const openEditMeal = (item) => {
-    setEditItem(item)
-    setMealForm({ meal_number: item.meal_number, meal_name: item.meal_name || 'MEAL 1', food_name: item.food_name, category: item.category || 'Proteins', qty_g: item.qty_g || 0, calories: item.calories || 0, protein_g: item.protein_g || 0, fat_g: item.fat_g || 0, carbs_g: item.carbs_g || 0, fibre_g: item.fibre_g || 0 })
-    setShowMealModal(true)
-  }
-
-  // ── Food database CRUD ──
-  const saveFoodItem = async () => {
-    setFoodMsg('')
-    if (!foodForm.food_name) { setFoodMsg('Error: Food name required'); return }
+  const saveFoodItem=async()=>{
+    setFoodMsg(''); if(!foodForm.food_name){setFoodMsg('Error: Name required');return}
     try {
-      if (isDemoMode) {
-        if (editFood) setFoods(prev => prev.map(f => f.food_name === editFood.food_name ? { ...f, ...foodForm } : f))
-        else setFoods(prev => [...prev, { ...foodForm }])
+      if (isDemoMode){
+        if(editFood) setFoods(prev=>prev.map(f=>f.food_name===editFood.food_name?{...f,...foodForm}:f))
+        else setFoods(prev=>[...prev,{...foodForm}])
       } else {
-        if (editFood) {
-          await supabase.from('food_database').update(foodForm).eq('id', editFood.id)
-        } else {
-          await supabase.from('food_database').insert([foodForm])
-        }
+        if(editFood) await supabase.from('food_database').update(foodForm).eq('id',editFood.id)
+        else await supabase.from('food_database').insert([foodForm])
         await load()
       }
-      setFoodMsg('✓ Saved')
-      setTimeout(() => { setShowFoodModal(false); setEditFood(null); setFoodMsg('') }, 700)
-      setFoodForm({ food_name: '', portion_g: 100, protein_g: 0, fat_g: 0, carbs_g: 0, fibre_g: 0, calories: 0, is_veg: true })
-    } catch (e) { setFoodMsg(`Error: ${e.message}`) }
+      setFoodMsg('✓ Saved'); setTimeout(()=>{setShowFoodModal(false);setEditFood(null);setFoodMsg('')},700)
+      setFoodForm({food_name:'',portion_g:100,protein_g:0,fat_g:0,carbs_g:0,fibre_g:0,calories:0,is_veg:true})
+    } catch(e){setFoodMsg(`Error: ${e.message}`)}
   }
-
-  const deleteFoodItem = async (food) => {
-    if (!window.confirm(`Delete "${food.food_name}" from database?`)) return
-    if (isDemoMode) { setFoods(prev => prev.filter(f => f.food_name !== food.food_name)); return }
-    try {
-      await supabase.from('food_database').delete().eq('id', food.id)
-      await load()
-    } catch (e) { alert(e.message) }
+  const deleteFoodItem=async(food)=>{
+    if(!window.confirm(`Delete "${food.food_name}"?`)) return
+    if(isDemoMode){setFoods(prev=>prev.filter(f=>f.food_name!==food.food_name));return}
+    try{ await supabase.from('food_database').delete().eq('id',food.id); await load() }catch(e){alert(e.message)}
   }
+  const openEditFood=(food)=>{ setEditFood(food); setFoodForm({food_name:food.food_name,portion_g:food.portion_g||100,protein_g:food.protein_g||0,fat_g:food.fat_g||0,carbs_g:food.carbs_g||0,fibre_g:food.fibre_g||0,calories:food.calories||0,is_veg:food.is_veg!==false}); setShowFoodModal(true) }
 
-  const openEditFood = (food) => {
-    setEditFood(food)
-    setFoodForm({ food_name: food.food_name, portion_g: food.portion_g || 100, protein_g: food.protein_g || 0, fat_g: food.fat_g || 0, carbs_g: food.carbs_g || 0, fibre_g: food.fibre_g || 0, calories: food.calories || 0, is_veg: food.is_veg !== false })
-    setShowFoodModal(true)
-  }
+  const grouped=meals.reduce((acc,m)=>{ const k=m.meal_name||`Meal ${m.meal_number}`; (acc[k]=acc[k]||[]).push(m); return acc },{})
+  const filtered=foods.filter(f=>f.food_name?.toLowerCase().includes(search.toLowerCase()))
+  const t=targets||{}
 
-  const grouped = meals.reduce((acc, m) => { const k = m.meal_name || `Meal ${m.meal_number}`; (acc[k] = acc[k] || []).push(m); return acc }, {})
-  const filtered = foods.filter(f => f.food_name?.toLowerCase().includes(search.toLowerCase()))
-  const t = targets || {}
-
-  const MealItemForm = (
-    <div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
-        <div><span style={S.lbl}>Meal number</span><input type="number" value={mealForm.meal_number} onChange={e => setMealForm(p => ({ ...p, meal_number: parseInt(e.target.value) || 1, meal_name: `MEAL ${e.target.value}` }))} style={S.inp} min="1" /></div>
-        <div><span style={S.lbl}>Meal name</span><input value={mealForm.meal_name} onChange={e => setMealForm(p => ({ ...p, meal_name: e.target.value }))} placeholder="MEAL 1" style={S.inp} /></div>
-        <div style={{ gridColumn: '1/-1' }}><span style={S.lbl}>Food name *</span><input value={mealForm.food_name} onChange={e => setMealForm(p => ({ ...p, food_name: e.target.value }))} placeholder="Oats" style={S.inp} /></div>
-        <div>
-          <span style={S.lbl}>Category</span>
-          <select value={mealForm.category} onChange={e => setMealForm(p => ({ ...p, category: e.target.value }))} style={S.inp}>
-            {['Proteins', 'Carbohydrates', 'Fats', 'Vegetables', 'Dairy', 'Supplements'].map(c => <option key={c}>{c}</option>)}
-          </select>
-        </div>
-        <div><span style={S.lbl}>Quantity (g)</span><input type="number" value={mealForm.qty_g} onChange={e => setMealForm(p => ({ ...p, qty_g: parseFloat(e.target.value) || 0 }))} style={S.inp} /></div>
-        {[['Calories', 'calories'], ['Protein (g)', 'protein_g'], ['Fat (g)', 'fat_g'], ['Carbs (g)', 'carbs_g'], ['Fibre (g)', 'fibre_g']].map(([lbl, k]) => (
-          <div key={k}><span style={S.lbl}>{lbl}</span><input type="number" value={mealForm[k]} onChange={e => setMealForm(p => ({ ...p, [k]: parseFloat(e.target.value) || 0 }))} step=".1" inputMode="decimal" style={S.inp} /></div>
+  const MealForm=(
+    <div style={{display:'flex',flexDirection:'column',gap:12}}>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+        <Inp label="Meal number" type="number" value={mealForm.meal_number} onChange={e=>setMealForm(p=>({...p,meal_number:parseInt(e.target.value)||1,meal_name:`MEAL ${e.target.value}`}))} min="1"/>
+        <Inp label="Meal name" value={mealForm.meal_name} onChange={e=>setMealForm(p=>({...p,meal_name:e.target.value}))} placeholder="MEAL 1"/>
+      </div>
+      <Inp label="Food name *" value={mealForm.food_name} onChange={e=>setMealForm(p=>({...p,food_name:e.target.value}))} placeholder="Oats"/>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+        <Sel label="Category" value={mealForm.category} onChange={e=>setMealForm(p=>({...p,category:e.target.value}))}>
+          {['Proteins','Carbohydrates','Fats','Vegetables','Dairy','Supplements'].map(c=><option key={c}>{c}</option>)}
+        </Sel>
+        <Inp label="Quantity (g)" type="number" value={mealForm.qty_g} onChange={e=>setMealForm(p=>({...p,qty_g:parseFloat(e.target.value)||0}))}/>
+        {[['Calories','calories'],['Protein (g)','protein_g'],['Fat (g)','fat_g'],['Carbs (g)','carbs_g'],['Fibre (g)','fibre_g']].map(([lbl,k])=>(
+          <Inp key={k} label={lbl} type="number" value={mealForm[k]} onChange={e=>setMealForm(p=>({...p,[k]:parseFloat(e.target.value)||0}))} step=".1" inputMode="decimal"/>
         ))}
       </div>
-      <MsgBox msg={formMsg} />
-      <div style={{ display: 'flex', gap: 9, marginTop: 14 }}>
-        <Btn onClick={saveMealItem} style={{ flex: 1 }}>{editItem ? 'Save changes' : 'Add food item'}</Btn>
-        <Btn variant="secondary" onClick={() => { setShowMealModal(false); setEditItem(null) }} style={{ flex: 1 }}>Cancel</Btn>
+      <MsgBox msg={formMsg}/>
+      <div style={{display:'flex',gap:9,marginTop:4}}>
+        <Btn onClick={saveMealItem} full>{editItem?'Save changes':'Add item'}</Btn>
+        <Btn variant="ghost" onClick={()=>{setShowMealModal(false);setEditItem(null)}} full>Cancel</Btn>
       </div>
     </div>
   )
 
-  const FoodDbForm = (
-    <div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
-        <div style={{ gridColumn: '1/-1' }}><span style={S.lbl}>Food name *</span><input value={foodForm.food_name} onChange={e => setFoodForm(p => ({ ...p, food_name: e.target.value }))} placeholder="Paneer raw" style={S.inp} /></div>
-        <div><span style={S.lbl}>Portion (g)</span><input type="number" value={foodForm.portion_g} onChange={e => setFoodForm(p => ({ ...p, portion_g: parseFloat(e.target.value) || 100 }))} style={S.inp} /></div>
-        <div><span style={S.lbl}>Calories</span><input type="number" value={foodForm.calories} onChange={e => setFoodForm(p => ({ ...p, calories: parseFloat(e.target.value) || 0 }))} step=".1" style={S.inp} /></div>
-        {[['Protein (g)', 'protein_g'], ['Fat (g)', 'fat_g'], ['Carbs (g)', 'carbs_g'], ['Fibre (g)', 'fibre_g']].map(([lbl, k]) => (
-          <div key={k}><span style={S.lbl}>{lbl}</span><input type="number" value={foodForm[k]} onChange={e => setFoodForm(p => ({ ...p, [k]: parseFloat(e.target.value) || 0 }))} step=".1" inputMode="decimal" style={S.inp} /></div>
+  const FoodForm=(
+    <div style={{display:'flex',flexDirection:'column',gap:12}}>
+      <Inp label="Food name *" value={foodForm.food_name} onChange={e=>setFoodForm(p=>({...p,food_name:e.target.value}))} placeholder="Paneer raw"/>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+        <Inp label="Portion (g)" type="number" value={foodForm.portion_g} onChange={e=>setFoodForm(p=>({...p,portion_g:parseFloat(e.target.value)||100}))}/>
+        <Inp label="Calories" type="number" value={foodForm.calories} onChange={e=>setFoodForm(p=>({...p,calories:parseFloat(e.target.value)||0}))} step=".1"/>
+        {[['Protein (g)','protein_g'],['Fat (g)','fat_g'],['Carbs (g)','carbs_g'],['Fibre (g)','fibre_g']].map(([lbl,k])=>(
+          <Inp key={k} label={lbl} type="number" value={foodForm[k]} onChange={e=>setFoodForm(p=>({...p,[k]:parseFloat(e.target.value)||0}))} step=".1" inputMode="decimal"/>
         ))}
-        <div style={{ gridColumn: '1/-1', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <input type="checkbox" id="isVeg" checked={foodForm.is_veg} onChange={e => setFoodForm(p => ({ ...p, is_veg: e.target.checked }))} style={{ width: 18, height: 18 }} />
-          <label htmlFor="isVeg" style={{ fontSize: 14, cursor: 'pointer' }}>Vegetarian</label>
-        </div>
       </div>
-      <MsgBox msg={foodMsg} />
-      <div style={{ display: 'flex', gap: 9, marginTop: 14 }}>
-        <Btn onClick={saveFoodItem} style={{ flex: 1 }}>{editFood ? 'Save changes' : 'Add to database'}</Btn>
-        <Btn variant="secondary" onClick={() => { setShowFoodModal(false); setEditFood(null) }} style={{ flex: 1 }}>Cancel</Btn>
+      <label style={{display:'flex',alignItems:'center',gap:10,fontSize:14,cursor:'pointer'}}>
+        <input type="checkbox" checked={foodForm.is_veg} onChange={e=>setFoodForm(p=>({...p,is_veg:e.target.checked}))} style={{width:18,height:18,accentColor:T.orange}}/>
+        Vegetarian
+      </label>
+      <MsgBox msg={foodMsg}/>
+      <div style={{display:'flex',gap:9,marginTop:4}}>
+        <Btn onClick={saveFoodItem} full>{editFood?'Save changes':'Add to database'}</Btn>
+        <Btn variant="ghost" onClick={()=>{setShowFoodModal(false);setEditFood(null)}} full>Cancel</Btn>
       </div>
     </div>
   )
+
+  const macros=[
+    {lbl:'Calories',val:Number(t.calories||0).toFixed(0),unit:'kcal',color:'orange',icon:'⚡'},
+    {lbl:'Protein', val:Number(t.protein_g||0).toFixed(0),unit:'g',   color:'blue',  icon:'💪'},
+    {lbl:'Carbs',   val:Number(t.carbs_g||0).toFixed(0), unit:'g',   color:'green', icon:'🌾'},
+    {lbl:'Fats',    val:Number(t.fats_g||0).toFixed(0),  unit:'g',   color:'amber', icon:'🥑'},
+  ]
 
   return (
-    <div style={S.page}>
-      <div style={{ marginBottom: 18 }}>
-        <div style={S.h1}>Nutrition</div>
-        <div style={{ fontSize: 13, color: C.gray }}>Personalised meal guide</div>
-      </div>
+    <div style={{padding:'20px 16px 24px',maxWidth:1080,margin:'0 auto'}}>
+      <SectionHeader title="Nutrition" sub="Your personalised meal guide"/>
+      {isAdmin&&<Card style={{padding:'14px 18px',marginBottom:14}}><ClientSelector clients={clients} selClientId={selClientId} setSelClientId={setSelClientId}/></Card>}
 
-      {isAdmin && (
-        <div style={{ ...S.card, marginBottom: 14, padding: '14px 18px' }}>
-          <ClientSelector clients={clients} selClientId={selClientId} setSelClientId={setSelClientId} />
+      {targets&&(
+        <div style={{display:'grid',gridTemplateColumns:isMobile?'repeat(2,1fr)':'repeat(4,1fr)',gap:12,marginBottom:18}}>
+          {macros.map(m=><KpiCard key={m.lbl} label={m.lbl} value={m.val} sub={m.unit} color={m.color} icon={m.icon}/>)}
         </div>
       )}
 
-      {targets && (
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 10, marginBottom: 14 }}>
-          <Stat label="Calories" value={`${Number(t.calories || 0).toFixed(0)}`} sub="kcal" color="green" />
-          <Stat label="Protein" value={`${Number(t.protein_g || 0).toFixed(0)}g`} color="blue" />
-          <Stat label="Carbs" value={`${Number(t.carbs_g || 0).toFixed(0)}g`} />
-          <Stat label="Fats" value={`${Number(t.fats_g || 0).toFixed(0)}g`} />
-        </div>
-      )}
-
-      {showMealModal && <Modal title={editItem ? `Edit: ${editItem.food_name}` : 'Add food item'} onClose={() => { setShowMealModal(false); setEditItem(null) }}>{MealItemForm}</Modal>}
-      {showFoodModal && <Modal title={editFood ? `Edit: ${editFood.food_name}` : 'Add to food database'} onClose={() => { setShowFoodModal(false); setEditFood(null) }}>{FoodDbForm}</Modal>}
+      {showMealModal&&<Modal title={editItem?`Edit: ${editItem.food_name}`:'Add meal item'} onClose={()=>{setShowMealModal(false);setEditItem(null)}}>{MealForm}</Modal>}
+      {showFoodModal&&<Modal title={editFood?`Edit: ${editFood.food_name}`:'Add to food database'} onClose={()=>{setShowFoodModal(false);setEditFood(null)}}>{FoodForm}</Modal>}
 
       {/* Meal plan */}
-      <div style={S.card}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
-          <div style={{ fontSize: 16, fontWeight: 600 }}>Meal plan</div>
-          <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
-            {['veg', 'non-veg'].map(dt => <Btn key={dt} variant={dietType === dt ? 'primary' : 'secondary'} small onClick={() => setDietType(dt)}>{dt}</Btn>)}
-            {isAdmin && <Btn variant="green" small onClick={() => { setEditItem(null); setMealForm({ meal_number: 1, meal_name: 'MEAL 1', food_name: '', category: 'Proteins', qty_g: 100, calories: 0, protein_g: 0, fat_g: 0, carbs_g: 0, fibre_g: 0 }); setShowMealModal(true) }}>+ Add item</Btn>}
+      <Card>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:18,flexWrap:'wrap',gap:10}}>
+          <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:17,fontWeight:700}}>Meal plan</h3>
+          <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+            {['veg','non-veg'].map(dt=>(
+              <button key={dt} onClick={()=>setDietType(dt)} style={{padding:'7px 16px',borderRadius:20,border:`1.5px solid ${dietType===dt?T.orange:T.border}`,background:dietType===dt?T.orange:T.surface,color:dietType===dt?'#fff':T.inkMid,fontWeight:600,fontSize:13,cursor:'pointer',transition:'all .2s',fontFamily:"'DM Sans',sans-serif"}}>{dt}</button>
+            ))}
+            {isAdmin&&<Btn variant="green" small onClick={()=>{setEditItem(null);setMealForm({meal_number:1,meal_name:'MEAL 1',food_name:'',category:'Proteins',qty_g:100,calories:0,protein_g:0,fat_g:0,carbs_g:0,fibre_g:0});setShowMealModal(true)}}>+ Add item</Btn>}
           </div>
         </div>
 
-        {Object.keys(grouped).length === 0 ? (
-          <div style={{ padding: 24, textAlign: 'center', color: C.gray, fontSize: 13, background: '#fafafa', borderRadius: 9 }}>
-            {isAdmin ? 'No meals added yet — click + Add item' : 'Your coach will set up your meal plan soon'}
+        {Object.keys(grouped).length===0?(
+          <div style={{padding:'40px 24px',textAlign:'center',color:T.inkLight,background:T.surfaceAlt,borderRadius:12}}>
+            <div style={{fontSize:32,marginBottom:8}}>🥗</div>
+            <p style={{fontSize:14}}>{isAdmin?'No meals — click + Add item':'Your coach will set up your meals soon'}</p>
           </div>
-        ) : Object.entries(grouped).map(([mealName, items]) => (
-          <div key={mealName} style={{ marginBottom: 18 }}>
-            <div style={{ fontWeight: 600, fontSize: 13, color: C.accent, marginBottom: 8 }}>
-              {mealName}
-              <span style={{ fontSize: 11, color: C.gray, fontWeight: 400, marginLeft: 8 }}>
-                {items.reduce((s, i) => s + (+i.calories || 0), 0).toFixed(0)} kcal · {items.reduce((s, i) => s + (+i.protein_g || 0), 0).toFixed(1)}g protein
-              </span>
+        ):Object.entries(grouped).map(([mealName,items])=>(
+          <div key={mealName} style={{marginBottom:22}}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
+              <div style={{width:6,height:6,borderRadius:'50%',background:T.orange}}/>
+              <span style={{fontWeight:700,fontSize:14,color:T.orange}}>{mealName}</span>
+              <span style={{fontSize:12,color:T.inkLight}}>{items.reduce((s,i)=>s+(+i.calories||0),0).toFixed(0)} kcal · {items.reduce((s,i)=>s+(+i.protein_g||0),0).toFixed(1)}g protein</span>
             </div>
-            {isMobile ? (
-              items.map((item, i) => (
-                <div key={item.id || i} style={{ padding: 12, background: i % 2 === 0 ? '#fafafa' : '#fff', borderRadius: 10, marginBottom: 8, border: `1px solid ${C.border}` }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                    <div>
-                      <div style={{ fontWeight: 600, fontSize: 14 }}>{item.food_name}</div>
-                      <div style={{ fontSize: 12, color: C.gray, marginTop: 2 }}>{item.qty_g}g · <Badge color="blue">{item.category}</Badge></div>
+            <div style={{display:'flex',flexDirection:'column',gap:8}}>
+              {items.map((item,i)=>(
+                <div key={item.id||i} style={{display:'flex',alignItems:'center',gap:12,padding:'14px 16px',background:T.surfaceAlt,borderRadius:12,border:`1px solid ${T.border}`}}>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+                      <span style={{fontWeight:600,fontSize:14}}>{item.food_name}</span>
+                      <Badge color="blue">{item.category}</Badge>
                     </div>
-                    {isAdmin && <div style={{ display: 'flex', gap: 6 }}><Btn variant="secondary" small onClick={() => openEditMeal(item)}>Edit</Btn><Btn variant="danger" small onClick={() => deleteMealItem(item)}>Del</Btn></div>}
+                    <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:4}}>
+                      {[['Qty',`${item.qty_g}g`],['Cal',Number(item.calories||0).toFixed(0)],['Pro',`${Number(item.protein_g||0).toFixed(1)}g`],['Carbs',`${Number(item.carbs_g||0).toFixed(1)}g`],['Fat',`${Number(item.fat_g||0).toFixed(1)}g`]].map(([lbl,val])=>(
+                        <div key={lbl} style={{textAlign:'center'}}>
+                          <div style={{fontSize:9,color:T.inkLight,textTransform:'uppercase',letterSpacing:'0.4px'}}>{lbl}</div>
+                          <div style={{fontSize:12,fontWeight:700,marginTop:2}}>{val}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 }}>
-                    {[['Cal', `${Number(item.calories || 0).toFixed(0)}`], ['Pro', `${Number(item.protein_g || 0).toFixed(1)}g`], ['Carbs', `${Number(item.carbs_g || 0).toFixed(1)}g`], ['Fat', `${Number(item.fat_g || 0).toFixed(1)}g`], ['Fibre', `${Number(item.fibre_g || 0).toFixed(1)}g`]].map(([lbl, val]) => (
-                      <div key={lbl} style={{ background: '#fff', borderRadius: 7, padding: '5px 8px', border: `1px solid ${C.border}` }}>
-                        <div style={{ color: C.gray, fontSize: 10 }}>{lbl}</div>
-                        <div style={{ fontWeight: 600, fontSize: 13 }}>{val}</div>
-                      </div>
-                    ))}
-                  </div>
+                  {isAdmin&&<div style={{display:'flex',gap:6,flexShrink:0}}>
+                    <Btn variant="ghost" small onClick={()=>openEditMeal(item)}>Edit</Btn>
+                    <Btn variant="danger" small onClick={()=>deleteMealItem(item)}>✕</Btn>
+                  </div>}
                 </div>
-              ))
-            ) : (
-              <div style={{ overflowX: 'auto' }}>
-                <table style={S.table}>
-                  <thead><tr>{['Category', 'Food', 'Qty', 'Cal', 'Protein', 'Carbs', 'Fat', 'Fibre', isAdmin ? 'Actions' : ''].map((h, i) => <th key={i} style={S.th}>{h}</th>)}</tr></thead>
-                  <tbody>
-                    {items.map((item, i) => (
-                      <tr key={item.id || i} style={{ background: i % 2 === 0 ? '#fafafa' : '#fff' }}>
-                        <td style={S.td}><Badge color="blue">{item.category}</Badge></td>
-                        <td style={{ ...S.td, fontWeight: 500 }}>{item.food_name}</td>
-                        <td style={S.td}>{item.qty_g}g</td>
-                        <td style={S.td}>{Number(item.calories || 0).toFixed(1)}</td>
-                        <td style={S.td}>{Number(item.protein_g || 0).toFixed(1)}g</td>
-                        <td style={S.td}>{Number(item.carbs_g || 0).toFixed(1)}g</td>
-                        <td style={S.td}>{Number(item.fat_g || 0).toFixed(1)}g</td>
-                        <td style={S.td}>{Number(item.fibre_g || 0).toFixed(1)}g</td>
-                        {isAdmin && <td style={S.td}><div style={{ display: 'flex', gap: 5 }}><Btn variant="secondary" small onClick={() => openEditMeal(item)}>Edit</Btn><Btn variant="danger" small onClick={() => deleteMealItem(item)}>Del</Btn></div></td>}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
         ))}
-      </div>
+      </Card>
 
       {/* Food database */}
-      <div style={S.card}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
-          <div style={{ fontSize: 16, fontWeight: 600 }}>Food database</div>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-            {isAdmin && <Btn variant="green" small onClick={() => { setEditFood(null); setFoodForm({ food_name: '', portion_g: 100, protein_g: 0, fat_g: 0, carbs_g: 0, fibre_g: 0, calories: 0, is_veg: true }); setShowFoodModal(true) }}>+ Add food</Btn>}
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search…" style={{ ...S.inp, width: isMobile ? '100%' : 200 }} />
+      <Card>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16,flexWrap:'wrap',gap:10}}>
+          <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:17,fontWeight:700}}>Food database</h3>
+          <div style={{display:'flex',gap:8,flexWrap:'wrap',alignItems:'center'}}>
+            {isAdmin&&<Btn variant="green" small onClick={()=>{setEditFood(null);setFoodForm({food_name:'',portion_g:100,protein_g:0,fat_g:0,carbs_g:0,fibre_g:0,calories:0,is_veg:true});setShowFoodModal(true)}}>+ Add food</Btn>}
+            <div style={{position:'relative'}}>
+              <span style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',fontSize:14,color:T.inkLight}}>🔍</span>
+              <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search foods…" style={{paddingLeft:34,padding:'9px 14px 9px 34px',borderRadius:10,border:`1.5px solid ${T.border}`,fontSize:14,outline:'none',fontFamily:"'DM Sans',sans-serif",width:isMobile?'100%':200,background:T.surfaceAlt}}/>
+            </div>
           </div>
         </div>
-        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-          <table style={S.table}>
-            <thead><tr>{['Food', 'Per', 'Cal', 'Pro', 'Carbs', 'Fat', isAdmin ? 'Actions' : ''].map((h, i) => <th key={i} style={S.th}>{h}</th>)}</tr></thead>
+        <div style={{overflowX:'auto',WebkitOverflowScrolling:'touch'}}>
+          <table style={{width:'100%',borderCollapse:'collapse'}}>
+            <thead>
+              <tr style={{borderBottom:`2px solid ${T.border}`}}>
+                {['Food','Per','Cal','Pro','Carbs','Fat',isAdmin?'Actions':''].map((h,i)=><th key={i} style={{padding:'8px 12px',textAlign:'left',fontSize:11,fontWeight:700,color:T.inkLight,textTransform:'uppercase',letterSpacing:'0.6px',whiteSpace:'nowrap'}}>{h}</th>)}
+              </tr>
+            </thead>
             <tbody>
-              {filtered.map((f, i) => (
-                <tr key={i} style={{ background: i % 2 === 0 ? '#fafafa' : '#fff' }}>
-                  <td style={{ ...S.td, fontWeight: 500, whiteSpace: 'nowrap' }}>{f.food_name}</td>
-                  <td style={S.td}>{f.portion_g}g</td>
-                  <td style={S.td}>{f.calories}</td>
-                  <td style={S.td}>{f.protein_g}g</td>
-                  <td style={S.td}>{f.carbs_g}g</td>
-                  <td style={S.td}>{f.fat_g}g</td>
-                  {isAdmin && <td style={S.td}><div style={{ display: 'flex', gap: 5 }}><Btn variant="secondary" small onClick={() => openEditFood(f)}>Edit</Btn><Btn variant="danger" small onClick={() => deleteFoodItem(f)}>Del</Btn></div></td>}
+              {filtered.map((f,i)=>(
+                <tr key={i} style={{borderBottom:`1px solid ${T.border}`,background:i%2===0?T.surfaceAlt:T.surface}}>
+                  <td style={{padding:'11px 12px',fontSize:13,fontWeight:600}}>{f.food_name}</td>
+                  <td style={{padding:'11px 12px',fontSize:13,color:T.inkMid}}>{f.portion_g}g</td>
+                  <td style={{padding:'11px 12px',fontSize:13,fontWeight:600,color:T.orange}}>{f.calories}</td>
+                  <td style={{padding:'11px 12px',fontSize:13,color:T.blue}}>{f.protein_g}g</td>
+                  <td style={{padding:'11px 12px',fontSize:13,color:T.green}}>{f.carbs_g}g</td>
+                  <td style={{padding:'11px 12px',fontSize:13,color:T.amber}}>{f.fat_g}g</td>
+                  {isAdmin&&<td style={{padding:'11px 12px'}}><div style={{display:'flex',gap:5}}><Btn variant="ghost" small onClick={()=>openEditFood(f)}>Edit</Btn><Btn variant="danger" small onClick={()=>deleteFoodItem(f)}>✕</Btn></div></td>}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
     </div>
   )
 }
 
 // ─── ROADMAP PAGE ─────────────────────────────────────────────────────────────
 function RoadmapPage({ user, isAdmin }) {
-  const { clients, selClientId, setSelClientId, clientId } = useAdminClient(user, isAdmin)
-  const [roadmap, setRoadmap] = useState([])
-  const [showModal, setShowModal] = useState(false)
-  const [editMonth, setEditMonth] = useState(null)
-  const [rmForm, setRmForm] = useState({ month_number: 1, month_name: 'JANUARY', phase: '', notes: '' })
-  const [formMsg, setFormMsg] = useState('')
+  const { clients, selClientId, setSelClientId, clientId }=useAdminClient(user, isAdmin)
+  const [roadmap,setRoadmap]=useState([])
+  const [showModal,setShowModal]=useState(false)
+  const [editMonth,setEditMonth]=useState(null)
+  const [rmForm,setRmForm]=useState({month_number:1,month_name:'JANUARY',phase:'',notes:''})
+  const [formMsg,setFormMsg]=useState('')
+  const isDemoMode=isDemo||clientId==='demo'||!clientId
 
-  const isDemoMode = isDemo || clientId === 'demo' || !clientId
-
-  const load = async () => {
-    if (isDemoMode) { setRoadmap(DEMO.roadmap); return }
-    const d = await sbQuery('roadmap', { eq: { client_id: clientId }, order: 'month_number', asc: true })
-    setRoadmap(d || [])
+  const load=async()=>{
+    if(isDemoMode){setRoadmap(DEMO.roadmap);return}
+    const d=await sbQuery('roadmap',{eq:{client_id:clientId},order:'month_number',asc:true})
+    setRoadmap(d||[])
   }
-  useEffect(() => { if (clientId || isDemoMode) load() }, [clientId])
+  useEffect(()=>{ if(clientId||isDemoMode) load() },[clientId])
 
-  const saveMonth = async () => {
+  const saveMonth=async()=>{
     setFormMsg('')
-    const payload = { month_number: parseInt(rmForm.month_number), month_name: rmForm.month_name.toUpperCase(), phase: rmForm.phase || null, notes: rmForm.notes || '' }
+    const payload={month_number:parseInt(rmForm.month_number),month_name:rmForm.month_name.toUpperCase(),phase:rmForm.phase||null,notes:rmForm.notes||''}
     try {
-      if (isDemoMode) {
-        if (editMonth) setRoadmap(prev => prev.map(r => r.id === editMonth.id ? { ...r, ...payload } : r))
-        else setRoadmap(prev => [...prev, { id: 'r' + Date.now(), ...payload }].sort((a, b) => a.month_number - b.month_number))
+      if(isDemoMode){
+        if(editMonth) setRoadmap(prev=>prev.map(r=>r.id===editMonth.id?{...r,...payload}:r))
+        else setRoadmap(prev=>[...prev,{id:'r'+Date.now(),...payload}].sort((a,b)=>a.month_number-b.month_number))
       } else {
-        if (editMonth) {
-          await sbUpdate('roadmap', editMonth.id, payload)
-        } else {
-          const exists = roadmap.find(r => r.month_number === payload.month_number)
-          if (exists) await sbUpdate('roadmap', exists.id, payload)
-          else await sbInsert('roadmap', { ...payload, client_id: clientId })
-        }
+        if(editMonth) await sbUpdate('roadmap',editMonth.id,payload)
+        else { const ex=roadmap.find(r=>r.month_number===payload.month_number); if(ex) await sbUpdate('roadmap',ex.id,payload); else await sbInsert('roadmap',{...payload,client_id:clientId}) }
         await load()
       }
-      setFormMsg('✓ Saved')
-      setTimeout(() => { setShowModal(false); setEditMonth(null); setFormMsg('') }, 700)
-    } catch (e) { setFormMsg(`Error: ${e.message}`) }
+      setFormMsg('✓ Saved'); setTimeout(()=>{setShowModal(false);setEditMonth(null);setFormMsg('')},700)
+    } catch(e){setFormMsg(`Error: ${e.message}`)}
   }
-
-  const clearPhase = async (r) => {
-    if (!window.confirm(`Clear phase for ${r.month_name}?`)) return
-    if (isDemoMode) { setRoadmap(prev => prev.map(m => m.id === r.id ? { ...m, phase: null, notes: '' } : m)); return }
-    try { await sbUpdate('roadmap', r.id, { phase: null, notes: '' }); await load() } catch (e) { alert(e.message) }
+  const clearPhase=async(r)=>{
+    if(!window.confirm(`Clear phase for ${r.month_name}?`)) return
+    if(isDemoMode){setRoadmap(prev=>prev.map(m=>m.id===r.id?{...m,phase:null,notes:''}:m));return}
+    try{ await sbUpdate('roadmap',r.id,{phase:null,notes:''}); await load() }catch(e){alert(e.message)}
   }
+  const openEdit=(r)=>{ setEditMonth(r); setRmForm({month_number:r.month_number,month_name:r.month_name,phase:r.phase||'',notes:r.notes||''}); setShowModal(true) }
 
-  const openEdit = (r) => { setEditMonth(r); setRmForm({ month_number: r.month_number, month_name: r.month_name, phase: r.phase || '', notes: r.notes || '' }); setShowModal(true) }
+  const phaseStyle=p=>p==='Fat-Loss'?{bg:'#FEF3C7',tc:'#92400E',e:'🔥',bar:T.amber}:p==='Lean Gain'?{bg:'#D1FAE5',tc:'#065F46',e:'📈',bar:T.green}:p==='Maintenance'?{bg:T.blueL,tc:'#1E40AF',e:'⚖️',bar:T.blue}:{bg:T.surfaceAlt,tc:T.inkLight,e:'○',bar:T.border}
 
-  const pc = p => p === 'Fat-Loss' ? { bg: '#fef3c7', text: '#92400e', e: '🔥' } : p === 'Lean Gain' ? { bg: '#dcfce7', text: '#166534', e: '📈' } : p === 'Maintenance' ? { bg: C.blueL, text: C.blue, e: '⚖️' } : { bg: '#f3f4f6', text: C.gray, e: '○' }
-
-  const RoadmapForm = (
-    <div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
-        <div><span style={S.lbl}>Month (1-12)</span><input type="number" value={rmForm.month_number} onChange={e => setRmForm(p => ({ ...p, month_number: e.target.value }))} min="1" max="12" style={S.inp} /></div>
-        <div><span style={S.lbl}>Month name</span><input value={rmForm.month_name} onChange={e => setRmForm(p => ({ ...p, month_name: e.target.value }))} placeholder="JANUARY" style={S.inp} /></div>
-        <div style={{ gridColumn: '1/-1' }}>
-          <span style={S.lbl}>Phase</span>
-          <select value={rmForm.phase} onChange={e => setRmForm(p => ({ ...p, phase: e.target.value }))} style={S.inp}>
-            <option value="">— No phase —</option>
-            <option>Fat-Loss</option>
-            <option>Lean Gain</option>
-            <option>Maintenance</option>
-          </select>
-        </div>
-        <div style={{ gridColumn: '1/-1' }}><span style={S.lbl}>Notes</span><textarea value={rmForm.notes} onChange={e => setRmForm(p => ({ ...p, notes: e.target.value }))} rows={3} placeholder="e.g. Started cut…" style={{ ...S.inp, resize: 'vertical' }} /></div>
+  const RmForm=(
+    <div style={{display:'flex',flexDirection:'column',gap:12}}>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+        <Inp label="Month (1-12)" type="number" value={rmForm.month_number} onChange={e=>setRmForm(p=>({...p,month_number:e.target.value}))} min="1" max="12"/>
+        <Inp label="Month name" value={rmForm.month_name} onChange={e=>setRmForm(p=>({...p,month_name:e.target.value}))} placeholder="JANUARY"/>
       </div>
-      <MsgBox msg={formMsg} />
-      <div style={{ display: 'flex', gap: 9, marginTop: 14 }}>
-        <Btn onClick={saveMonth} style={{ flex: 1 }}>{editMonth ? 'Save changes' : 'Save month'}</Btn>
-        <Btn variant="secondary" onClick={() => { setShowModal(false); setEditMonth(null) }} style={{ flex: 1 }}>Cancel</Btn>
+      <Sel label="Phase" value={rmForm.phase} onChange={e=>setRmForm(p=>({...p,phase:e.target.value}))}>
+        <option value="">— No phase —</option>
+        <option>Fat-Loss</option><option>Lean Gain</option><option>Maintenance</option>
+      </Sel>
+      <div>
+        <label style={{fontSize:11,fontWeight:600,color:T.inkLight,textTransform:'uppercase',letterSpacing:'0.6px',marginBottom:6,display:'block'}}>Notes</label>
+        <textarea value={rmForm.notes} onChange={e=>setRmForm(p=>({...p,notes:e.target.value}))} rows={3} placeholder="e.g. Started cut…" style={{width:'100%',padding:'10px 14px',borderRadius:10,border:`1.5px solid ${T.border}`,fontSize:15,outline:'none',resize:'vertical',fontFamily:"'DM Sans',sans-serif",boxSizing:'border-box'}}/>
+      </div>
+      <MsgBox msg={formMsg}/>
+      <div style={{display:'flex',gap:9,marginTop:4}}>
+        <Btn onClick={saveMonth} full>{editMonth?'Save changes':'Save month'}</Btn>
+        <Btn variant="ghost" onClick={()=>{setShowModal(false);setEditMonth(null)}} full>Cancel</Btn>
       </div>
     </div>
   )
 
   return (
-    <div style={S.page}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18, flexWrap: 'wrap', gap: 10 }}>
-        <div><div style={S.h1}>2026 Roadmap</div><div style={{ fontSize: 13, color: C.gray }}>Year-long periodization</div></div>
-        {isAdmin && <Btn variant="green" small onClick={() => { setEditMonth(null); setRmForm({ month_number: 1, month_name: 'JANUARY', phase: '', notes: '' }); setShowModal(true) }}>+ Edit month</Btn>}
-      </div>
+    <div style={{padding:'20px 16px 24px',maxWidth:1080,margin:'0 auto'}}>
+      <SectionHeader title="2026 Roadmap" sub="Your year-long training periodization"
+        action={isAdmin&&<Btn variant="green" small onClick={()=>{setEditMonth(null);setRmForm({month_number:1,month_name:'JANUARY',phase:'',notes:''});setShowModal(true)}}>+ Edit month</Btn>}
+      />
+      {isAdmin&&<Card style={{padding:'14px 18px',marginBottom:14}}><ClientSelector clients={clients} selClientId={selClientId} setSelClientId={setSelClientId}/></Card>}
+      {showModal&&<Modal title={editMonth?`Edit: ${editMonth.month_name}`:'Update roadmap'} onClose={()=>{setShowModal(false);setEditMonth(null)}}>{RmForm}</Modal>}
 
-      {isAdmin && (
-        <div style={{ ...S.card, marginBottom: 14, padding: '14px 18px' }}>
-          <ClientSelector clients={clients} selClientId={selClientId} setSelClientId={setSelClientId} />
-        </div>
-      )}
-
-      {showModal && <Modal title={editMonth ? `Edit: ${editMonth.month_name}` : 'Update roadmap'} onClose={() => { setShowModal(false); setEditMonth(null) }}>{RoadmapForm}</Modal>}
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 10, marginBottom: 16 }}>
-        {roadmap.map((m, i) => {
-          const c = pc(m.phase)
+      <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:10,marginBottom:20}}>
+        {roadmap.map((m,i)=>{
+          const ps=phaseStyle(m.phase)
           return (
-            <div key={m.id || i} style={{ background: '#fff', borderRadius: 14, border: `1px solid ${C.border}`, padding: '14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-                <div style={{ width: 36, height: 36, borderRadius: 10, background: c.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>{c.e}</div>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: 13 }}>{m.month_name}</div>
-                  <div style={{ fontSize: 11, color: C.gray, marginTop: 1 }}>{m.phase || 'No phase'}</div>
+            <div key={m.id||i} style={{background:T.surface,borderRadius:16,border:`1px solid ${T.border}`,padding:'16px',display:'flex',flexDirection:'column',gap:10,transition:'box-shadow .2s'}}>
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                <div style={{width:40,height:40,borderRadius:12,background:ps.bg,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}>{ps.e}</div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:14}}>{m.month_name}</div>
+                  <div style={{fontSize:11,color:T.inkLight,marginTop:1}}>{m.phase||'No phase assigned'}</div>
                 </div>
+                {m.phase&&<span style={{padding:'3px 10px',borderRadius:99,fontSize:11,fontWeight:700,background:ps.bg,color:ps.tc,flexShrink:0}}>{m.phase}</span>}
               </div>
-              {m.phase && <span style={{ alignSelf: 'flex-start', padding: '3px 10px', borderRadius: 14, fontSize: 11, fontWeight: 600, background: c.bg, color: c.text }}>{m.phase}</span>}
-              {m.notes && <div style={{ fontSize: 11, color: C.gray, fontStyle: 'italic' }}>{m.notes}</div>}
-              {isAdmin && (
-                <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
-                  <Btn variant="secondary" small onClick={() => openEdit(m)} style={{ flex: 1 }}>Edit</Btn>
-                  {m.phase && <Btn variant="danger" small onClick={() => clearPhase(m)} style={{ flex: 1 }}>Clear phase</Btn>}
+              {m.phase&&<div style={{height:4,background:T.border,borderRadius:99}}><div style={{height:4,width:'100%',background:ps.bar,borderRadius:99}}/></div>}
+              {m.notes&&<p style={{fontSize:12,color:T.inkMid,fontStyle:'italic',margin:0}}>"{m.notes}"</p>}
+              {isAdmin&&(
+                <div style={{display:'flex',gap:6}}>
+                  <Btn variant="ghost" small onClick={()=>openEdit(m)} style={{flex:1}}>Edit</Btn>
+                  {m.phase&&<Btn variant="danger" small onClick={()=>clearPhase(m)} style={{flex:1}}>Clear</Btn>}
                 </div>
               )}
             </div>
@@ -1127,208 +1271,174 @@ function RoadmapPage({ user, isAdmin }) {
         })}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 14 }}>
-        <div style={S.card}>
-          <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 12 }}>Phase guide</div>
-          {[['Fat-Loss 🔥', 'Caloric deficit, high protein, cardio. Strip fat, preserve muscle.', '#fef3c7', '#92400e'], ['Lean Gain 📈', 'Slight surplus, progressive overload. Build muscle, minimal fat.', '#dcfce7', '#166534'], ['Maintenance ⚖️', 'Caloric balance, skill focus. Consolidate and recover.', C.blueL, C.blue]].map(([p, d, bg, tc]) => (
-            <div key={p} style={{ padding: '12px', borderRadius: 10, background: bg, marginBottom: 10 }}>
-              <div style={{ fontWeight: 600, fontSize: 13, color: tc, marginBottom: 3 }}>{p}</div>
-              <div style={{ fontSize: 12, color: tc, opacity: .85 }}>{d}</div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:14}}>
+        <Card>
+          <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:16,fontWeight:700,marginBottom:14}}>Phase guide</h3>
+          {[['Fat-Loss 🔥','Caloric deficit + high protein. Strip fat, preserve muscle.','#FEF3C7','#92400E'],['Lean Gain 📈','Slight surplus + progressive overload. Build muscle.','#D1FAE5','#065F46'],['Maintenance ⚖️','Caloric balance, skill focus. Consolidate gains.',T.blueL,'#1E40AF']].map(([p,d,bg,tc])=>(
+            <div key={p} style={{padding:'14px',borderRadius:12,background:bg,marginBottom:10}}>
+              <div style={{fontWeight:700,fontSize:13,color:tc,marginBottom:4}}>{p}</div>
+              <div style={{fontSize:12,color:tc,opacity:.8,lineHeight:1.5}}>{d}</div>
             </div>
           ))}
-        </div>
-        <div style={S.card}>
-          <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 12 }}>Set & rep schemes</div>
-          {[['5x5 1010 180s', 'Strength 1', 'Heavy compound'], ['4x4 2010 120s', 'Strength 2', 'Controlled eccentric'], ['3x9-11 3010 120s', 'Hypertrophy 1', 'Volume block'], ['2x2-Failure 3010 180s', 'Hypertrophy 2', 'Failure training']].map(([s, cat, desc]) => (
-            <div key={s} style={{ padding: '9px 0', borderBottom: `1px solid ${C.border}` }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
-                <div><div style={{ fontWeight: 500, fontSize: 13 }}>{s}</div><div style={{ fontSize: 11, color: C.gray, marginTop: 2 }}>{desc}</div></div>
-                <Badge color="blue">{cat}</Badge>
+        </Card>
+        <Card>
+          <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:16,fontWeight:700,marginBottom:14}}>Training schemes</h3>
+          {[['5x5 · 1010 · 180s','Strength 1','Heavy compound lifts'],['4x4 · 2010 · 120s','Strength 2','Controlled eccentric phase'],['3x9-11 · 3010 · 120s','Hypertrophy 1','Volume-driven growth'],['2x Failure · 3010 · 180s','Hypertrophy 2','Max intensity, failure sets']].map(([s,cat,desc])=>(
+            <div key={s} style={{padding:'10px 0',borderBottom:`1px solid ${T.border}`,display:'flex',justifyContent:'space-between',alignItems:'center',gap:10}}>
+              <div>
+                <div style={{fontWeight:600,fontSize:13}}>{s}</div>
+                <div style={{fontSize:11,color:T.inkLight,marginTop:2}}>{desc}</div>
               </div>
+              <Badge color="blue">{cat}</Badge>
             </div>
           ))}
-        </div>
+        </Card>
       </div>
     </div>
   )
 }
 
-
 // ─── ADMIN PANEL ──────────────────────────────────────────────────────────────
 function AdminPanel({ user }) {
-  const [clients, setClients] = useState([])
-  const [sel, setSel] = useState(null)
-  const [tab, setTab] = useState('clients')
-  const [editForm, setEditForm] = useState({})
-  const [newForm, setNewForm] = useState({ name:'', email:'', age:'', gender:'MALE', height_cm:'', start_weight:'', goal_weight:'', start_date:'', end_date:'' })
-  const [msg, setMsg] = useState('')
-  const [saving, setSaving] = useState(false)
-  const isMobile = useIsMobile()
+  const [clients,setClients]=useState([])
+  const [sel,setSel]=useState(null)
+  const [tab,setTab]=useState('clients')
+  const [editForm,setEditForm]=useState({})
+  const [newForm,setNewForm]=useState({name:'',email:'',age:'',gender:'MALE',height_cm:'',start_weight:'',goal_weight:'',start_date:'',end_date:''})
+  const [msg,setMsg]=useState('')
+  const [saving,setSaving]=useState(false)
+  const isMobile=useIsMobile()
 
-  const loadClients = async () => {
-    if (isDemo) { setClients(DEMO.adminClients); return }
-    const data = await sbQuery('clients', { order: 'created_at', asc: false })
-    setClients(data || [])
+  const loadClients=async()=>{
+    if(isDemo){setClients(DEMO.adminClients);return}
+    const data=await sbQuery('clients',{order:'created_at',asc:false})
+    setClients(data||[])
   }
-  useEffect(() => { loadClients() }, [])
-  useEffect(() => {
-    if (isDemo) return
-    const sub = supabase.channel('admin-clients')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'clients' }, () => loadClients())
-      .subscribe()
-    return () => supabase.removeChannel(sub)
-  }, [])
+  useEffect(()=>{ loadClients() },[])
+  useEffect(()=>{
+    if(isDemo) return
+    const sub=supabase.channel('admin-c').on('postgres_changes',{event:'*',schema:'public',table:'clients'},()=>loadClients()).subscribe()
+    return ()=>supabase.removeChannel(sub)
+  },[])
 
-  const openEdit = async (c) => {
+  const openEdit=async(c)=>{
     setSel(c)
-    const form = { current_weight: c.current_weight || '', goal_weight: c.goal_weight || '', start_weight: c.start_weight || '', calories: '', protein_g: '', carbs_g: '', fats_g: '', fibre_g: '', daily_steps: '', cardio: '' }
-    if (!isDemo) {
-      try {
-        const t = await sbQuery('weekly_targets', { eq: { client_id: c.id }, order: 'created_at', asc: false, single: true })
-        if (t) Object.assign(form, { calories: t.calories || '', protein_g: t.protein_g || '', carbs_g: t.carbs_g || '', fats_g: t.fats_g || '', fibre_g: t.fibre_g || '', daily_steps: t.daily_steps || '', cardio: t.cardio || '' })
-      } catch (e) {}
+    const form={current_weight:c.current_weight||'',goal_weight:c.goal_weight||'',start_weight:c.start_weight||'',calories:'',protein_g:'',carbs_g:'',fats_g:'',fibre_g:'',daily_steps:'',cardio:''}
+    if(!isDemo){
+      try{ const t=await sbQuery('weekly_targets',{eq:{client_id:c.id},order:'created_at',asc:false,single:true}); if(t) Object.assign(form,{calories:t.calories||'',protein_g:t.protein_g||'',carbs_g:t.carbs_g||'',fats_g:t.fats_g||'',fibre_g:t.fibre_g||'',daily_steps:t.daily_steps||'',cardio:t.cardio||''}) }catch(e){}
     }
     setEditForm(form)
   }
-
-  const saveEdit = async () => {
-    if (!sel) return
-    setSaving(true)
+  const saveEdit=async()=>{
+    if(!sel) return; setSaving(true)
     try {
-      if (!isDemo) {
-        await supabase.from('clients').update({
-          current_weight: parseFloat(editForm.current_weight) || sel.current_weight,
-          goal_weight: parseFloat(editForm.goal_weight) || sel.goal_weight,
-          start_weight: parseFloat(editForm.start_weight) || sel.start_weight,
-        }).eq('id', sel.id)
-        if (editForm.calories || editForm.protein_g) {
-          const { data: ex } = await supabase.from('weekly_targets').select('id').eq('client_id', sel.id).single()
-          const td = { client_id: sel.id, diet_type: 'veg', calories: parseFloat(editForm.calories) || 0, protein_g: parseFloat(editForm.protein_g) || 0, carbs_g: parseFloat(editForm.carbs_g) || 0, fats_g: parseFloat(editForm.fats_g) || 0, fibre_g: parseFloat(editForm.fibre_g) || 0, daily_steps: editForm.daily_steps || '8k', cardio: editForm.cardio || 'Daily: 20min' }
-          if (ex) await supabase.from('weekly_targets').update(td).eq('id', ex.id)
+      if(!isDemo){
+        await supabase.from('clients').update({current_weight:parseFloat(editForm.current_weight)||sel.current_weight,goal_weight:parseFloat(editForm.goal_weight)||sel.goal_weight,start_weight:parseFloat(editForm.start_weight)||sel.start_weight}).eq('id',sel.id)
+        if(editForm.calories||editForm.protein_g){
+          const {data:ex}=await supabase.from('weekly_targets').select('id').eq('client_id',sel.id).single()
+          const td={client_id:sel.id,diet_type:'veg',calories:parseFloat(editForm.calories)||0,protein_g:parseFloat(editForm.protein_g)||0,carbs_g:parseFloat(editForm.carbs_g)||0,fats_g:parseFloat(editForm.fats_g)||0,fibre_g:parseFloat(editForm.fibre_g)||0,daily_steps:editForm.daily_steps||'8k',cardio:editForm.cardio||'Daily: 20min'}
+          if(ex) await supabase.from('weekly_targets').update(td).eq('id',ex.id)
           else await supabase.from('weekly_targets').insert([td])
         }
       }
-      await loadClients()
-      setMsg('✓ Changes saved'); setSel(null); setTimeout(() => setMsg(''), 3000)
-    } catch (e) { setMsg(`Error: ${e.message}`) }
-    finally { setSaving(false) }
+      await loadClients(); setMsg('✓ Changes saved'); setSel(null); setTimeout(()=>setMsg(''),3000)
+    } catch(e){setMsg(`Error: ${e.message}`)} finally{setSaving(false)}
   }
-
-  const createClient = async () => {
+  const createClient=async()=>{
     setSaving(true)
     try {
-      if (!isDemo) {
-        await sbInsert('clients', {
-          name: newForm.name.toUpperCase(), email: newForm.email,
-          age: parseInt(newForm.age) || null, gender: newForm.gender,
-          height_cm: parseFloat(newForm.height_cm) || null,
-          start_weight: parseFloat(newForm.start_weight) || null,
-          goal_weight: parseFloat(newForm.goal_weight) || null,
-          current_weight: parseFloat(newForm.start_weight) || null,
-          start_date: newForm.start_date || null, end_date: newForm.end_date || null,
-        })
-      } else {
-        setClients(prev => [...prev, { id: Date.now().toString(), ...newForm, is_active: true }])
-      }
-      await loadClients()
-      setMsg('✓ Client created! Now create their auth user in Supabase Auth.')
-      setTab('clients')
-      setNewForm({ name: '', email: '', age: '', gender: 'MALE', height_cm: '', start_weight: '', goal_weight: '', start_date: '', end_date: '' })
-      setTimeout(() => setMsg(''), 8000)
-    } catch (e) { setMsg(`Error: ${e.message}`) }
-    finally { setSaving(false) }
+      if(!isDemo) await sbInsert('clients',{name:newForm.name.toUpperCase(),email:newForm.email,age:parseInt(newForm.age)||null,gender:newForm.gender,height_cm:parseFloat(newForm.height_cm)||null,start_weight:parseFloat(newForm.start_weight)||null,goal_weight:parseFloat(newForm.goal_weight)||null,current_weight:parseFloat(newForm.start_weight)||null,start_date:newForm.start_date||null,end_date:newForm.end_date||null})
+      else setClients(prev=>[...prev,{id:Date.now().toString(),...newForm,is_active:true}])
+      await loadClients(); setMsg('✓ Client created! Now create their auth user in Supabase.')
+      setTab('clients'); setNewForm({name:'',email:'',age:'',gender:'MALE',height_cm:'',start_weight:'',goal_weight:'',start_date:'',end_date:''})
+      setTimeout(()=>setMsg(''),8000)
+    } catch(e){setMsg(`Error: ${e.message}`)} finally{setSaving(false)}
   }
 
-  const ClientEditForm = (
-    <div>
-      <div style={{ fontSize: 13, fontWeight: 600, color: C.gray, marginBottom: 10, textTransform: 'uppercase' }}>Body stats</div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
-        {[['Current weight (kg)', 'current_weight'], ['Goal weight (kg)', 'goal_weight'], ['Start weight (kg)', 'start_weight']].map(([lbl, k]) => (
-          <div key={k}><span style={S.lbl}>{lbl}</span><input value={editForm[k] || ''} onChange={e => setEditForm(p => ({ ...p, [k]: e.target.value }))} inputMode="decimal" placeholder={String(sel?.[k] || '')} style={S.inp} /></div>
-        ))}
-      </div>
-      <div style={{ fontSize: 13, fontWeight: 600, color: C.gray, marginBottom: 10, textTransform: 'uppercase' }}>Nutrition targets</div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
-        {[['Calories', 'calories'], ['Protein (g)', 'protein_g'], ['Carbs (g)', 'carbs_g'], ['Fats (g)', 'fats_g'], ['Fibre (g)', 'fibre_g'], ['Steps goal', 'daily_steps']].map(([lbl, k]) => (
-          <div key={k}><span style={S.lbl}>{lbl}</span><input value={editForm[k] || ''} onChange={e => setEditForm(p => ({ ...p, [k]: e.target.value }))} inputMode="decimal" placeholder={lbl} style={S.inp} /></div>
-        ))}
-      </div>
-      <div style={{ marginBottom: 14 }}><span style={S.lbl}>Cardio target</span><input value={editForm.cardio || ''} onChange={e => setEditForm(p => ({ ...p, cardio: e.target.value }))} placeholder="Daily: 20min" style={S.inp} /></div>
-      <div style={{ display: 'flex', gap: 9 }}>
-        <Btn onClick={saveEdit} disabled={saving} style={{ flex: 1 }}>{saving ? 'Saving…' : 'Save all changes'}</Btn>
-        <Btn variant="secondary" onClick={() => setSel(null)} style={{ flex: 1 }}>Cancel</Btn>
-      </div>
-    </div>
-  )
-
   return (
-    <div style={S.page}>
-      <div style={{ marginBottom: 18 }}>
-        <div style={S.h1}>Admin</div>
-        <div style={{ fontSize: 13, color: C.gray }}>Manage clients · {isDemo ? 'Demo' : 'Live ✓'}</div>
+    <div style={{padding:'20px 16px 24px',maxWidth:1080,margin:'0 auto'}}>
+      <SectionHeader title="Admin" sub={`Manage clients · ${isDemo?'Demo mode':'Live — real-time ✓'}`}/>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:12,marginBottom:18}}>
+        <KpiCard label="Total clients" value={clients.length} color="blue" icon="👥"/>
+        <KpiCard label="Active" value={clients.filter(c=>c.is_active).length} color="green" icon="✅"/>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 10, marginBottom: 14 }}>
-        <Stat label="Total clients" value={clients.length} color="blue" />
-        <Stat label="Active" value={clients.filter(c => c.is_active).length} color="green" />
-      </div>
-      <MsgBox msg={msg} />
-      <div style={{ display: 'flex', gap: 7, margin: '14px 0' }}>
-        {['clients', 'add client'].map(t => <Btn key={t} variant={tab === t ? 'primary' : 'secondary'} small onClick={() => { setTab(t); setSel(null) }} style={{ textTransform: 'capitalize' }}>{t}</Btn>)}
+      <MsgBox msg={msg}/>
+      <div style={{display:'flex',gap:8,margin:'16px 0',background:T.surfaceAlt,padding:4,borderRadius:12,border:`1px solid ${T.border}`}}>
+        {['clients','add client'].map(t=>(
+          <button key={t} onClick={()=>{setTab(t);setSel(null)}} style={{flex:1,padding:'9px 16px',borderRadius:9,border:'none',cursor:'pointer',fontWeight:600,fontSize:13,fontFamily:"'DM Sans',sans-serif",textTransform:'capitalize',background:tab===t?T.surface:T.transparent,color:tab===t?T.ink:T.inkLight,boxShadow:tab===t?'0 1px 4px rgba(0,0,0,0.08)':undefined,transition:'all .2s'}}>
+            {t}
+          </button>
+        ))}
       </div>
 
-      {tab === 'clients' && (
-        <>
-          {clients.map(c => (
-            <div key={c.id} style={{ ...S.card, marginBottom: 12 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: 15 }}>{c.name}</div>
-                  <div style={{ fontSize: 12, color: C.gray, marginTop: 2 }}>{c.email}</div>
-                </div>
-                <Badge color={c.is_active ? 'green' : 'red'}>{c.is_active ? 'Active' : 'Inactive'}</Badge>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6, marginBottom: 12 }}>
-                {[['Age', c.age || '—'], ['Current', `${c.current_weight || '—'}kg`], ['Goal', `${c.goal_weight || '—'}kg`]].map(([lbl, val]) => (
-                  <div key={lbl} style={{ background: '#f9f9f9', borderRadius: 8, padding: '8px 10px' }}>
-                    <div style={{ fontSize: 10, color: C.gray, marginBottom: 2 }}>{lbl}</div>
-                    <div style={{ fontWeight: 600, fontSize: 14 }}>{val}</div>
-                  </div>
-                ))}
-              </div>
-              <Btn variant={sel?.id === c.id ? 'danger' : 'secondary'} onClick={() => sel?.id === c.id ? setSel(null) : openEdit(c)} style={{ width: '100%' }}>
-                {sel?.id === c.id ? 'Cancel editing' : 'Edit client targets'}
-              </Btn>
-              {sel?.id === c.id && (
-                <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px solid ${C.border}` }}>{ClientEditForm}</div>
-              )}
+      {tab==='clients'&&clients.map(c=>(
+        <Card key={c.id} style={{marginBottom:12}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:14,gap:10}}>
+            <div>
+              <h4 style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:17,marginBottom:3}}>{c.name}</h4>
+              <p style={{fontSize:13,color:T.inkLight}}>{c.email}</p>
             </div>
-          ))}
-        </>
-      )}
-
-      {tab === 'add client' && (
-        <div style={S.card}>
-          <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 16 }}>Add new client</div>
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 12 }}>
-            {[['Full name', 'text', 'name', 'JOHN DOE'], ['Email', 'email', 'email', 'john@email.com'], ['Age', 'number', 'age', '28'], ['Height (cm)', 'number', 'height_cm', '175'], ['Start weight (kg)', 'number', 'start_weight', '85'], ['Goal weight (kg)', 'number', 'goal_weight', '75'], ['Start date', 'date', 'start_date', ''], ['End date', 'date', 'end_date', '']].map(([lbl, type, key, ph]) => (
-              <div key={key}><span style={S.lbl}>{lbl}</span><input type={type} value={newForm[key]} onChange={e => setNewForm(p => ({ ...p, [key]: e.target.value }))} placeholder={ph} style={S.inp} /></div>
+            <Badge color={c.is_active?'green':'red'} dot>{c.is_active?'Active':'Inactive'}</Badge>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8,marginBottom:14}}>
+            {[['Age',c.age||'—'],['Current',`${c.current_weight||'—'} kg`],['Goal',`${c.goal_weight||'—'} kg`]].map(([lbl,val])=>(
+              <div key={lbl} style={{background:T.surfaceAlt,borderRadius:10,padding:'10px 12px'}}>
+                <div style={{fontSize:10,color:T.inkLight,textTransform:'uppercase',letterSpacing:'0.5px',marginBottom:4}}>{lbl}</div>
+                <div style={{fontWeight:700,fontSize:15,fontFamily:"'Syne',sans-serif"}}>{val}</div>
+              </div>
             ))}
           </div>
-          <div style={{ marginTop: 12 }}>
-            <span style={S.lbl}>Gender</span>
-            <select value={newForm.gender} onChange={e => setNewForm(p => ({ ...p, gender: e.target.value }))} style={{ ...S.inp, maxWidth: 180 }}>
-              {['MALE', 'FEMALE', 'OTHER'].map(g => <option key={g}>{g}</option>)}
-            </select>
+          <Btn variant={sel?.id===c.id?'danger':'secondary'} onClick={()=>sel?.id===c.id?setSel(null):openEdit(c)} full>
+            {sel?.id===c.id?'Cancel editing':'Edit client targets'}
+          </Btn>
+          {sel?.id===c.id&&(
+            <div style={{marginTop:16,paddingTop:16,borderTop:`1px solid ${T.border}`}}>
+              <div style={{fontSize:12,fontWeight:700,color:T.inkLight,textTransform:'uppercase',letterSpacing:'0.6px',marginBottom:12}}>Body stats</div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:16}}>
+                {[['Current weight (kg)','current_weight'],['Goal weight (kg)','goal_weight'],['Start weight (kg)','start_weight']].map(([lbl,k])=>(
+                  <Inp key={k} label={lbl} value={editForm[k]||''} onChange={e=>setEditForm(p=>({...p,[k]:e.target.value}))} inputMode="decimal" placeholder={String(sel?.[k]||'')}/>
+                ))}
+              </div>
+              <div style={{fontSize:12,fontWeight:700,color:T.inkLight,textTransform:'uppercase',letterSpacing:'0.6px',marginBottom:12}}>Nutrition targets</div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:12}}>
+                {[['Calories','calories'],['Protein (g)','protein_g'],['Carbs (g)','carbs_g'],['Fats (g)','fats_g'],['Fibre (g)','fibre_g'],['Steps goal','daily_steps']].map(([lbl,k])=>(
+                  <Inp key={k} label={lbl} value={editForm[k]||''} onChange={e=>setEditForm(p=>({...p,[k]:e.target.value}))} inputMode="decimal" placeholder={lbl}/>
+                ))}
+              </div>
+              <div style={{marginBottom:14}}>
+                <Inp label="Cardio target" value={editForm.cardio||''} onChange={e=>setEditForm(p=>({...p,cardio:e.target.value}))} placeholder="Daily: 20min"/>
+              </div>
+              <div style={{display:'flex',gap:9}}>
+                <Btn onClick={saveEdit} disabled={saving} full>{saving?'Saving…':'Save all changes'}</Btn>
+                <Btn variant="ghost" onClick={()=>setSel(null)} full>Cancel</Btn>
+              </div>
+            </div>
+          )}
+        </Card>
+      ))}
+
+      {tab==='add client'&&(
+        <Card>
+          <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:17,fontWeight:700,marginBottom:18}}>Add new client</h3>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1fr 1fr',gap:12}}>
+            {[['Full name','text','name','JOHN DOE'],['Email','email','email','john@email.com'],['Age','number','age','28'],['Height (cm)','number','height_cm','175'],['Start weight (kg)','number','start_weight','85'],['Goal weight (kg)','number','goal_weight','75'],['Start date','date','start_date',''],['End date','date','end_date','']].map(([lbl,type,key,ph])=>(
+              <Inp key={key} label={lbl} type={type} value={newForm[key]} onChange={e=>setNewForm(p=>({...p,[key]:e.target.value}))} placeholder={ph}/>
+            ))}
           </div>
-          <div style={{ marginTop: 16, display: 'flex', gap: 9 }}>
-            <Btn onClick={createClient} disabled={saving} style={{ flex: 1 }}>{saving ? 'Creating…' : 'Create client'}</Btn>
-            <Btn variant="secondary" onClick={() => setTab('clients')} style={{ flex: 1 }}>Cancel</Btn>
+          <div style={{marginTop:12}}>
+            <Sel label="Gender" value={newForm.gender} onChange={e=>setNewForm(p=>({...p,gender:e.target.value}))} style={{maxWidth:180}}>
+              {['MALE','FEMALE','OTHER'].map(g=><option key={g}>{g}</option>)}
+            </Sel>
           </div>
-          <div style={{ marginTop: 14, padding: 14, background: C.blueL, borderRadius: 10, fontSize: 12, color: C.blue, lineHeight: 1.7 }}>
-            <strong>After creating:</strong> Supabase → Authentication → Users → Create user → Copy UUID → Run:<br />
-            <code style={{ fontSize: 11 }}>UPDATE clients SET auth_user_id='&lt;uuid&gt;' WHERE email='their@email.com';</code>
+          <div style={{marginTop:18,display:'flex',gap:10}}>
+            <Btn onClick={createClient} disabled={saving} full>{saving?'Creating…':'Create client'}</Btn>
+            <Btn variant="ghost" onClick={()=>setTab('clients')} full>Cancel</Btn>
           </div>
-        </div>
+          <div style={{marginTop:14,padding:'14px 16px',background:T.blueL,borderRadius:12,fontSize:12,color:T.blue,lineHeight:1.8,border:`1px solid rgba(26,95,212,0.15)`}}>
+            <strong>Next step:</strong> Supabase → Authentication → Users → Create user (their email) → Copy UUID → Run:<br/>
+            <code style={{fontSize:11,fontFamily:'monospace'}}>UPDATE clients SET auth_user_id='&lt;uuid&gt;' WHERE email='their@email.com';</code>
+          </div>
+        </Card>
       )}
     </div>
   )
@@ -1342,27 +1452,32 @@ export default function App() {
   const isMobile=useIsMobile()
 
   useEffect(()=>{
-    if (isDemo){setBooting(false);return}
+    if(isDemo){setBooting(false);return}
     supabase.auth.getSession().then(async({data:{session}})=>{
-      if (session) {
-        try {
+      if(session){
+        try{
           const userId=session.user.id
-          const { data:adminRow }=await supabase.from('admins').select('id').eq('auth_user_id',userId).single()
-          if (adminRow) setUser({role:'admin',name:'Admin',email:session.user.email,userId})
-          else {
-            const { data:profile }=await supabase.from('clients').select('*').eq('auth_user_id',userId).single()
-            if (profile) setUser({role:'client',name:profile.name,email:profile.email,userId,clientId:profile.id})
+          const {data:adminRow}=await supabase.from('admins').select('id').eq('auth_user_id',userId).single()
+          if(adminRow) setUser({role:'admin',name:'Admin',email:session.user.email,userId})
+          else{
+            const {data:profile}=await supabase.from('clients').select('*').eq('auth_user_id',userId).single()
+            if(profile) setUser({role:'client',name:profile.name,email:profile.email,userId,clientId:profile.id})
           }
-        } catch(e){console.error(e)}
+        }catch(e){console.error(e)}
       }
       setBooting(false)
     })
-    const { data:{subscription} }=supabase.auth.onAuthStateChange(event=>{ if(event==='SIGNED_OUT') setUser(null) })
+    const {data:{subscription}}=supabase.auth.onAuthStateChange(event=>{ if(event==='SIGNED_OUT') setUser(null) })
     return ()=>subscription.unsubscribe()
   },[])
 
-  if (booting) return <div style={{ minHeight:'100vh', background:'#0d0d0d', display:'flex', alignItems:'center', justifyContent:'center' }}><div style={{ color:'rgba(255,255,255,0.4)', fontSize:14 }}>Loading…</div></div>
-  if (!user) return <Login onLogin={u=>{ setUser(u); setTab('dashboard') }}/>
+  if(booting) return (
+    <div style={{minHeight:'100vh',background:'#080808',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:16}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:28,fontWeight:800,color:'#fff',letterSpacing:'-1px'}}>LEVELUP📈</div>
+      <div style={{width:40,height:3,background:`linear-gradient(90deg,${T.orange},#FF8C00)`,borderRadius:99,animation:'none'}}/>
+    </div>
+  )
+  if(!user) return <><StyleInjector/><Login onLogin={u=>{setUser(u);setTab('dashboard')}}/></>
 
   const isAdmin=user.role==='admin'
   const tabs=isAdmin
@@ -1372,41 +1487,55 @@ export default function App() {
   const logout=async()=>{ if(!isDemo) await supabase.auth.signOut(); setUser(null) }
 
   const Page=()=>{
-    if (tab==='dashboard') return isAdmin?<AdminPanel user={user}/>:<Dashboard user={user}/>
-    if (tab==='weight'&&!isAdmin) return <WeightLogger user={user}/>
-    if (tab==='workout')   return <WorkoutPage user={user} isAdmin={isAdmin}/>
-    if (tab==='nutrition') return <NutritionPage user={user} isAdmin={isAdmin}/>
-    if (tab==='roadmap')   return <RoadmapPage user={user} isAdmin={isAdmin}/>
+    if(tab==='dashboard') return isAdmin?<AdminPanel user={user}/>:<Dashboard user={user}/>
+    if(tab==='weight'&&!isAdmin) return <WeightLogger user={user}/>
+    if(tab==='workout') return <WorkoutPage user={user} isAdmin={isAdmin}/>
+    if(tab==='nutrition') return <NutritionPage user={user} isAdmin={isAdmin}/>
+    if(tab==='roadmap') return <RoadmapPage user={user} isAdmin={isAdmin}/>
     return null
   }
 
-  if (isMobile) return (
-    <div style={{ fontFamily:"'Inter',system-ui,sans-serif", background:'#f6f6f4', minHeight:'100vh', color:'#111' }}>
-      <div style={{ background:'#0d0d0d', padding:'0 16px', display:'flex', alignItems:'center', justifyContent:'space-between', height:52, position:'sticky', top:0, zIndex:100 }}>
-        <div style={{ fontSize:16, fontWeight:800, color:'#fff', letterSpacing:'-0.5px' }}>LEVELUP📈</div>
-        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-          <span style={{ fontSize:11, color:'rgba(255,255,255,0.35)' }}>{isAdmin?'Admin':user.name?.split(' ')[0]}</span>
-          <button onClick={logout} style={{ padding:'5px 10px', borderRadius:7, border:'1px solid rgba(255,255,255,0.1)', background:'transparent', color:'rgba(255,255,255,0.45)', cursor:'pointer', fontSize:11, WebkitTapHighlightColor:'transparent' }}>Out</button>
-        </div>
+  const NavBar=()=>(
+    <nav style={{background:T.navBg,padding:'0 24px',display:'flex',alignItems:'center',justifyContent:'space-between',height:58,position:'sticky',top:0,zIndex:100,borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:17,fontWeight:800,color:'#fff',letterSpacing:'-0.5px',flexShrink:0}}>
+        LEVELUP<span style={{color:T.orange}}>📈</span>
+        {isAdmin&&<span style={{fontSize:10,fontWeight:400,color:'rgba(255,255,255,0.25)',marginLeft:8,verticalAlign:'middle'}}>admin</span>}
       </div>
-      <div style={{ paddingBottom:74 }}><Page/></div>
-      <BottomNav tabs={tabs} tab={tab} setTab={setTab}/>
-    </div>
+      <div style={{display:'flex',gap:2}}>
+        {tabs.map(([id,label])=>(
+          <button key={id} onClick={()=>setTab(id)} style={{padding:'7px 14px',borderRadius:8,border:'none',cursor:'pointer',fontWeight:600,fontSize:13,fontFamily:"'DM Sans',sans-serif",background:tab===id?T.orange:'transparent',color:tab===id?'#fff':'rgba(255,255,255,0.4)',transition:'all .2s',WebkitTapHighlightColor:'transparent'}}>{label}</button>
+        ))}
+      </div>
+      <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
+        <span style={{fontSize:11,color:'rgba(255,255,255,0.25)'}}>{user.email}</span>
+        <button onClick={logout} style={{padding:'6px 12px',borderRadius:8,border:'1px solid rgba(255,255,255,0.1)',background:'transparent',color:'rgba(255,255,255,0.4)',cursor:'pointer',fontSize:12,fontFamily:"'DM Sans',sans-serif",transition:'all .2s'}}>Sign out</button>
+      </div>
+    </nav>
   )
 
   return (
-    <div style={{ fontFamily:"'Inter',system-ui,sans-serif", background:'#f6f6f4', minHeight:'100vh', color:'#111' }}>
-      <nav style={{ background:'#0d0d0d', padding:'0 24px', display:'flex', alignItems:'center', justifyContent:'space-between', height:56, position:'sticky', top:0, zIndex:100 }}>
-        <div style={{ fontSize:16, fontWeight:800, color:'#fff', letterSpacing:'-0.5px' }}>LEVELUP📈 {isAdmin&&<span style={{ fontSize:10, fontWeight:400, color:'rgba(255,255,255,0.3)', marginLeft:6 }}>admin</span>}</div>
-        <div style={{ display:'flex', gap:4 }}>
-          {tabs.map(([id,label])=><button key={id} onClick={()=>setTab(id)} style={{ padding:'6px 14px', borderRadius:7, border:'none', cursor:'pointer', fontWeight:600, fontSize:13, background:tab===id?C.accent:'transparent', color:tab===id?'#fff':'rgba(255,255,255,0.5)', WebkitTapHighlightColor:'transparent' }}>{label}</button>)}
-        </div>
-        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-          <span style={{ fontSize:11, color:'rgba(255,255,255,0.35)' }}>{user.email}</span>
-          <button onClick={logout} style={{ padding:'5px 12px', borderRadius:7, border:'1px solid rgba(255,255,255,0.1)', background:'transparent', color:'rgba(255,255,255,0.45)', cursor:'pointer', fontSize:11 }}>Sign out</button>
-        </div>
-      </nav>
-      <div style={{ maxWidth:1080, margin:'0 auto' }}><Page/></div>
-    </div>
+    <>
+      <StyleInjector/>
+      <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",background:T.bg,minHeight:'100vh',color:T.ink}}>
+        {isMobile?(
+          <>
+            <div style={{background:T.navBg,padding:'0 16px',display:'flex',alignItems:'center',justifyContent:'space-between',height:52,position:'sticky',top:0,zIndex:100,borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
+              <div style={{fontFamily:"'Syne',sans-serif",fontSize:15,fontWeight:800,color:'#fff',letterSpacing:'-0.3px'}}>LEVELUP<span style={{color:T.orange}}>📈</span></div>
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                <span style={{fontSize:11,color:'rgba(255,255,255,0.3)'}}>{isAdmin?'Admin':user.name?.split(' ')[0]}</span>
+                <button onClick={logout} style={{padding:'5px 10px',borderRadius:7,border:'1px solid rgba(255,255,255,0.1)',background:'transparent',color:'rgba(255,255,255,0.4)',cursor:'pointer',fontSize:11,fontFamily:"'DM Sans',sans-serif"}}>Out</button>
+              </div>
+            </div>
+            <div style={{paddingBottom:76}}><Page/></div>
+            <BottomNav tabs={tabs} tab={tab} setTab={setTab}/>
+          </>
+        ):(
+          <>
+            <NavBar/>
+            <div style={{maxWidth:1080,margin:'0 auto'}}><Page/></div>
+          </>
+        )}
+      </div>
+    </>
   )
 }
