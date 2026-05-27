@@ -1153,6 +1153,187 @@ function RoadmapPage({ user, isAdmin }) {
   )
 }
 
+
+// ─── ADMIN PANEL ──────────────────────────────────────────────────────────────
+function AdminPanel({ user }) {
+  const [clients, setClients] = useState([])
+  const [sel, setSel] = useState(null)
+  const [tab, setTab] = useState('clients')
+  const [editForm, setEditForm] = useState({})
+  const [newForm, setNewForm] = useState({ name:'', email:'', age:'', gender:'MALE', height_cm:'', start_weight:'', goal_weight:'', start_date:'', end_date:'' })
+  const [msg, setMsg] = useState('')
+  const [saving, setSaving] = useState(false)
+  const isMobile = useIsMobile()
+
+  const loadClients = async () => {
+    if (isDemo) { setClients(DEMO.adminClients); return }
+    const data = await sbQuery('clients', { order: 'created_at', asc: false })
+    setClients(data || [])
+  }
+  useEffect(() => { loadClients() }, [])
+  useEffect(() => {
+    if (isDemo) return
+    const sub = supabase.channel('admin-clients')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'clients' }, () => loadClients())
+      .subscribe()
+    return () => supabase.removeChannel(sub)
+  }, [])
+
+  const openEdit = async (c) => {
+    setSel(c)
+    const form = { current_weight: c.current_weight || '', goal_weight: c.goal_weight || '', start_weight: c.start_weight || '', calories: '', protein_g: '', carbs_g: '', fats_g: '', fibre_g: '', daily_steps: '', cardio: '' }
+    if (!isDemo) {
+      try {
+        const t = await sbQuery('weekly_targets', { eq: { client_id: c.id }, order: 'created_at', asc: false, single: true })
+        if (t) Object.assign(form, { calories: t.calories || '', protein_g: t.protein_g || '', carbs_g: t.carbs_g || '', fats_g: t.fats_g || '', fibre_g: t.fibre_g || '', daily_steps: t.daily_steps || '', cardio: t.cardio || '' })
+      } catch (e) {}
+    }
+    setEditForm(form)
+  }
+
+  const saveEdit = async () => {
+    if (!sel) return
+    setSaving(true)
+    try {
+      if (!isDemo) {
+        await supabase.from('clients').update({
+          current_weight: parseFloat(editForm.current_weight) || sel.current_weight,
+          goal_weight: parseFloat(editForm.goal_weight) || sel.goal_weight,
+          start_weight: parseFloat(editForm.start_weight) || sel.start_weight,
+        }).eq('id', sel.id)
+        if (editForm.calories || editForm.protein_g) {
+          const { data: ex } = await supabase.from('weekly_targets').select('id').eq('client_id', sel.id).single()
+          const td = { client_id: sel.id, diet_type: 'veg', calories: parseFloat(editForm.calories) || 0, protein_g: parseFloat(editForm.protein_g) || 0, carbs_g: parseFloat(editForm.carbs_g) || 0, fats_g: parseFloat(editForm.fats_g) || 0, fibre_g: parseFloat(editForm.fibre_g) || 0, daily_steps: editForm.daily_steps || '8k', cardio: editForm.cardio || 'Daily: 20min' }
+          if (ex) await supabase.from('weekly_targets').update(td).eq('id', ex.id)
+          else await supabase.from('weekly_targets').insert([td])
+        }
+      }
+      await loadClients()
+      setMsg('✓ Changes saved'); setSel(null); setTimeout(() => setMsg(''), 3000)
+    } catch (e) { setMsg(`Error: ${e.message}`) }
+    finally { setSaving(false) }
+  }
+
+  const createClient = async () => {
+    setSaving(true)
+    try {
+      if (!isDemo) {
+        await sbInsert('clients', {
+          name: newForm.name.toUpperCase(), email: newForm.email,
+          age: parseInt(newForm.age) || null, gender: newForm.gender,
+          height_cm: parseFloat(newForm.height_cm) || null,
+          start_weight: parseFloat(newForm.start_weight) || null,
+          goal_weight: parseFloat(newForm.goal_weight) || null,
+          current_weight: parseFloat(newForm.start_weight) || null,
+          start_date: newForm.start_date || null, end_date: newForm.end_date || null,
+        })
+      } else {
+        setClients(prev => [...prev, { id: Date.now().toString(), ...newForm, is_active: true }])
+      }
+      await loadClients()
+      setMsg('✓ Client created! Now create their auth user in Supabase Auth.')
+      setTab('clients')
+      setNewForm({ name: '', email: '', age: '', gender: 'MALE', height_cm: '', start_weight: '', goal_weight: '', start_date: '', end_date: '' })
+      setTimeout(() => setMsg(''), 8000)
+    } catch (e) { setMsg(`Error: ${e.message}`) }
+    finally { setSaving(false) }
+  }
+
+  const ClientEditForm = (
+    <div>
+      <div style={{ fontSize: 13, fontWeight: 600, color: C.gray, marginBottom: 10, textTransform: 'uppercase' }}>Body stats</div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+        {[['Current weight (kg)', 'current_weight'], ['Goal weight (kg)', 'goal_weight'], ['Start weight (kg)', 'start_weight']].map(([lbl, k]) => (
+          <div key={k}><span style={S.lbl}>{lbl}</span><input value={editForm[k] || ''} onChange={e => setEditForm(p => ({ ...p, [k]: e.target.value }))} inputMode="decimal" placeholder={String(sel?.[k] || '')} style={S.inp} /></div>
+        ))}
+      </div>
+      <div style={{ fontSize: 13, fontWeight: 600, color: C.gray, marginBottom: 10, textTransform: 'uppercase' }}>Nutrition targets</div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
+        {[['Calories', 'calories'], ['Protein (g)', 'protein_g'], ['Carbs (g)', 'carbs_g'], ['Fats (g)', 'fats_g'], ['Fibre (g)', 'fibre_g'], ['Steps goal', 'daily_steps']].map(([lbl, k]) => (
+          <div key={k}><span style={S.lbl}>{lbl}</span><input value={editForm[k] || ''} onChange={e => setEditForm(p => ({ ...p, [k]: e.target.value }))} inputMode="decimal" placeholder={lbl} style={S.inp} /></div>
+        ))}
+      </div>
+      <div style={{ marginBottom: 14 }}><span style={S.lbl}>Cardio target</span><input value={editForm.cardio || ''} onChange={e => setEditForm(p => ({ ...p, cardio: e.target.value }))} placeholder="Daily: 20min" style={S.inp} /></div>
+      <div style={{ display: 'flex', gap: 9 }}>
+        <Btn onClick={saveEdit} disabled={saving} style={{ flex: 1 }}>{saving ? 'Saving…' : 'Save all changes'}</Btn>
+        <Btn variant="secondary" onClick={() => setSel(null)} style={{ flex: 1 }}>Cancel</Btn>
+      </div>
+    </div>
+  )
+
+  return (
+    <div style={S.page}>
+      <div style={{ marginBottom: 18 }}>
+        <div style={S.h1}>Admin</div>
+        <div style={{ fontSize: 13, color: C.gray }}>Manage clients · {isDemo ? 'Demo' : 'Live ✓'}</div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 10, marginBottom: 14 }}>
+        <Stat label="Total clients" value={clients.length} color="blue" />
+        <Stat label="Active" value={clients.filter(c => c.is_active).length} color="green" />
+      </div>
+      <MsgBox msg={msg} />
+      <div style={{ display: 'flex', gap: 7, margin: '14px 0' }}>
+        {['clients', 'add client'].map(t => <Btn key={t} variant={tab === t ? 'primary' : 'secondary'} small onClick={() => { setTab(t); setSel(null) }} style={{ textTransform: 'capitalize' }}>{t}</Btn>)}
+      </div>
+
+      {tab === 'clients' && (
+        <>
+          {clients.map(c => (
+            <div key={c.id} style={{ ...S.card, marginBottom: 12 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 15 }}>{c.name}</div>
+                  <div style={{ fontSize: 12, color: C.gray, marginTop: 2 }}>{c.email}</div>
+                </div>
+                <Badge color={c.is_active ? 'green' : 'red'}>{c.is_active ? 'Active' : 'Inactive'}</Badge>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6, marginBottom: 12 }}>
+                {[['Age', c.age || '—'], ['Current', `${c.current_weight || '—'}kg`], ['Goal', `${c.goal_weight || '—'}kg`]].map(([lbl, val]) => (
+                  <div key={lbl} style={{ background: '#f9f9f9', borderRadius: 8, padding: '8px 10px' }}>
+                    <div style={{ fontSize: 10, color: C.gray, marginBottom: 2 }}>{lbl}</div>
+                    <div style={{ fontWeight: 600, fontSize: 14 }}>{val}</div>
+                  </div>
+                ))}
+              </div>
+              <Btn variant={sel?.id === c.id ? 'danger' : 'secondary'} onClick={() => sel?.id === c.id ? setSel(null) : openEdit(c)} style={{ width: '100%' }}>
+                {sel?.id === c.id ? 'Cancel editing' : 'Edit client targets'}
+              </Btn>
+              {sel?.id === c.id && (
+                <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px solid ${C.border}` }}>{ClientEditForm}</div>
+              )}
+            </div>
+          ))}
+        </>
+      )}
+
+      {tab === 'add client' && (
+        <div style={S.card}>
+          <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 16 }}>Add new client</div>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 12 }}>
+            {[['Full name', 'text', 'name', 'JOHN DOE'], ['Email', 'email', 'email', 'john@email.com'], ['Age', 'number', 'age', '28'], ['Height (cm)', 'number', 'height_cm', '175'], ['Start weight (kg)', 'number', 'start_weight', '85'], ['Goal weight (kg)', 'number', 'goal_weight', '75'], ['Start date', 'date', 'start_date', ''], ['End date', 'date', 'end_date', '']].map(([lbl, type, key, ph]) => (
+              <div key={key}><span style={S.lbl}>{lbl}</span><input type={type} value={newForm[key]} onChange={e => setNewForm(p => ({ ...p, [key]: e.target.value }))} placeholder={ph} style={S.inp} /></div>
+            ))}
+          </div>
+          <div style={{ marginTop: 12 }}>
+            <span style={S.lbl}>Gender</span>
+            <select value={newForm.gender} onChange={e => setNewForm(p => ({ ...p, gender: e.target.value }))} style={{ ...S.inp, maxWidth: 180 }}>
+              {['MALE', 'FEMALE', 'OTHER'].map(g => <option key={g}>{g}</option>)}
+            </select>
+          </div>
+          <div style={{ marginTop: 16, display: 'flex', gap: 9 }}>
+            <Btn onClick={createClient} disabled={saving} style={{ flex: 1 }}>{saving ? 'Creating…' : 'Create client'}</Btn>
+            <Btn variant="secondary" onClick={() => setTab('clients')} style={{ flex: 1 }}>Cancel</Btn>
+          </div>
+          <div style={{ marginTop: 14, padding: 14, background: C.blueL, borderRadius: 10, fontSize: 12, color: C.blue, lineHeight: 1.7 }}>
+            <strong>After creating:</strong> Supabase → Authentication → Users → Create user → Copy UUID → Run:<br />
+            <code style={{ fontSize: 11 }}>UPDATE clients SET auth_user_id='&lt;uuid&gt;' WHERE email='their@email.com';</code>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ─── APP ROOT ─────────────────────────────────────────────────────────────────
 export default function App() {
   const [user,setUser]=useState(null)
