@@ -250,9 +250,9 @@ function SectionHeader({ title, sub, action }) {
 
 function Inp({ label, ...props }) {
   return (
-    <div>
+    <div style={{ width:'100%', minWidth:0 }}>
       {label && <label style={{ fontSize:11, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px', marginBottom:6, display:'block' }}>{label}</label>}
-      <input {...props} style={{ width:'100%', padding:'10px 14px', borderRadius:10, border:`1.5px solid ${T.border}`, fontSize:15, outline:'none', boxSizing:'border-box', background:T.surface, color:T.ink, transition:'border-color .15s', fontFamily:"'DM Sans',sans-serif", ...(props.style||{}) }}
+      <input {...props} style={{ width:'100%', maxWidth:'100%', padding:'10px 14px', borderRadius:10, border:`1.5px solid ${T.border}`, fontSize:15, outline:'none', boxSizing:'border-box', background:T.surface, color:T.ink, transition:'border-color .15s', fontFamily:"'DM Sans',sans-serif", WebkitAppearance:'none', appearance:'none', display:'block', ...(props.style||{}) }}
         onFocus={e=>{ e.target.style.borderColor=T.orange }}
         onBlur={e=>{ e.target.style.borderColor=T.border }}
       />
@@ -691,7 +691,7 @@ function WeightLogger({ user }) {
       <Card>
         <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:15, fontWeight:700, marginBottom:16 }}>Log today's weight</h3>
         <div style={{ display:'flex', flexDirection:'column', gap:12, marginBottom:0 }}>
-          <Inp label="Date" type="date" value={date} onChange={e=>setDate(e.target.value)}/>
+          <Inp label="Date" type="date" value={date} onChange={e=>setDate(e.target.value)} style={{ WebkitAppearance:'none', appearance:'none', width:'100%', boxSizing:'border-box' }}/>
           <div style={{ display:'grid', gridTemplateColumns:'1fr 84px', gap:12, alignItems:'flex-end' }}>
             <Inp label="Weight" type="number" value={wt} onChange={e=>setWt(e.target.value)} placeholder="92.5" step=".1" inputMode="decimal"/>
             <Sel label="Unit" value={unit} onChange={e=>setUnit(e.target.value)}>
