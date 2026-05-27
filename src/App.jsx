@@ -690,16 +690,17 @@ function WeightLogger({ user }) {
       <SectionHeader title="Weight log" sub={`${logs.length} entries tracked`}/>
       <Card>
         <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:15, fontWeight:700, marginBottom:16 }}>Log today's weight</h3>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+        <div style={{ display:'flex', flexDirection:'column', gap:12, marginBottom:0 }}>
           <Inp label="Date" type="date" value={date} onChange={e=>setDate(e.target.value)}/>
-          <Inp label="Weight" type="number" value={wt} onChange={e=>setWt(e.target.value)} placeholder="92.5" step=".1" inputMode="decimal"/>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 84px', gap:12, alignItems:'flex-end' }}>
+            <Inp label="Weight" type="number" value={wt} onChange={e=>setWt(e.target.value)} placeholder="92.5" step=".1" inputMode="decimal"/>
+            <Sel label="Unit" value={unit} onChange={e=>setUnit(e.target.value)}>
+              <option>Kg</option><option>Lbs</option>
+            </Sel>
+          </div>
         </div>
-        <div style={{ display:'flex', gap:10, alignItems:'flex-end' }}>
-          <Sel label="Unit" value={unit} onChange={e=>setUnit(e.target.value)} style={{ width:90 }}>
-            <option>Kg</option><option>Lbs</option>
-          </Sel>
-          <Btn onClick={addLog} disabled={saving} style={{ flex:1, padding:'12px' }}>{saving?'Saving…':'Log weight →'}</Btn>
-        </div>
+
+        <Btn onClick={addLog} disabled={saving} style={{ marginTop:12, width:'100%', padding:'12px' }}>{saving?'Saving…':'Log weight →'}</Btn>
         <MsgBox msg={msg}/>
       </Card>
 
@@ -1234,7 +1235,7 @@ function RoadmapPage({ user, isAdmin }) {
       {isAdmin&&<Card style={{padding:'14px 18px',marginBottom:14}}><ClientSelector clients={clients} selClientId={selClientId} setSelClientId={setSelClientId}/></Card>}
       {showModal&&<Modal title={editMonth?`Edit: ${editMonth.month_name}`:'Update roadmap'} onClose={()=>{setShowModal(false);setEditMonth(null)}}>{RmForm}</Modal>}
 
-      <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:10,marginBottom:20}}>
+      <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(2,1fr)',gap:10,marginBottom:20}}>
         {roadmap.map((m,i)=>{
           const ps=phaseStyle(m.phase)
           return (
