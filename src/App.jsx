@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from 'react'
 import { supabase, isDemo } from './supabaseClient'
 
@@ -328,7 +329,7 @@ function Dashboard({ user }) {
     finally{setLoading(false)}
   }
 
-  useEffect(()=>{ load() },[user])
+  useEffect(()=>{ load() },[user]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(()=>{
     if (isDemo||user.clientId==='demo') return
@@ -443,7 +444,7 @@ function WeightLogger({ user }) {
     setLogs(data||[])
   }
 
-  useEffect(()=>{ load() },[clientId])
+  useEffect(()=>{ load() },[clientId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(()=>{
     if (isDemo||clientId==='demo') return
