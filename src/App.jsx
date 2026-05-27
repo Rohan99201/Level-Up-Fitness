@@ -295,17 +295,6 @@ function Modal({ title, onClose, children }) {
   )
 }
 
-function ProgressRing({ pct, size=72, stroke=6, color=T.orange }) {
-  const r = (size-stroke)/2, c = 2*Math.PI*r
-  const dash = c*Math.min(pct,100)/100
-  return (
-    <svg width={size} height={size} style={{ transform:'rotate(-90deg)' }}>
-      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={T.border} strokeWidth={stroke}/>
-      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round"
-        strokeDasharray={`${dash} ${c}`} style={{ transition:'stroke-dasharray .8s cubic-bezier(.4,0,.2,1)' }}/>
-    </svg>
-  )
-}
 
 function Bar({ pct, color=T.orange, height=8 }) {
   return (
