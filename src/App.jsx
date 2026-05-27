@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase, isDemo } from './supabaseClient'
 import * as db from './db'
 
