@@ -1166,6 +1166,7 @@ function NutritionPage({ user, isAdmin }) {
 
 // ─── ROADMAP PAGE ─────────────────────────────────────────────────────────────
 function RoadmapPage({ user, isAdmin }) {
+  const isMobile=useIsMobile()
   const { clients, selClientId, setSelClientId, clientId }=useAdminClient(user, isAdmin)
   const [roadmap,setRoadmap]=useState([])
   const [showModal,setShowModal]=useState(false)
