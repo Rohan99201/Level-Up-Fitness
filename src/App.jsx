@@ -589,6 +589,9 @@ function Dashboard({ user }) {
         <KpiCard label="Lost so far" value={`${loss}`} sub="kg" color={parseFloat(loss)>0?'orange':'red'} icon="📉"/>
       </div>
 
+      {/* Daily Targets */}
+      <DailyTargets user={user} targets={targets}/>
+
       {/* Chart */}
       <Card style={{ marginBottom:20 }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
@@ -735,83 +738,295 @@ function WeightLogger({ user }) {
   )
 }
 
+
+// ─── DAILY TARGETS ────────────────────────────────────────────────────────────
+function DailyTargets({ user, targets }) {
+  const today = new Date().toISOString().split('T')[0]
+  const [checkin, setCheckin] = useState(null)
+  const [saving, setSaving] = useState(false)
+  const clientId = user.clientId || 'demo'
+  const isDemoMode = isDemo || clientId === 'demo'
+
+  const load = async () => {
+    if (isDemoMode) {
+      setCheckin({ steps_done:false, workout_done:false, cardio_done:false, meals_done:false })
+      return
+    }
+    try {
+      const { data } = await supabase.from('daily_checkins').select('*').eq('client_id', clientId).eq('date', today).single()
+      setCheckin(data || { steps_done:false, workout_done:false, cardio_done:false, meals_done:false })
+    } catch { setCheckin({ steps_done:false, workout_done:false, cardio_done:false, meals_done:false }) }
+  }
+
+  useEffect(() => { load() }, [clientId])
+
+  useEffect(() => {
+    if (isDemoMode) return
+    const sub = supabase.channel('checkin-' + clientId)
+      .on('postgres_changes', { event:'*', schema:'public', table:'daily_checkins', filter:`client_id=eq.${clientId}` }, () => load())
+      .subscribe()
+    return () => supabase.removeChannel(sub)
+  }, [clientId])
+
+  const toggle = async (field) => {
+    if (!checkin) return
+    const newVal = !checkin[field]
+    const updated = { ...checkin, [field]: newVal }
+    setCheckin(updated)
+    if (isDemoMode) return
+    setSaving(field)
+    try {
+      const { data: existing } = await supabase.from('daily_checkins').select('id').eq('client_id', clientId).eq('date', today).single()
+      if (existing) {
+        await supabase.from('daily_checkins').update({ [field]: newVal, updated_at: new Date().toISOString() }).eq('id', existing.id)
+      } else {
+        await supabase.from('daily_checkins').insert([{ client_id: clientId, date: today, ...updated }])
+      }
+    } catch(e) { console.error(e) }
+    finally { setSaving('') }
+  }
+
+  const done = checkin ? [checkin.steps_done, checkin.workout_done, checkin.cardio_done, checkin.meals_done].filter(Boolean).length : 0
+  const total = 4
+  const pct = (done / total) * 100
+
+  const items = [
+    { key:'steps_done',   icon:'🚶', label:'Daily steps',   sub: targets?.daily_steps || '8k steps',   color:'blue' },
+    { key:'workout_done', icon:'🏋️', label:'Workout',       sub:'Complete today\'s session',           color:'orange' },
+    { key:'cardio_done',  icon:'🏃', label:'Cardio',         sub: targets?.cardio || 'Daily: 20min',   color:'green' },
+    { key:'meals_done',   icon:'🥗', label:'Meals on track', sub:'Hit your macro targets',             color:'purple' },
+  ]
+
+  const colorMap = { blue:[T.blueL,T.blue], orange:[T.orangeL,T.orange], green:[T.greenL,T.green], purple:[T.purpleL,T.purple] }
+
+  return (
+    <Card style={{ marginBottom:20 }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:16 }}>
+        <div>
+          <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:16, fontWeight:700, marginBottom:2 }}>Daily targets 🎯</h3>
+          <p style={{ fontSize:12, color:T.inkLight }}>{new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</p>
+        </div>
+        <div style={{ textAlign:'right' }}>
+          <div style={{ fontFamily:"'Syne',sans-serif", fontSize:22, fontWeight:800, color: done===total ? T.green : T.orange }}>{done}/{total}</div>
+          <div style={{ fontSize:11, color:T.inkLight }}>completed</div>
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div style={{ marginBottom:16 }}>
+        <Bar pct={pct} color={done===total ? T.green : T.orange} height={6}/>
+      </div>
+
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+        {items.map(item => {
+          const isDone = checkin?.[item.key] || false
+          const [bgC, tc] = colorMap[item.color]
+          const isSaving = saving === item.key
+          return (
+            <button key={item.key} onClick={() => toggle(item.key)} disabled={isSaving}
+              style={{ background: isDone ? bgC : T.surfaceAlt, border:`2px solid ${isDone ? tc : T.border}`, borderRadius:14, padding:'14px 12px', cursor:'pointer', textAlign:'left', transition:'all .2s', WebkitTapHighlightColor:'transparent', opacity: isSaving ? 0.6 : 1, position:'relative', overflow:'hidden' }}>
+              {isDone && <div style={{ position:'absolute', top:0, right:0, width:0, height:0, borderLeft:'32px solid transparent', borderTop:`32px solid ${tc}`, opacity:0.15 }}/>}
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:8 }}>
+                <span style={{ fontSize:26 }}>{item.icon}</span>
+                <div style={{ width:22, height:22, borderRadius:'50%', border:`2px solid ${isDone ? tc : T.border}`, background: isDone ? tc : 'transparent', display:'flex', alignItems:'center', justifyContent:'center', transition:'all .2s', flexShrink:0 }}>
+                  {isDone && <span style={{ color:'#fff', fontSize:12, fontWeight:700 }}>✓</span>}
+                </div>
+              </div>
+              <div style={{ fontWeight:700, fontSize:13, color: isDone ? tc : T.ink, marginBottom:3 }}>{item.label}</div>
+              <div style={{ fontSize:11, color: isDone ? tc : T.inkLight, opacity: isDone ? 0.8 : 1 }}>{item.sub}</div>
+            </button>
+          )
+        })}
+      </div>
+
+      {done === total && (
+        <div style={{ marginTop:14, padding:'12px 16px', background:T.greenL, borderRadius:12, border:`1px solid rgba(26,122,74,0.2)`, textAlign:'center', fontSize:14, fontWeight:600, color:T.green }}>
+          🎉 All targets completed for today!
+        </div>
+      )}
+    </Card>
+  )
+}
+
 // ─── WORKOUT PAGE ─────────────────────────────────────────────────────────────
 function WorkoutPage({ user, isAdmin }) {
-  const { clients, selClientId, setSelClientId, clientId }=useAdminClient(user, isAdmin)
-  const [program,setProgram]=useState([])
-  const [logs,setLogs]=useState([])
-  const [dayIdx,setDayIdx]=useState(0)
-  const [week,setWeek]=useState(1)
-  const [inputs,setInputs]=useState({})
-  const [saving,setSaving]=useState('')
-  const [showDayPicker,setShowDayPicker]=useState(false)
-  const [showAddModal,setShowAddModal]=useState(false)
-  const [editEx,setEditEx]=useState(null)
-  const [exForm,setExForm]=useState({day_number:1,workout_type:'Legs',exercise_name:'',set_rep:'',tempo:'3010',rest_seconds:120,sets:3,video_url:''})
-  const [formMsg,setFormMsg]=useState('')
-  const isMobile=useIsMobile()
-  const isDemoMode=isDemo||clientId==='demo'||!clientId
+  const { clients, selClientId, setSelClientId, clientId } = useAdminClient(user, isAdmin)
+  const [program, setProgram] = useState([])
+  const [logs, setLogs] = useState([])           // today's logs
+  const [lastLogs, setLastLogs] = useState([])   // previous session logs for comparison
+  const [dayIdx, setDayIdx] = useState(0)
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
+  const [inputs, setInputs] = useState({})
+  const [saving, setSaving] = useState('')
+  const [showDayPicker, setShowDayPicker] = useState(false)
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [editEx, setEditEx] = useState(null)
+  const [exForm, setExForm] = useState({ day_number:1, workout_type:'Legs', exercise_name:'', set_rep:'', tempo:'3010', rest_seconds:120, sets:3, video_url:'' })
+  const [formMsg, setFormMsg] = useState('')
+  const [showCalendar, setShowCalendar] = useState(false)
+  const [loggedDates, setLoggedDates] = useState([]) // dates that have logs
+  const isMobile = useIsMobile()
+  const isDemoMode = isDemo || clientId === 'demo' || !clientId
 
-  const load=async()=>{
-    if (isDemoMode){setProgram(DEMO.workoutProgram);return}
-    const d=await sbQuery('workout_programs',{eq:{client_id:clientId},order:'day_number',asc:true})
-    setProgram(d||[])
+  const load = async () => {
+    if (isDemoMode) { setProgram(DEMO.workoutProgram); return }
+    const d = await sbQuery('workout_programs', { eq:{ client_id:clientId }, order:'day_number', asc:true })
+    setProgram(d || [])
   }
-  const loadLogs=async()=>{
+
+  const loadLogs = async () => {
     if (isDemoMode) return
-    const d=await sbQuery('workout_logs',{eq:{client_id:clientId,week},order:'logged_at',asc:false})
-    setLogs(d||[])
+    // Load logs for selected date
+    const { data } = await supabase.from('workout_logs').select('*')
+      .eq('client_id', clientId).eq('workout_date', selectedDate)
+    setLogs(data || [])
+    // Get all dates that have logs (for calendar dots)
+    const { data: dates } = await supabase.from('workout_logs').select('workout_date')
+      .eq('client_id', clientId)
+    const unique = [...new Set((dates||[]).map(d => d.workout_date))]
+    setLoggedDates(unique)
   }
-  useEffect(()=>{ if(clientId) load() },[clientId])
-  useEffect(()=>{ if(clientId) loadLogs() },[clientId,week])
 
-  const days=[...new Set(program.map(p=>p.day_number))].sort((a,b)=>a-b)
-  const selDay=days[dayIdx]||1
-  const dayExs=program.filter(p=>p.day_number===selDay)
-  const dayType=dayExs[0]?.workout_type||''
-
-  const logSet=async(exName,setNum)=>{
-    const key=`${exName}_${setNum}`,inp=inputs[key]||{}
-    if (!inp.reps&&!inp.weight) return; setSaving(key)
-    try {
-      const entry={client_id:clientId,week,day_number:selDay,exercise_name:exName,set_number:setNum,reps:parseInt(inp.reps)||0,weight_kg:parseFloat(inp.weight)||0}
-      if (isDemoMode) setLogs(prev=>[...prev,{id:Date.now(),...entry}])
-      else { const saved=await sbInsert('workout_logs',entry); setLogs(prev=>[...prev,saved]) }
-      setInputs(prev=>({...prev,[key]:{reps:'',weight:''}}))
-    } catch(e){console.error(e)} finally{setSaving('')}
+  const loadLastSession = async (dayNum) => {
+    if (isDemoMode) return
+    // Find the most recent previous date for this day number
+    const { data } = await supabase.from('workout_logs').select('*')
+      .eq('client_id', clientId).eq('day_number', dayNum)
+      .lt('workout_date', selectedDate)
+      .order('workout_date', { ascending: false })
+      .limit(50)
+    setLastLogs(data || [])
   }
-  const getLog=(exName,setNum)=>logs.find(l=>l.exercise_name===exName&&l.set_number===setNum&&l.day_number===selDay)
 
-  const saveExercise=async()=>{
-    setFormMsg(''); if(!exForm.exercise_name){setFormMsg('Error: Name required');return}
+  useEffect(() => { if (clientId) load() }, [clientId])
+  useEffect(() => { if (clientId) loadLogs() }, [clientId, selectedDate])
+
+  const days = [...new Set(program.map(p => p.day_number))].sort((a,b)=>a-b)
+  const selDay = days[dayIdx] || 1
+  const dayExs = program.filter(p => p.day_number === selDay)
+  const dayType = dayExs[0]?.workout_type || ''
+
+  useEffect(() => { if (clientId && selDay) loadLastSession(selDay) }, [clientId, selDay, selectedDate])
+
+  const getLog = (exName, setNum) => logs.find(l => l.exercise_name === exName && l.set_number === setNum && l.day_number === selDay)
+  const getLastLog = (exName, setNum) => {
+    if (!lastLogs.length) return null
+    // Get the most recent date's log for this exercise+set
+    const matches = lastLogs.filter(l => l.exercise_name === exName && l.set_number === setNum && l.day_number === selDay)
+    if (!matches.length) return null
+    // Most recent date
+    const latestDate = matches.sort((a,b) => new Date(b.workout_date) - new Date(a.workout_date))[0].workout_date
+    return matches.find(l => l.workout_date === latestDate)
+  }
+  const getLastSessionDate = (exName) => {
+    const matches = lastLogs.filter(l => l.exercise_name === exName && l.day_number === selDay)
+    if (!matches.length) return null
+    return matches.sort((a,b) => new Date(b.workout_date) - new Date(a.workout_date))[0]?.workout_date
+  }
+
+  const logSet = async (exName, setNum) => {
+    const key = `${exName}_${setNum}`, inp = inputs[key] || {}
+    if (!inp.reps && !inp.weight) return
+    setSaving(key)
     try {
-      if (isDemoMode){
-        if(editEx) setProgram(prev=>prev.map(p=>p.id===editEx.id?{...p,...exForm}:p))
-        else setProgram(prev=>[...prev,{id:'w'+Date.now(),...exForm,client_id:clientId}])
+      const entry = { client_id:clientId, week:1, day_number:selDay, exercise_name:exName, set_number:setNum, reps:parseInt(inp.reps)||0, weight_kg:parseFloat(inp.weight)||0, workout_date:selectedDate }
+      if (isDemoMode) setLogs(prev => [...prev, { id:Date.now(), ...entry }])
+      else { const saved = await sbInsert('workout_logs', entry); setLogs(prev => [...prev, saved]) }
+      setInputs(prev => ({ ...prev, [key]:{ reps:'', weight:'' } }))
+      await loadLogs()
+    } catch(e) { console.error(e) }
+    finally { setSaving('') }
+  }
+
+  const deleteLog = async (logId) => {
+    if (isDemoMode) { setLogs(prev => prev.filter(l => l.id !== logId)); return }
+    try { await sbDelete('workout_logs', logId); await loadLogs() } catch(e) { alert(e.message) }
+  }
+
+  const saveExercise = async () => {
+    setFormMsg(''); if (!exForm.exercise_name) { setFormMsg('Error: Name required'); return }
+    try {
+      if (isDemoMode) {
+        if (editEx) setProgram(prev => prev.map(p => p.id===editEx.id ? {...p,...exForm} : p))
+        else setProgram(prev => [...prev, { id:'w'+Date.now(), ...exForm, client_id:clientId }])
       } else {
-        if(editEx) await sbUpdate('workout_programs',editEx.id,exForm)
-        else await sbInsert('workout_programs',{...exForm,client_id:clientId})
+        if (editEx) await sbUpdate('workout_programs', editEx.id, exForm)
+        else await sbInsert('workout_programs', { ...exForm, client_id:clientId })
         await load()
       }
-      setFormMsg('✓ Saved'); setTimeout(()=>{setShowAddModal(false);setEditEx(null);setFormMsg('')},700)
-      setExForm({day_number:1,workout_type:'Legs',exercise_name:'',set_rep:'',tempo:'3010',rest_seconds:120,sets:3,video_url:''})
-    } catch(e){setFormMsg(`Error: ${e.message}`)}
+      setFormMsg('✓ Saved'); setTimeout(() => { setShowAddModal(false); setEditEx(null); setFormMsg('') }, 700)
+      setExForm({ day_number:1, workout_type:'Legs', exercise_name:'', set_rep:'', tempo:'3010', rest_seconds:120, sets:3, video_url:'' })
+    } catch(e) { setFormMsg(`Error: ${e.message}`) }
   }
-  const deleteExercise=async(ex)=>{
-    if(!window.confirm(`Delete "${ex.exercise_name}"?`)) return
-    if(isDemoMode){setProgram(prev=>prev.filter(p=>p.id!==ex.id));return}
-    try{ await sbDelete('workout_programs',ex.id); await load() }catch(e){alert(e.message)}
-  }
-  const openEditEx=(ex)=>{ setEditEx(ex); setExForm({day_number:ex.day_number,workout_type:ex.workout_type,exercise_name:ex.exercise_name,set_rep:ex.set_rep||'',tempo:ex.tempo||'3010',rest_seconds:ex.rest_seconds||120,sets:ex.sets||3,video_url:ex.video_url||''}); setShowAddModal(true) }
 
-  const ExForm=(
-    <div style={{display:'flex',flexDirection:'column',gap:12}}>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+  const deleteExercise = async (ex) => {
+    if (!window.confirm(`Delete "${ex.exercise_name}"?`)) return
+    if (isDemoMode) { setProgram(prev => prev.filter(p => p.id!==ex.id)); return }
+    try { await sbDelete('workout_programs', ex.id); await load() } catch(e) { alert(e.message) }
+  }
+
+  const openEditEx = (ex) => {
+    setEditEx(ex)
+    setExForm({ day_number:ex.day_number, workout_type:ex.workout_type, exercise_name:ex.exercise_name, set_rep:ex.set_rep||'', tempo:ex.tempo||'3010', rest_seconds:ex.rest_seconds||120, sets:ex.sets||3, video_url:ex.video_url||'' })
+    setShowAddModal(true)
+  }
+
+  // Calendar mini component
+  const CalendarPicker = () => {
+    const [viewMonth, setViewMonth] = useState(new Date(selectedDate))
+    const year = viewMonth.getFullYear()
+    const month = viewMonth.getMonth()
+    const firstDay = new Date(year, month, 1).getDay()
+    const daysInMonth = new Date(year, month+1, 0).getDate()
+    const monthName = viewMonth.toLocaleDateString('en-US', { month:'long', year:'numeric' })
+    const today = new Date().toISOString().split('T')[0]
+    const cells = Array.from({ length: firstDay + daysInMonth }, (_, i) => {
+      if (i < firstDay) return null
+      const day = i - firstDay + 1
+      return `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`
+    })
+    return (
+      <div style={{ background:T.surface, border:`1px solid ${T.border}`, borderRadius:16, padding:16, marginBottom:14, boxShadow:'0 8px 24px rgba(0,0,0,0.1)' }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
+          <button onClick={() => setViewMonth(new Date(year, month-1))} style={{ background:'none', border:'none', cursor:'pointer', fontSize:18, color:T.inkMid, padding:'4px 8px' }}>←</button>
+          <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15 }}>{monthName}</span>
+          <button onClick={() => setViewMonth(new Date(year, month+1))} style={{ background:'none', border:'none', cursor:'pointer', fontSize:18, color:T.inkMid, padding:'4px 8px' }}>→</button>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(7,1fr)', gap:4, marginBottom:6 }}>
+          {['S','M','T','W','T','F','S'].map((d,i) => <div key={i} style={{ textAlign:'center', fontSize:10, fontWeight:700, color:T.inkLight, padding:'2px 0' }}>{d}</div>)}
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(7,1fr)', gap:4 }}>
+          {cells.map((date, i) => {
+            if (!date) return <div key={i}/>
+            const isSelected = date === selectedDate
+            const isToday = date === today
+            const hasLog = loggedDates.includes(date)
+            const isFuture = date > today
+            return (
+              <button key={date} onClick={() => { if (!isFuture) { setSelectedDate(date); setShowCalendar(false) } }}
+                style={{ position:'relative', padding:'8px 2px', borderRadius:8, border:'none', cursor: isFuture?'default':'pointer', background: isSelected?T.orange:isToday?T.orangeL:'transparent', color: isSelected?'#fff':isFuture?T.border:T.ink, fontWeight: isSelected||isToday?700:400, fontSize:13, WebkitTapHighlightColor:'transparent', opacity: isFuture?0.3:1 }}>
+                {String(new Date(date+'T12:00:00').getDate())}
+                {hasLog && !isSelected && <div style={{ position:'absolute', bottom:2, left:'50%', transform:'translateX(-50%)', width:4, height:4, borderRadius:'50%', background:T.orange }}/>}
+              </button>
+            )
+          })}
+        </div>
+        <div style={{ marginTop:12, display:'flex', gap:12, fontSize:11, color:T.inkLight }}>
+          <span style={{ display:'flex', alignItems:'center', gap:4 }}><span style={{ width:8, height:8, borderRadius:'50%', background:T.orange, display:'inline-block' }}/> Logged</span>
+          <span style={{ display:'flex', alignItems:'center', gap:4 }}><span style={{ width:8, height:8, borderRadius:2, background:T.orangeL, border:`1px solid ${T.orange}`, display:'inline-block' }}/> Today</span>
+        </div>
+      </div>
+    )
+  }
+
+  const ExForm = (
+    <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
         <Inp label="Day number" type="number" value={exForm.day_number} onChange={e=>setExForm(p=>({...p,day_number:parseInt(e.target.value)||1}))} min="1" max="7"/>
         <Inp label="Workout type" value={exForm.workout_type} onChange={e=>setExForm(p=>({...p,workout_type:e.target.value}))} placeholder="Legs, Push…"/>
       </div>
       <Inp label="Exercise name *" value={exForm.exercise_name} onChange={e=>setExForm(p=>({...p,exercise_name:e.target.value}))} placeholder="Incline Db press"/>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
         <Inp label="Set & Rep" value={exForm.set_rep} onChange={e=>setExForm(p=>({...p,set_rep:e.target.value}))} placeholder="3x9-11"/>
         <Inp label="Tempo" value={exForm.tempo} onChange={e=>setExForm(p=>({...p,tempo:e.target.value}))} placeholder="3010"/>
         <Inp label="Rest (sec)" type="number" value={exForm.rest_seconds} onChange={e=>setExForm(p=>({...p,rest_seconds:parseInt(e.target.value)||120}))}/>
@@ -819,101 +1034,176 @@ function WorkoutPage({ user, isAdmin }) {
       </div>
       <Inp label="Video URL" value={exForm.video_url} onChange={e=>setExForm(p=>({...p,video_url:e.target.value}))} placeholder="https://youtu.be/…"/>
       <MsgBox msg={formMsg}/>
-      <div style={{display:'flex',gap:9,marginTop:4}}>
+      <div style={{ display:'flex', gap:9, marginTop:4 }}>
         <Btn onClick={saveExercise} full>{editEx?'Save changes':'Add exercise'}</Btn>
-        <Btn variant="ghost" onClick={()=>{setShowAddModal(false);setEditEx(null)}} full>Cancel</Btn>
+        <Btn variant="ghost" onClick={() => { setShowAddModal(false); setEditEx(null) }} full>Cancel</Btn>
       </div>
     </div>
   )
 
+  const isToday = selectedDate === new Date().toISOString().split('T')[0]
+  const displayDate = new Date(selectedDate + 'T12:00:00').toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short', year:'numeric' })
+
   return (
-    <div style={{padding:'20px 16px 24px',maxWidth:1080,margin:'0 auto'}}>
-      <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:20,flexWrap:'wrap',gap:12}}>
-        <SectionHeader title="Workout" sub="Track your sets & progress" action={null}/>
-        <div style={{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}}>
-          {isAdmin&&<ClientSelector clients={clients} selClientId={selClientId} setSelClientId={setSelClientId}/>}
-          {isAdmin&&<Btn variant="green" small onClick={()=>{setEditEx(null);setShowAddModal(true)}}>+ Add</Btn>}
-          <div style={{display:'flex',alignItems:'center',gap:6,background:T.surface,border:`1px solid ${T.border}`,borderRadius:10,padding:'4px 4px 4px 12px'}}>
-            <span style={{fontSize:12,color:T.inkLight,fontWeight:600}}>Week</span>
-            <select value={week} onChange={e=>setWeek(Number(e.target.value))} style={{border:'none',background:'transparent',fontSize:14,fontWeight:600,color:T.ink,outline:'none',fontFamily:"'DM Sans',sans-serif",padding:'4px 8px',cursor:'pointer'}}>
-              {Array.from({length:48},(_,i)=><option key={i+1} value={i+1}>{i+1}</option>)}
-            </select>
-          </div>
+    <div style={{ padding:'20px 16px 24px', maxWidth:1080, margin:'0 auto' }}>
+      {/* Header */}
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:16, flexWrap:'wrap', gap:12 }}>
+        <div>
+          <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:22, fontWeight:700, letterSpacing:'-0.5px' }}>Workout</h2>
+          <p style={{ fontSize:13, color:T.inkLight }}>Log your sets & track progress</p>
+        </div>
+        <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap' }}>
+          {isAdmin && <ClientSelector clients={clients} selClientId={selClientId} setSelClientId={setSelClientId}/>}
+          {isAdmin && <Btn variant="green" small onClick={() => { setEditEx(null); setShowAddModal(true) }}>+ Add</Btn>}
         </div>
       </div>
 
-      {/* Day tabs */}
-      {isMobile?(
-        <div style={{marginBottom:16}}>
-          <button onClick={()=>setShowDayPicker(!showDayPicker)} style={{width:'100%',padding:'12px 16px',background:T.surface,border:`1.5px solid ${T.border}`,borderRadius:12,display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',fontSize:14,fontWeight:600,fontFamily:"'DM Sans',sans-serif"}}>
-            <span>Day {selDay} — {dayType}</span><span style={{color:T.orange}}>{showDayPicker?'▲':'▼'}</span>
+      {/* Date picker row */}
+      <div style={{ marginBottom:14 }}>
+        <button onClick={() => setShowCalendar(!showCalendar)}
+          style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 16px', background:T.surface, border:`1.5px solid ${showCalendar ? T.orange : T.border}`, borderRadius:12, cursor:'pointer', width:'100%', WebkitTapHighlightColor:'transparent', transition:'border-color .2s' }}>
+          <span style={{ fontSize:20 }}>📅</span>
+          <div style={{ flex:1, textAlign:'left' }}>
+            <div style={{ fontWeight:700, fontSize:14, fontFamily:"'Syne',sans-serif", color: isToday ? T.orange : T.ink }}>
+              {isToday ? 'Today' : displayDate}
+            </div>
+            {!isToday && <div style={{ fontSize:11, color:T.inkLight }}>{displayDate}</div>}
+          </div>
+          {loggedDates.includes(selectedDate) && <Badge color="green" dot>Logged</Badge>}
+          <span style={{ color:T.orange, fontSize:12, fontWeight:600 }}>{showCalendar ? '▲' : '▼'}</span>
+        </button>
+        {showCalendar && <div style={{ marginTop:8 }}><CalendarPicker/></div>}
+      </div>
+
+      {/* Day selector */}
+      {isMobile ? (
+        <div style={{ marginBottom:14 }}>
+          <button onClick={() => setShowDayPicker(!showDayPicker)}
+            style={{ width:'100%', padding:'12px 16px', background:T.surface, border:`1.5px solid ${T.border}`, borderRadius:12, display:'flex', justifyContent:'space-between', alignItems:'center', cursor:'pointer', fontSize:14, fontWeight:600, fontFamily:"'DM Sans',sans-serif" }}>
+            <span>Day {selDay} — {dayType}</span>
+            <span style={{ color:T.orange }}>{showDayPicker ? '▲' : '▼'}</span>
           </button>
-          {showDayPicker&&(
-            <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:12,marginTop:6,overflow:'hidden',boxShadow:'0 8px 24px rgba(0,0,0,0.1)'}}>
-              {days.map((d,i)=>{ const t=program.find(p=>p.day_number===d)?.workout_type||''; return (
-                <button key={d} onClick={()=>{setDayIdx(i);setShowDayPicker(false)}} style={{width:'100%',padding:'13px 16px',background:dayIdx===i?T.orangeL:T.surface,border:'none',borderBottom:`1px solid ${T.border}`,textAlign:'left',cursor:'pointer',fontSize:14,color:dayIdx===i?T.orange:T.ink,fontWeight:dayIdx===i?700:400,fontFamily:"'DM Sans',sans-serif"}}>Day {d} — {t}</button>
+          {showDayPicker && (
+            <div style={{ background:T.surface, border:`1px solid ${T.border}`, borderRadius:12, marginTop:6, overflow:'hidden', boxShadow:'0 8px 24px rgba(0,0,0,0.1)' }}>
+              {days.map((d,i) => { const t = program.find(p=>p.day_number===d)?.workout_type||''; return (
+                <button key={d} onClick={() => { setDayIdx(i); setShowDayPicker(false) }}
+                  style={{ width:'100%', padding:'13px 16px', background:dayIdx===i?T.orangeL:T.surface, border:'none', borderBottom:`1px solid ${T.border}`, textAlign:'left', cursor:'pointer', fontSize:14, color:dayIdx===i?T.orange:T.ink, fontWeight:dayIdx===i?700:400, fontFamily:"'DM Sans',sans-serif" }}>
+                  Day {d} — {t}
+                </button>
               )})}
             </div>
           )}
         </div>
-      ):(
-        <div style={{display:'flex',gap:6,marginBottom:18,flexWrap:'wrap'}}>
-          {days.map((d,i)=>{ const t=program.find(p=>p.day_number===d)?.workout_type||''; return (
-            <button key={d} onClick={()=>setDayIdx(i)} style={{padding:'8px 16px',borderRadius:20,border:`1.5px solid ${dayIdx===i?T.orange:T.border}`,background:dayIdx===i?T.orange:T.surface,color:dayIdx===i?'#fff':T.inkMid,fontWeight:600,fontSize:13,cursor:'pointer',transition:'all .2s',fontFamily:"'DM Sans',sans-serif"}}>Day {d} · {t}</button>
+      ) : (
+        <div style={{ display:'flex', gap:6, marginBottom:18, flexWrap:'wrap' }}>
+          {days.map((d,i) => { const t = program.find(p=>p.day_number===d)?.workout_type||''; return (
+            <button key={d} onClick={() => setDayIdx(i)}
+              style={{ padding:'8px 16px', borderRadius:20, border:`1.5px solid ${dayIdx===i?T.orange:T.border}`, background:dayIdx===i?T.orange:T.surface, color:dayIdx===i?'#fff':T.inkMid, fontWeight:600, fontSize:13, cursor:'pointer', transition:'all .2s', fontFamily:"'DM Sans',sans-serif" }}>
+              Day {d} · {t}
+            </button>
           )})}
         </div>
       )}
 
-      {showAddModal&&<Modal title={editEx?`Edit: ${editEx.exercise_name}`:'Add exercise'} onClose={()=>{setShowAddModal(false);setEditEx(null)}}>{ExForm}</Modal>}
+      {showAddModal && <Modal title={editEx?`Edit: ${editEx.exercise_name}`:'Add exercise'} onClose={() => { setShowAddModal(false); setEditEx(null) }}>{ExForm}</Modal>}
 
-      {dayType==='Rest'?(
-        <Card style={{textAlign:'center',padding:'60px 24px',background:`linear-gradient(135deg,${T.surfaceAlt},${T.surface})`}}>
-          <div style={{fontSize:52,marginBottom:12}}>😴</div>
-          <h2 style={{fontFamily:"'Syne',sans-serif",fontSize:22,fontWeight:700,marginBottom:8}}>Rest & Recovery</h2>
-          <p style={{color:T.inkLight,fontSize:14}}>Sleep well, hydrate, light stretching only</p>
+      {dayType === 'Rest' ? (
+        <Card style={{ textAlign:'center', padding:'60px 24px', background:`linear-gradient(135deg,${T.surfaceAlt},${T.surface})` }}>
+          <div style={{ fontSize:52, marginBottom:12 }}>😴</div>
+          <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:22, fontWeight:700, marginBottom:8 }}>Rest & Recovery</h2>
+          <p style={{ color:T.inkLight, fontSize:14 }}>Sleep well, hydrate, light stretching only</p>
         </Card>
-      ):(
-        <div style={{display:'flex',flexDirection:'column',gap:12}}>
-          {dayExs.map((ex,i)=>(
-            <Card key={ex.id||i} style={{padding:'18px 20px'}}>
-              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:12,gap:10}}>
-                <div style={{flex:1}}>
-                  <h4 style={{fontFamily:"'Syne',sans-serif",fontSize:16,fontWeight:700,marginBottom:6}}>{ex.exercise_name}</h4>
-                  <div style={{display:'flex',gap:7,flexWrap:'wrap'}}>
-                    <Badge color="blue">{ex.set_rep}</Badge>
-                    <Badge color="amber">{ex.tempo}</Badge>
-                    {ex.rest_seconds&&<Badge color="gray">Rest {ex.rest_seconds}s</Badge>}
-                    {ex.video_url&&<a href={ex.video_url} target="_blank" rel="noreferrer" style={{fontSize:11,color:T.orange,textDecoration:'none',fontWeight:600,padding:'3px 9px',background:T.orangeL,borderRadius:20}}>▶ Watch</a>}
-                  </div>
-                </div>
-                {isAdmin&&(
-                  <div style={{display:'flex',gap:6,flexShrink:0}}>
-                    <Btn variant="ghost" small onClick={()=>openEditEx(ex)}>Edit</Btn>
-                    <Btn variant="danger" small onClick={()=>deleteExercise(ex)}>✕</Btn>
-                  </div>
-                )}
-              </div>
-              <div style={{display:'flex',flexDirection:'column',gap:8}}>
-                {Array.from({length:ex.sets||2},(_,si)=>{
-                  const setNum=si+1,key=`${ex.exercise_name}_${setNum}`,done=getLog(ex.exercise_name,setNum)
-                  return (
-                    <div key={si} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',background:done?T.greenL:T.surfaceAlt,borderRadius:10,border:`1px solid ${done?'rgba(26,122,74,0.15)':T.border}`}}>
-                      <div style={{width:26,height:26,borderRadius:'50%',background:done?T.green:T.border,color:done?'#fff':T.inkLight,display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:700,flexShrink:0}}>{setNum}</div>
-                      {done?(
-                        <span style={{fontSize:13,fontWeight:600,color:T.green}}>✓ {done.reps} reps @ {done.weight_kg} kg</span>
-                      ):(
-                        <div style={{display:'flex',gap:8,flex:1,flexWrap:'wrap'}}>
-                          <input value={inputs[key]?.reps||''} onChange={e=>setInputs(p=>({...p,[key]:{...p[key],reps:e.target.value}}))} placeholder="Reps" inputMode="numeric" style={{flex:1,minWidth:70,padding:'7px 10px',borderRadius:8,border:`1.5px solid ${T.border}`,fontSize:15,outline:'none',fontFamily:"'DM Sans',sans-serif"}}/>
-                          <input value={inputs[key]?.weight||''} onChange={e=>setInputs(p=>({...p,[key]:{...p[key],weight:e.target.value}}))} placeholder="kg" inputMode="decimal" style={{flex:1,minWidth:70,padding:'7px 10px',borderRadius:8,border:`1.5px solid ${T.border}`,fontSize:15,outline:'none',fontFamily:"'DM Sans',sans-serif"}}/>
-                          <Btn small onClick={()=>logSet(ex.exercise_name,setNum)} disabled={saving===key} style={{flexShrink:0}}>{saving===key?'…':'Log'}</Btn>
-                        </div>
-                      )}
+      ) : (
+        <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+          {dayExs.map((ex, i) => {
+            const lastDate = getLastSessionDate(ex.exercise_name)
+            return (
+              <Card key={ex.id||i} style={{ padding:'18px 20px' }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:12, gap:10 }}>
+                  <div style={{ flex:1 }}>
+                    <h4 style={{ fontFamily:"'Syne',sans-serif", fontSize:16, fontWeight:700, marginBottom:6 }}>{ex.exercise_name}</h4>
+                    <div style={{ display:'flex', gap:7, flexWrap:'wrap', alignItems:'center' }}>
+                      <Badge color="blue">{ex.set_rep}</Badge>
+                      <Badge color="amber">{ex.tempo}</Badge>
+                      {ex.rest_seconds && <Badge color="gray">Rest {ex.rest_seconds}s</Badge>}
+                      {ex.video_url && <a href={ex.video_url} target="_blank" rel="noreferrer" style={{ fontSize:11, color:T.orange, textDecoration:'none', fontWeight:600, padding:'3px 9px', background:T.orangeL, borderRadius:20 }}>▶ Watch</a>}
                     </div>
-                  )
-                })}
-              </div>
-            </Card>
-          ))}
+                    {lastDate && (
+                      <div style={{ marginTop:7, fontSize:11, color:T.inkLight, display:'flex', alignItems:'center', gap:5 }}>
+                        <span>🕐</span> Last session: {new Date(lastDate+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})}
+                      </div>
+                    )}
+                  </div>
+                  {isAdmin && (
+                    <div style={{ display:'flex', gap:6, flexShrink:0 }}>
+                      <Btn variant="ghost" small onClick={() => openEditEx(ex)}>Edit</Btn>
+                      <Btn variant="danger" small onClick={() => deleteExercise(ex)}>✕</Btn>
+                    </div>
+                  )}
+                </div>
+
+                <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                  {Array.from({ length:ex.sets||2 }, (_,si) => {
+                    const setNum = si+1
+                    const key = `${ex.exercise_name}_${setNum}`
+                    const done = getLog(ex.exercise_name, setNum)
+                    const last = getLastLog(ex.exercise_name, setNum)
+
+                    return (
+                      <div key={si} style={{ borderRadius:12, border:`1.5px solid ${done ? 'rgba(26,122,74,0.25)' : T.border}`, background: done ? T.greenL : T.surfaceAlt, overflow:'hidden' }}>
+                        {/* Set header with last session reference */}
+                        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'8px 12px', borderBottom: done || last ? `1px solid ${done?'rgba(26,122,74,0.15)':T.border}` : 'none' }}>
+                          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+                            <div style={{ width:24, height:24, borderRadius:'50%', background: done?T.green:T.border, color: done?'#fff':T.inkLight, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, flexShrink:0 }}>{setNum}</div>
+                            <span style={{ fontSize:12, fontWeight:600, color:T.inkMid }}>Set {setNum}</span>
+                          </div>
+                          {/* Last session reference */}
+                          {last && !done && (
+                            <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+                              <span style={{ fontSize:10, color:T.inkLight }}>Last:</span>
+                              <button onClick={() => setInputs(p => ({ ...p, [key]:{ reps:String(last.reps), weight:String(last.weight_kg) } }))}
+                                style={{ fontSize:11, color:T.blue, background:T.blueL, border:`1px solid rgba(26,95,212,0.2)`, borderRadius:20, padding:'3px 9px', cursor:'pointer', fontWeight:600, WebkitTapHighlightColor:'transparent' }}>
+                                {last.reps}r @ {last.weight_kg}kg ↑
+                              </button>
+                            </div>
+                          )}
+                        </div>
+
+                        {done ? (
+                          <div style={{ padding:'10px 12px', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                            <span style={{ fontSize:13, fontWeight:700, color:T.green }}>✓ {done.reps} reps @ {done.weight_kg} kg</span>
+                            {!isAdmin && <button onClick={() => deleteLog(done.id)} style={{ fontSize:11, color:T.red, background:'none', border:'none', cursor:'pointer', opacity:0.7 }}>undo</button>}
+                          </div>
+                        ) : (
+                          <div style={{ padding:'10px 12px', display:'flex', gap:8, alignItems:'center' }}>
+                            <div style={{ flex:1, position:'relative' }}>
+                              <input value={inputs[key]?.reps||''} onChange={e => setInputs(p=>({...p,[key]:{...p[key],reps:e.target.value}}))}
+                                placeholder={last ? `${last.reps} reps` : 'Reps'}
+                                inputMode="numeric"
+                                style={{ width:'100%', padding:'9px 12px', borderRadius:9, border:`1.5px solid ${T.border}`, fontSize:15, outline:'none', boxSizing:'border-box', background:T.surface, fontFamily:"'DM Sans',sans-serif" }}
+                                onFocus={e=>e.target.style.borderColor=T.orange} onBlur={e=>e.target.style.borderColor=T.border}
+                              />
+                            </div>
+                            <div style={{ flex:1 }}>
+                              <input value={inputs[key]?.weight||''} onChange={e => setInputs(p=>({...p,[key]:{...p[key],weight:e.target.value}}))}
+                                placeholder={last ? `${last.weight_kg}kg` : 'kg'}
+                                inputMode="decimal"
+                                style={{ width:'100%', padding:'9px 12px', borderRadius:9, border:`1.5px solid ${T.border}`, fontSize:15, outline:'none', boxSizing:'border-box', background:T.surface, fontFamily:"'DM Sans',sans-serif" }}
+                                onFocus={e=>e.target.style.borderColor=T.orange} onBlur={e=>e.target.style.borderColor=T.border}
+                              />
+                            </div>
+                            <Btn small onClick={() => logSet(ex.exercise_name, setNum)} disabled={saving===key} style={{ flexShrink:0, minWidth:52 }}>
+                              {saving===key ? '…' : 'Log'}
+                            </Btn>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </Card>
+            )
+          })}
         </div>
       )}
     </div>
