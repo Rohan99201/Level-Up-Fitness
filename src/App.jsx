@@ -457,7 +457,7 @@ function Login({ onLogin }) {
       <div style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'40px 24px', minWidth:0 }}>
         <div style={{ width:'100%', maxWidth:400 }}>
           {/* Logo (mobile) */}
-          <div style={ marginBottom:36, display:"flex", justifyContent:"center" }><img src="/logo.jpeg" alt="LevelUp Coaching" style={{ height:56, width:"auto", objectFit:"contain", display:"block" }}/></div>
+          <div style={{ marginBottom:36, display:"flex", justifyContent:"center" }}><img src="/logo.jpeg" alt="LevelUp Coaching" style={{ height:56, width:"auto", objectFit:"contain", display:"block" }}/></div>
 
           <div style={{ background:'rgba(255,255,255,0.04)', borderRadius:20, padding:'32px 28px', border:'1px solid rgba(255,255,255,0.07)' }}>
             <h1 style={{ fontFamily:"'Syne',sans-serif", fontSize:22, fontWeight:700, color:'#fff', marginBottom:6 }}>Sign in</h1>
