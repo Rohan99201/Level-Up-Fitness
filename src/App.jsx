@@ -116,19 +116,19 @@ function useAdminClient(user, isAdmin) {
 
 // ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
 const T = {
-  // Brand
-  orange:    '#FF5C00',
-  orangeD:   '#E05000',
-  orangeL:   '#FFF3ED',
+  // Brand — LevelUp gold
+  orange:    '#F1C232',
+  orangeD:   '#C9A000',
+  orangeL:   '#FFFBE6',
   // Neutrals
-  bg:        '#F7F5F2',
+  bg:        '#F7F5F0',
   surface:   '#FFFFFF',
-  surfaceAlt:'#FAFAF8',
+  surfaceAlt:'#FAFAF6',
   border:    'rgba(0,0,0,0.08)',
   borderMid: 'rgba(0,0,0,0.14)',
-  ink:       '#0F0F0F',
-  inkMid:    '#4A4A4A',
-  inkLight:  '#8A8A8A',
+  ink:       '#0A0A0A',
+  inkMid:    '#3A3A3A',
+  inkLight:  '#888880',
   // Semantic
   green:     '#1A7A4A',
   greenL:    '#EDFBF2',
@@ -140,8 +140,8 @@ const T = {
   amberL:    '#FFFBEB',
   purple:    '#6D28D9',
   purpleL:   '#F5F3FF',
-  // Dark nav
-  navBg:     '#0C0C0C',
+  // Dark nav — pitch black to match logo background
+  navBg:     '#0A0A0A',
 }
 
 // Global font injection
@@ -151,10 +151,11 @@ const STYLE_TAG = `
   body { background: ${T.bg}; color: ${T.ink}; font-family: 'DM Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
   input, select, textarea, button { font-family: inherit; }
   input[type=text], input[type=number], input[type=email], input[type=date], input[type=password], select, textarea { font-size: 16px !important; }
-  ::selection { background: ${T.orange}; color: #fff; }
+  ::selection { background: ${T.orange}; color: ${T.ink}; }
   ::-webkit-scrollbar { width: 4px; height: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb { background: rgba(241,194,50,0.35); border-radius: 2px; }
+  input[type=checkbox] { accent-color: ${T.orange}; }
 `
 
 // ─── BASE COMPONENTS ──────────────────────────────────────────────────────────
@@ -181,7 +182,7 @@ function Btn({ children, variant='primary', onClick, disabled, style={}, small, 
     opacity: disabled ? 0.45 : 1,
   }
   const variants = {
-    primary:   { background: T.orange,   color:'#fff',    boxShadow:'0 2px 8px rgba(255,92,0,0.35)' },
+    primary:   { background: T.orange,   color: T.ink,    boxShadow:'0 2px 12px rgba(241,194,50,0.45)', fontWeight:700 },
     secondary: { background: T.surface,  color: T.ink,    border:`1.5px solid ${T.border}` },
     ghost:     { background:'transparent', color: T.inkMid, border:`1.5px solid ${T.border}` },
     danger:    { background: T.redL,     color: T.red,    border:`1.5px solid rgba(204,43,43,0.15)` },
@@ -440,12 +441,12 @@ function Login({ onLogin }) {
     <div style={{ minHeight:'100vh', background:'#080808', display:'flex', fontFamily:"'DM Sans',sans-serif" }}>
       {/* Left panel — branding */}
       <div style={{ flex:1, display:'none', background:'linear-gradient(135deg,#1a1a1a 0%,#0c0c0c 100%)', padding:60, flexDirection:'column', justifyContent:'space-between', minWidth:420 }} className="login-left">
-        <div style={{ fontSize:28, fontWeight:800, color:'#fff', fontFamily:"'Syne',sans-serif", letterSpacing:'-1px' }}>LEVELUP📈</div>
+        <div><img src="/logo.jpeg" alt="LevelUp Coaching" style={{ height:56, width:"auto", objectFit:"contain", display:"block" }}/></div>
         <div>
           <div style={{ fontSize:48, fontWeight:800, color:'#fff', fontFamily:"'Syne',sans-serif", lineHeight:1.1, letterSpacing:'-2px', marginBottom:20 }}>
             Train smarter.<br/><span style={{ color:T.orange }}>Level up.</span>
           </div>
-          <p style={{ fontSize:16, color:'rgba(255,255,255,0.45)', lineHeight:1.7 }}>
+          <p style={{ fontSize:16, color:'rgba(255,255,255,0.5)', lineHeight:1.7 }}>
             Your personalised coaching portal — workouts, nutrition, and progress tracking in one place.
           </p>
         </div>
@@ -456,9 +457,7 @@ function Login({ onLogin }) {
       <div style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'40px 24px', minWidth:0 }}>
         <div style={{ width:'100%', maxWidth:400 }}>
           {/* Logo (mobile) */}
-          <div style={{ fontSize:24, fontWeight:800, color:'#fff', fontFamily:"'Syne',sans-serif", letterSpacing:'-0.5px', marginBottom:36, textAlign:'center' }}>
-            LEVELUP📈
-          </div>
+          <div style={ marginBottom:36, display:"flex", justifyContent:"center" }><img src="/logo.jpeg" alt="LevelUp Coaching" style={{ height:56, width:"auto", objectFit:"contain", display:"block" }}/></div>
 
           <div style={{ background:'rgba(255,255,255,0.04)', borderRadius:20, padding:'32px 28px', border:'1px solid rgba(255,255,255,0.07)' }}>
             <h1 style={{ fontFamily:"'Syne',sans-serif", fontSize:22, fontWeight:700, color:'#fff', marginBottom:6 }}>Sign in</h1>
@@ -484,7 +483,7 @@ function Login({ onLogin }) {
                 </div>
               ))}
               {err && <div style={{ padding:'10px 14px', background:'rgba(204,43,43,0.12)', borderRadius:10, fontSize:13, color:'#ff8080', border:'1px solid rgba(204,43,43,0.2)' }}>⚠️ {err}</div>}
-              <button type="submit" disabled={loading} style={{ padding:'13px', borderRadius:12, border:'none', cursor:loading?'wait':'pointer', fontWeight:700, fontSize:15, background: loading?'rgba(255,92,0,0.5)':T.orange, color:'#fff', fontFamily:"'DM Sans',sans-serif", boxShadow:'0 4px 16px rgba(255,92,0,0.4)', transition:'all .2s', marginTop:4 }}>
+              <button type="submit" disabled={loading} style={{ padding:'13px', borderRadius:12, border:'none', cursor:loading?'wait':'pointer', fontWeight:700, fontSize:15, background: loading?'rgba(241,194,50,0.5)':T.orange, color:T.ink, fontFamily:"'DM Sans',sans-serif", fontWeight:800, boxShadow:'0 4px 20px rgba(241,194,50,0.4)', transition:'all .2s', marginTop:4 }}>
                 {loading ? 'Signing in…' : 'Sign in →'}
               </button>
             </form>
@@ -547,7 +546,7 @@ function Dashboard({ user }) {
     <div style={{ padding: isMobile?'20px 16px 24px':'28px 24px', maxWidth:1080, margin:'0 auto' }}>
 
       {/* Hero header */}
-      <div style={{ background:`linear-gradient(135deg, ${T.ink} 0%, #2a1a10 100%)`, borderRadius:20, padding: isMobile?'20px':'28px 32px', marginBottom:20, position:'relative', overflow:'hidden' }}>
+      <div style={{ background:`linear-gradient(135deg, #0A0A0A 0%, #1A1400 100%)`, borderRadius:20, padding: isMobile?'20px':'28px 32px', marginBottom:20, position:'relative', overflow:'hidden' }}>
         <div style={{ position:'absolute', top:-20, right:-20, width:140, height:140, borderRadius:'50%', background:T.orange, opacity:.08 }}/>
         <div style={{ position:'absolute', bottom:-30, right:60, width:80, height:80, borderRadius:'50%', background:T.orange, opacity:.06 }}/>
         <div style={{ position:'relative' }}>
@@ -572,7 +571,7 @@ function Dashboard({ user }) {
               <span style={{ color:T.orange, fontWeight:600 }}>{pct.toFixed(1)}% complete</span>
             </div>
             <div style={{ height:6, background:'rgba(255,255,255,0.1)', borderRadius:99 }}>
-              <div style={{ height:6, width:`${pct}%`, background:`linear-gradient(90deg,${T.orange},#FF8C00)`, borderRadius:99, transition:'width 1s cubic-bezier(.4,0,.2,1)', boxShadow:'0 0 12px rgba(255,92,0,0.5)' }}/>
+              <div style={{ height:6, width:`${pct}%`, background:`linear-gradient(90deg,${T.orange},#FFD84D)`, borderRadius:99, transition:'width 1s cubic-bezier(.4,0,.2,1)', boxShadow:'0 0 12px rgba(255,92,0,0.5)' }}/>
             </div>
             <div style={{ display:'flex', justifyContent:'space-between', fontSize:11, color:'rgba(255,255,255,0.3)', marginTop:6 }}>
               <span>Start {client.start_weight}kg</span><span>Now {latest.weight}kg</span><span>Goal {client.goal_weight}kg</span>
@@ -1004,7 +1003,7 @@ function WorkoutPage({ user, isAdmin }) {
             const isFuture = date > today
             return (
               <button key={date} onClick={() => { if (!isFuture) { setSelectedDate(date); setShowCalendar(false) } }}
-                style={{ position:'relative', padding:'8px 2px', borderRadius:8, border:'none', cursor: isFuture?'default':'pointer', background: isSelected?T.orange:isToday?T.orangeL:'transparent', color: isSelected?'#fff':isFuture?T.border:T.ink, fontWeight: isSelected||isToday?700:400, fontSize:13, WebkitTapHighlightColor:'transparent', opacity: isFuture?0.3:1 }}>
+                style={{ position:'relative', padding:'8px 2px', borderRadius:8, border:'none', cursor: isFuture?'default':'pointer', background: isSelected?T.orange:isToday?T.orangeL:'transparent', color: isSelected?T.ink:isFuture?T.border:T.ink, fontWeight: isSelected||isToday?700:400, fontSize:13, WebkitTapHighlightColor:'transparent', opacity: isFuture?0.3:1 }}>
                 {String(new Date(date+'T12:00:00').getDate())}
                 {hasLog && !isSelected && <div style={{ position:'absolute', bottom:2, left:'50%', transform:'translateX(-50%)', width:4, height:4, borderRadius:'50%', background:T.orange }}/>}
               </button>
@@ -1087,7 +1086,7 @@ function WorkoutPage({ user, isAdmin }) {
             <div style={{ background:T.surface, border:`1px solid ${T.border}`, borderRadius:12, marginTop:6, overflow:'hidden', boxShadow:'0 8px 24px rgba(0,0,0,0.1)' }}>
               {days.map((d,i) => { const t = program.find(p=>p.day_number===d)?.workout_type||''; return (
                 <button key={d} onClick={() => { setDayIdx(i); setShowDayPicker(false) }}
-                  style={{ width:'100%', padding:'13px 16px', background:dayIdx===i?T.orangeL:T.surface, border:'none', borderBottom:`1px solid ${T.border}`, textAlign:'left', cursor:'pointer', fontSize:14, color:dayIdx===i?T.orange:T.ink, fontWeight:dayIdx===i?700:400, fontFamily:"'DM Sans',sans-serif" }}>
+                  style={{ width:'100%', padding:'13px 16px', background:dayIdx===i?T.orange:T.surface, border:'none', borderBottom:`1px solid ${T.border}`, textAlign:'left', cursor:'pointer', fontSize:14, color:dayIdx===i?T.ink:T.ink, fontWeight:dayIdx===i?700:400, fontFamily:"'DM Sans',sans-serif" }}>
                   Day {d} — {t}
                 </button>
               )})}
@@ -1098,7 +1097,7 @@ function WorkoutPage({ user, isAdmin }) {
         <div style={{ display:'flex', gap:6, marginBottom:18, flexWrap:'wrap' }}>
           {days.map((d,i) => { const t = program.find(p=>p.day_number===d)?.workout_type||''; return (
             <button key={d} onClick={() => setDayIdx(i)}
-              style={{ padding:'8px 16px', borderRadius:20, border:`1.5px solid ${dayIdx===i?T.orange:T.border}`, background:dayIdx===i?T.orange:T.surface, color:dayIdx===i?'#fff':T.inkMid, fontWeight:600, fontSize:13, cursor:'pointer', transition:'all .2s', fontFamily:"'DM Sans',sans-serif" }}>
+              style={{ padding:'8px 16px', borderRadius:20, border:`1.5px solid ${dayIdx===i?T.orange:T.border}`, background:dayIdx===i?T.orange:T.surface, color:dayIdx===i?T.ink:T.inkMid, fontWeight:600, fontSize:13, cursor:'pointer', transition:'all .2s', fontFamily:"'DM Sans',sans-serif" }}>
               Day {d} · {t}
             </button>
           )})}
@@ -1369,7 +1368,7 @@ function NutritionPage({ user, isAdmin }) {
           <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:17,fontWeight:700}}>Meal plan</h3>
           <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
             {['veg','non-veg'].map(dt=>(
-              <button key={dt} onClick={()=>setDietType(dt)} style={{padding:'7px 16px',borderRadius:20,border:`1.5px solid ${dietType===dt?T.orange:T.border}`,background:dietType===dt?T.orange:T.surface,color:dietType===dt?'#fff':T.inkMid,fontWeight:600,fontSize:13,cursor:'pointer',transition:'all .2s',fontFamily:"'DM Sans',sans-serif"}}>{dt}</button>
+              <button key={dt} onClick={()=>setDietType(dt)} style={{padding:'7px 16px',borderRadius:20,border:`1.5px solid ${dietType===dt?T.orange:T.border}`,background:dietType===dt?T.orange:T.surface,color:dietType===dt?T.ink:T.inkMid,fontWeight:600,fontSize:13,cursor:'pointer',transition:'all .2s',fontFamily:"'DM Sans',sans-serif"}}>{dt}</button>
             ))}
             {isAdmin&&<Btn variant="green" small onClick={()=>{setEditItem(null);setMealForm({meal_number:1,meal_name:'MEAL 1',food_name:'',category:'Proteins',qty_g:100,calories:0,protein_g:0,fat_g:0,carbs_g:0,fibre_g:0});setShowMealModal(true)}}>+ Add item</Btn>}
           </div>
@@ -1646,7 +1645,7 @@ function AdminPanel({ user }) {
       <MsgBox msg={msg}/>
       <div style={{display:'flex',gap:8,margin:'16px 0',background:T.surfaceAlt,padding:4,borderRadius:12,border:`1px solid ${T.border}`}}>
         {['clients','add client'].map(t=>(
-          <button key={t} onClick={()=>{setTab(t);setSel(null)}} style={{flex:1,padding:'9px 16px',borderRadius:9,border:'none',cursor:'pointer',fontWeight:600,fontSize:13,fontFamily:"'DM Sans',sans-serif",textTransform:'capitalize',background:tab===t?T.surface:T.transparent,color:tab===t?T.ink:T.inkLight,boxShadow:tab===t?'0 1px 4px rgba(0,0,0,0.08)':undefined,transition:'all .2s'}}>
+          <button key={t} onClick={()=>{setTab(t);setSel(null)}} style={{flex:1,padding:'9px 16px',borderRadius:9,border:'none',cursor:'pointer',fontWeight:600,fontSize:13,fontFamily:"'DM Sans',sans-serif",textTransform:'capitalize',background:tab===t?T.surface:'transparent',color:tab===t?T.ink:T.inkLight,boxShadow:tab===t?'0 1px 4px rgba(0,0,0,0.08)':undefined,transition:'all .2s'}}>
             {t}
           </button>
         ))}
@@ -1754,8 +1753,8 @@ export default function App() {
 
   if(booting) return (
     <div style={{minHeight:'100vh',background:'#080808',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:16}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:28,fontWeight:800,color:'#fff',letterSpacing:'-1px'}}>LEVELUP📈</div>
-      <div style={{width:40,height:3,background:`linear-gradient(90deg,${T.orange},#FF8C00)`,borderRadius:99,animation:'none'}}/>
+      <div><img src="/logo.jpeg" alt="LevelUp Coaching" style={{ height:36, width:"auto", objectFit:"contain", display:"block" }}/></div>
+      <div style={{width:40,height:3,background:`linear-gradient(90deg,${T.orange},#FFD84D)`,borderRadius:99,animation:'none'}}/>
     </div>
   )
   if(!user) return <><StyleInjector/><Login onLogin={u=>{setUser(u);setTab('dashboard')}}/></>
@@ -1779,12 +1778,12 @@ export default function App() {
   const NavBar=()=>(
     <nav style={{background:T.navBg,padding:'0 24px',display:'flex',alignItems:'center',justifyContent:'space-between',height:58,position:'sticky',top:0,zIndex:100,borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
       <div style={{fontFamily:"'Syne',sans-serif",fontSize:17,fontWeight:800,color:'#fff',letterSpacing:'-0.5px',flexShrink:0}}>
-        LEVELUP<span style={{color:T.orange}}>📈</span>
-        {isAdmin&&<span style={{fontSize:10,fontWeight:400,color:'rgba(255,255,255,0.25)',marginLeft:8,verticalAlign:'middle'}}>admin</span>}
+        <img src="/logo.jpeg" alt="LevelUp Coaching" style={{ height:36, width:"auto", objectFit:"contain", display:"block" }}/>
+        {isAdmin&&<span style={{fontSize:10,fontWeight:600,color:'rgba(255,255,255,0.5)',marginLeft:8,padding:'2px 7px',background:'rgba(241,194,50,0.15)',borderRadius:4,verticalAlign:'middle',letterSpacing:'0.5px'}}>ADMIN</span>}
       </div>
       <div style={{display:'flex',gap:2}}>
         {tabs.map(([id,label])=>(
-          <button key={id} onClick={()=>setTab(id)} style={{padding:'7px 14px',borderRadius:8,border:'none',cursor:'pointer',fontWeight:600,fontSize:13,fontFamily:"'DM Sans',sans-serif",background:tab===id?T.orange:'transparent',color:tab===id?'#fff':'rgba(255,255,255,0.4)',transition:'all .2s',WebkitTapHighlightColor:'transparent'}}>{label}</button>
+          <button key={id} onClick={()=>setTab(id)} style={{padding:'7px 14px',borderRadius:8,border:'none',cursor:'pointer',fontWeight:600,fontSize:13,fontFamily:"'DM Sans',sans-serif",background:tab===id?T.orange:'transparent',color:tab===id?T.ink:'rgba(255,255,255,0.45)',fontWeight:tab===id?700:500,transition:'all .2s',WebkitTapHighlightColor:'transparent'}}>{label}</button>
         ))}
       </div>
       <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
@@ -1801,7 +1800,7 @@ export default function App() {
         {isMobile?(
           <>
             <div style={{background:T.navBg,padding:'0 16px',display:'flex',alignItems:'center',justifyContent:'space-between',height:52,position:'sticky',top:0,zIndex:100,borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
-              <div style={{fontFamily:"'Syne',sans-serif",fontSize:15,fontWeight:800,color:'#fff',letterSpacing:'-0.3px'}}>LEVELUP<span style={{color:T.orange}}>📈</span></div>
+              <div><img src="/logo.jpeg" alt="LevelUp Coaching" style={{ height:28, width:"auto", objectFit:"contain", display:"block" }}/></div>
               <div style={{display:'flex',alignItems:'center',gap:10}}>
                 <span style={{fontSize:11,color:'rgba(255,255,255,0.3)'}}>{isAdmin?'Admin':user.name?.split(' ')[0]}</span>
                 <button onClick={logout} style={{padding:'5px 10px',borderRadius:7,border:'1px solid rgba(255,255,255,0.1)',background:'transparent',color:'rgba(255,255,255,0.4)',cursor:'pointer',fontSize:11,fontFamily:"'DM Sans',sans-serif"}}>Out</button>
