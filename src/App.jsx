@@ -483,7 +483,7 @@ function Login({ onLogin }) {
                 </div>
               ))}
               {err && <div style={{ padding:'10px 14px', background:'rgba(204,43,43,0.12)', borderRadius:10, fontSize:13, color:'#ff8080', border:'1px solid rgba(204,43,43,0.2)' }}>⚠️ {err}</div>}
-              <button type="submit" disabled={loading} style={{ padding:'13px', borderRadius:12, border:'none', cursor:loading?'wait':'pointer', fontWeight:700, fontSize:15, background: loading?'rgba(241,194,50,0.5)':T.orange, color:T.ink, fontFamily:"'DM Sans',sans-serif", fontWeight:800, boxShadow:'0 4px 20px rgba(241,194,50,0.4)', transition:'all .2s', marginTop:4 }}>
+              <button type="submit" disabled={loading} style={{ padding:'13px', borderRadius:12, border:'none', cursor:loading?'wait':'pointer', fontSize:15, background: loading?'rgba(241,194,50,0.5)':T.orange, color:T.ink, fontFamily:"'DM Sans',sans-serif", fontWeight:800, boxShadow:'0 4px 20px rgba(241,194,50,0.4)', transition:'all .2s', marginTop:4 }}>
                 {loading ? 'Signing in…' : 'Sign in →'}
               </button>
             </form>
@@ -1783,7 +1783,7 @@ export default function App() {
       </div>
       <div style={{display:'flex',gap:2}}>
         {tabs.map(([id,label])=>(
-          <button key={id} onClick={()=>setTab(id)} style={{padding:'7px 14px',borderRadius:8,border:'none',cursor:'pointer',fontWeight:600,fontSize:13,fontFamily:"'DM Sans',sans-serif",background:tab===id?T.orange:'transparent',color:tab===id?T.ink:'rgba(255,255,255,0.45)',fontWeight:tab===id?700:500,transition:'all .2s',WebkitTapHighlightColor:'transparent'}}>{label}</button>
+          <button key={id} onClick={()=>setTab(id)} style={{padding:'7px 14px',borderRadius:8,border:'none',cursor:'pointer',fontSize:13,fontFamily:"'DM Sans',sans-serif",background:tab===id?T.orange:'transparent',color:tab===id?T.ink:'rgba(255,255,255,0.45)',fontWeight:tab===id?700:500,transition:'all .2s',WebkitTapHighlightColor:'transparent'}}>{label}</button>
         ))}
       </div>
       <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
