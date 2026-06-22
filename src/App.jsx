@@ -1688,17 +1688,10 @@ function MessagesPage({ user, isAdmin }) {
         const cl = await sbQuery('clients', { order:'name', asc:true, select:'id,name' })
         setClients(cl || [])
       } else {
-        // Try RPC first (decrypts server-side), fall back to direct query
         const { data, error } = await supabase.rpc('get_messages_client', { p_client_id: user.clientId })
         if (error) {
-          console.warn('RPC failed, trying direct query:', error.message)
-          // Fallback: direct query — body will show as encrypted bytes but at least messages appear
-          const { data: direct } = await supabase
-            .from('messages')
-            .select('id, client_id, subject, body_encrypted, message_type, is_read, read_at, sent_at')
-            .or(`client_id.eq.${user.clientId},and(message_type.eq.broadcast,client_id.is.null)`)
-            .order('sent_at', { ascending: false })
-          setMessages((direct || []).map(m => ({ ...m, body: '[Encrypted — contact coach if unreadable]' })))
+          console.error('Messages RPC error:', error)
+          setMessages([])
         } else {
           setMessages(data || [])
         }
@@ -1734,7 +1727,7 @@ function MessagesPage({ user, isAdmin }) {
       setTimeout(() => setSendMsg(''), 3000)
       return
     }
-    const { error } = await supabase.rpc('send_message_encrypted', {
+    const { error } = await supabase.rpc('send_message', {
       p_client_id:    payload.client_id,
       p_subject:      payload.subject,
       p_body:         payload.body,
@@ -1813,17 +1806,18 @@ function MessagesPage({ user, isAdmin }) {
                     <div style={{ display:'flex', gap:8, marginTop:5, alignItems:'center', flexWrap:'wrap' }}>
                       {isAdmin && msg.client_name && <Badge color="blue">{msg.client_name}</Badge>}
                       {!isPersonal && <Badge color="purple">Broadcast</Badge>}
-                      {!isAdmin && <span style={{ fontSize:11, color:T.green }}>🔒 Encrypted</span>}
-                      {msg.is_read && !isAdmin && <Badge color="gray">Read</Badge>}
+                      {!isAdmin && <span style={{ fontSize:11, color:T.green }}>🔒 Private</span>}
                     </div>
                     {!isExpanded && <p style={{ fontSize:13, color:T.inkLight, marginTop:6, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{msg.body}</p>}
                   </div>
                 </div>
                 {isExpanded && (
                   <div style={{ padding:'0 18px 18px', borderTop:`1px solid ${T.border}`, paddingTop:16 }}>
-                    <p style={{ fontSize:14, color:T.inkMid, lineHeight:1.75, whiteSpace:'pre-wrap' }}>{msg.body}</p>
+                    <div style={{ background:T.surfaceAlt, borderRadius:12, padding:'16px', marginBottom:12 }}>
+                      <p style={{ fontSize:15, color:T.ink, lineHeight:1.8, whiteSpace:'pre-wrap', fontFamily:"'DM Sans',sans-serif" }}>{msg.body}</p>
+                    </div>
                     <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:16, flexWrap:'wrap', gap:8 }}>
-                      <span style={{ fontSize:11, color:T.inkLight }}>🔒 AES-256 encrypted · {date} at {time}</span>
+                      <span style={{ fontSize:11, color:T.inkLight }}>🔒 Private message · {date} at {time}</span>
                       {isAdmin && <Btn variant="danger" small onClick={e=>{ e.stopPropagation(); deleteMessage(msg.id) }}>Delete</Btn>}
                     </div>
                   </div>
