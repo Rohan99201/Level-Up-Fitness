@@ -1592,7 +1592,6 @@ function MessagesPage({ user, isAdmin }) {
   const [sending, setSending] = useState(false)
   const [sendMsg, setSendMsg] = useState('')
   const [expandedId, setExpandedId] = useState(null)
-  const isMobile = useIsMobile()
   const isDemoMode = isDemo || (!isAdmin && user.clientId === 'demo')
 
   // ── Demo data ──
