@@ -1688,9 +1688,20 @@ function MessagesPage({ user, isAdmin }) {
         const cl = await sbQuery('clients', { order:'name', asc:true, select:'id,name' })
         setClients(cl || [])
       } else {
+        // Try RPC first (decrypts server-side), fall back to direct query
         const { data, error } = await supabase.rpc('get_messages_client', { p_client_id: user.clientId })
-        if (error) throw error
-        setMessages(data || [])
+        if (error) {
+          console.warn('RPC failed, trying direct query:', error.message)
+          // Fallback: direct query — body will show as encrypted bytes but at least messages appear
+          const { data: direct } = await supabase
+            .from('messages')
+            .select('id, client_id, subject, body_encrypted, message_type, is_read, read_at, sent_at')
+            .or(`client_id.eq.${user.clientId},and(message_type.eq.broadcast,client_id.is.null)`)
+            .order('sent_at', { ascending: false })
+          setMessages((direct || []).map(m => ({ ...m, body: '[Encrypted — contact coach if unreadable]' })))
+        } else {
+          setMessages(data || [])
+        }
       }
     } catch(e) { console.error('Messages load error:', e) }
     finally { setLoading(false) }
