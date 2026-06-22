@@ -1578,6 +1578,468 @@ function RoadmapPage({ user, isAdmin }) {
   )
 }
 
+
+// ─── MESSAGES ─────────────────────────────────────────────────────────────────
+// Messages are encrypted server-side via pgcrypto (AES-256)
+// Clients read-only. Admin sends personal + broadcast.
+
+function MessagesPage({ user, isAdmin }) {
+  const [messages, setMessages] = useState([])
+  const [clients, setClients] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [showCompose, setShowCompose] = useState(false)
+  const [form, setForm] = useState({ client_id: '', subject: '', body: '', message_type: 'personal' })
+  const [sending, setSending] = useState(false)
+  const [sendMsg, setSendMsg] = useState('')
+  const [expandedId, setExpandedId] = useState(null)
+  const isMobile = useIsMobile()
+  const isDemoMode = isDemo || (!isAdmin && user.clientId === 'demo')
+
+  // ── Demo data ──
+  const DEMO_MSGS = [
+    { id:'dm1', subject:'Welcome to LevelUp! 🎉', body:'Hey Rohan! Welcome aboard. Your program starts this week. Stay consistent and trust the process.', message_type:'personal', is_read:true,  sent_at:'2026-03-28T10:00:00Z', client_name:'ROHAN CHOUBEY' },
+    { id:'dm2', subject:'Weekly check-in — Week 2', body:'Great work this week! Your weights are trending down well. Make sure you\'re hitting 8k steps daily.', message_type:'personal', is_read:true,  sent_at:'2026-04-06T09:00:00Z', client_name:'ROHAN CHOUBEY' },
+    { id:'dm3', subject:'📢 April Tips — All Clients', body:'Reminder to everyone: drink at least 3L of water daily. Hydration is as important as your training!', message_type:'broadcast', is_read:false, sent_at:'2026-04-10T08:00:00Z', client_name:null },
+    { id:'dm4', subject:'Fat loss phase starting — Stay focused 🔥', body:'We\'re entering the fat loss phase now. Your calories will drop slightly. Follow the plan and reach out if you feel fatigued.', message_type:'personal', is_read:false, sent_at:'2026-04-14T11:00:00Z', client_name:'ROHAN CHOUBEY' },
+  ]
+  const DEMO_CLIENTS = [{ id:'1', name:'ROHAN CHOUBEY' }]
+
+  const load = async () => {
+    setLoading(true)
+    try {
+      if (isDemoMode) {
+        setMessages(DEMO_MSGS)
+        if (isAdmin) setClients(DEMO_CLIENTS)
+        setLoading(false)
+        return
+      }
+      if (isAdmin) {
+        // Admin sees all messages with decrypted body via RPC
+        const { data, error } = await supabase.rpc('get_messages_admin')
+        if (error) throw error
+        setMessages(data || [])
+        const cl = await sbQuery('clients', { order:'name', asc:true, select:'id,name' })
+        setClients(cl || [])
+      } else {
+        // Client: fetch their messages + broadcasts, decrypt body
+        const clientId = user.clientId
+        const { data, error } = await supabase.rpc('get_messages_client', { p_client_id: clientId })
+        if (error) throw error
+        setMessages(data || [])
+      }
+    } catch(e) { console.error('Messages load error:', e) }
+    finally { setLoading(false) }
+  }
+
+  useEffect(() => { load() }, [user])
+
+  // Real-time subscription
+  useEffect(() => {
+    if (isDemoMode) return
+    const filter = isAdmin ? undefined : `client_id=eq.${user.clientId}`
+    const sub = supabase.channel('messages-rt')
+      .on('postgres_changes', { event:'INSERT', schema:'public', table:'messages', ...(filter?{filter}:{}) }, () => load())
+      .subscribe()
+    return () => supabase.removeChannel(sub)
+  }, [user])
+
+  const markRead = async (msg) => {
+    if (msg.is_read || isAdmin || isDemoMode) return
+    try {
+      await supabase.from('messages').update({ is_read:true, read_at:new Date().toISOString() }).eq('id', msg.id)
+      setMessages(prev => prev.map(m => m.id===msg.id ? {...m, is_read:true} : m))
+    } catch(e) { console.error(e) }
+  }
+
+  const sendMessage = async () => {
+    if (!form.subject || !form.body) { setSendMsg('Error: Subject and message required'); return }
+    if (form.message_type==='personal' && !form.client_id) { setSendMsg('Error: Select a client'); return }
+    setSending(true); setSendMsg('')
+    try {
+      if (isDemoMode) {
+        const newMsg = { id:'dm'+Date.now(), ...form, is_read:false, sent_at:new Date().toISOString(), client_name: clients.find(c=>c.id===form.client_id)?.name || null }
+        setMessages(prev => [newMsg, ...prev])
+        setForm({ client_id:'', subject:'', body:'', message_type:'personal' })
+        setShowCompose(false)
+        setSendMsg('✓ Message sent (demo)')
+      } else {
+        // Call RPC that encrypts body server-side before storing
+        const { error } = await supabase.rpc('send_message_encrypted', {
+          p_client_id:    form.message_type==='broadcast' ? null : form.client_id,
+          p_subject:      form.subject,
+          p_body:         form.body,
+          p_message_type: form.message_type
+        })
+        if (error) throw error
+        setForm({ client_id:'', subject:'', body:'', message_type:'personal' })
+        setShowCompose(false)
+        setSendMsg('✓ Message sent and encrypted')
+        await load()
+      }
+    } catch(e) { setSendMsg(`Error: ${e.message}`) }
+    finally { setSending(false) }
+  }
+
+  const deleteMessage = async (id) => {
+    if (!window.confirm('Delete this message?')) return
+    if (isDemoMode) { setMessages(prev => prev.filter(m => m.id!==id)); return }
+    try { await supabase.from('messages').delete().eq('id', id); await load() } catch(e) { alert(e.message) }
+  }
+
+  const unread = messages.filter(m => !m.is_read).length
+
+  const ComposeModal = () => (
+    <Modal title="Send message" onClose={() => { setShowCompose(false); setSendMsg('') }}>
+      <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+        {/* Type toggle */}
+        <div>
+          <label style={{ fontSize:11, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px', marginBottom:8, display:'block' }}>Message type</label>
+          <div style={{ display:'flex', gap:8 }}>
+            {[['personal','👤 Personal'],['broadcast','📢 Broadcast (all)']].map(([v,lbl])=>(
+              <button key={v} onClick={()=>setForm(p=>({...p,message_type:v,client_id:v==='broadcast'?'':p.client_id}))}
+                style={{ flex:1, padding:'9px 12px', borderRadius:10, border:`1.5px solid ${form.message_type===v?T.orange:T.border}`, background:form.message_type===v?T.orangeL:T.surface, color:form.message_type===v?T.orangeD:T.ink, fontWeight:600, fontSize:13, cursor:'pointer' }}>
+                {lbl}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {form.message_type==='personal' && (
+          <Sel label="Send to client" value={form.client_id} onChange={e=>setForm(p=>({...p,client_id:e.target.value}))}>
+            <option value="">— Select client —</option>
+            {clients.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}
+          </Sel>
+        )}
+        {form.message_type==='broadcast' && (
+          <div style={{ padding:'10px 14px', background:T.amberL, borderRadius:10, fontSize:12, color:T.amber, border:`1px solid rgba(180,83,9,0.2)` }}>
+            📢 This message will be visible to ALL clients
+          </div>
+        )}
+        <Inp label="Subject" value={form.subject} onChange={e=>setForm(p=>({...p,subject:e.target.value}))} placeholder="Weekly check-in, Program update…"/>
+        <div>
+          <label style={{ fontSize:11, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px', marginBottom:6, display:'block' }}>Message</label>
+          <textarea value={form.body} onChange={e=>setForm(p=>({...p,body:e.target.value}))} rows={5}
+            placeholder="Write your message here…"
+            style={{ width:'100%', padding:'12px 14px', borderRadius:12, border:`1.5px solid ${T.border}`, fontSize:15, outline:'none', resize:'vertical', fontFamily:"'DM Sans',sans-serif", boxSizing:'border-box', lineHeight:1.6 }}
+            onFocus={e=>e.target.style.borderColor=T.orange} onBlur={e=>e.target.style.borderColor=T.border}
+          />
+        </div>
+        <div style={{ display:'flex', alignItems:'center', gap:8, padding:'10px 14px', background:'#F0FDF4', borderRadius:10, fontSize:12, color:T.green, border:`1px solid rgba(26,122,74,0.15)` }}>
+          🔒 Message encrypted with AES-256 before storage
+        </div>
+        <MsgBox msg={sendMsg}/>
+        <div style={{ display:'flex', gap:9 }}>
+          <Btn onClick={sendMessage} disabled={sending} full>{sending?'Sending…':'Send message 🔒'}</Btn>
+          <Btn variant="ghost" onClick={()=>setShowCompose(false)} full>Cancel</Btn>
+        </div>
+      </div>
+    </Modal>
+  )
+
+  return (
+    <div style={{ padding:'20px 16px 24px', maxWidth:1080, margin:'0 auto' }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:20, flexWrap:'wrap', gap:12 }}>
+        <div>
+          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+            <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:22, fontWeight:700 }}>Messages</h2>
+            {unread>0 && <span style={{ background:T.orange, color:T.ink, fontSize:11, fontWeight:800, padding:'2px 8px', borderRadius:99, minWidth:20, textAlign:'center' }}>{unread}</span>}
+          </div>
+          <p style={{ fontSize:13, color:T.inkLight, marginTop:3 }}>
+            {isAdmin ? 'Send encrypted messages to your clients' : 'Messages from your coach — read only'}
+          </p>
+        </div>
+        {isAdmin && <Btn onClick={()=>setShowCompose(true)} variant="primary">✉ Compose</Btn>}
+      </div>
+
+      {showCompose && <ComposeModal/>}
+      {sendMsg && !showCompose && <MsgBox msg={sendMsg}/>}
+
+      {loading ? (
+        <div style={{ textAlign:'center', padding:60, color:T.inkLight }}>Loading messages…</div>
+      ) : messages.length===0 ? (
+        <Card style={{ textAlign:'center', padding:'50px 24px' }}>
+          <div style={{ fontSize:48, marginBottom:12 }}>✉️</div>
+          <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:18, fontWeight:700, marginBottom:8 }}>No messages yet</h3>
+          <p style={{ color:T.inkLight, fontSize:14 }}>{isAdmin ? 'Compose a message to get started' : 'Your coach will send you messages here'}</p>
+        </Card>
+      ) : (
+        <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+          {messages.map(msg => {
+            const isExpanded = expandedId === msg.id
+            const isPersonal = msg.message_type === 'personal'
+            const date = new Date(msg.sent_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })
+            const time = new Date(msg.sent_at).toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' })
+            return (
+              <div key={msg.id} onClick={() => { setExpandedId(isExpanded?null:msg.id); markRead(msg) }}
+                style={{ background:T.surface, borderRadius:16, border:`1.5px solid ${!msg.is_read&&!isAdmin ? T.orange : T.border}`, padding:0, cursor:'pointer', transition:'all .2s', overflow:'hidden', boxShadow:!msg.is_read&&!isAdmin?`0 0 0 1px ${T.orangeL}`:'none' }}>
+                {/* Header */}
+                <div style={{ padding:'16px 18px', display:'flex', alignItems:'flex-start', gap:12 }}>
+                  <div style={{ width:40, height:40, borderRadius:12, background: isPersonal?T.orangeL:'#EDE9FE', display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, flexShrink:0 }}>
+                    {isPersonal ? '💬' : '📢'}
+                  </div>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:8, flexWrap:'wrap' }}>
+                      <h4 style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:T.ink }}>{msg.subject}</h4>
+                      <div style={{ display:'flex', gap:6, alignItems:'center', flexShrink:0 }}>
+                        {!msg.is_read && !isAdmin && <div style={{ width:8, height:8, borderRadius:'50%', background:T.orange }}/>}
+                        <span style={{ fontSize:11, color:T.inkLight, whiteSpace:'nowrap' }}>{date} {time}</span>
+                      </div>
+                    </div>
+                    <div style={{ display:'flex', gap:8, marginTop:5, alignItems:'center' }}>
+                      {isAdmin && msg.client_name && <Badge color="blue">{msg.client_name}</Badge>}
+                      {!isPersonal && <Badge color="purple">Broadcast</Badge>}
+                      {!isAdmin && <div style={{ display:'flex', alignItems:'center', gap:4, fontSize:11, color:T.green }}><span>🔒</span> Encrypted</div>}
+                      {msg.is_read && !isAdmin && <Badge color="gray">Read</Badge>}
+                    </div>
+                    {!isExpanded && <p style={{ fontSize:13, color:T.inkLight, marginTop:6, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{msg.body}</p>}
+                  </div>
+                </div>
+                {/* Expanded body */}
+                {isExpanded && (
+                  <div style={{ padding:'0 18px 18px 18px', borderTop:`1px solid ${T.border}`, paddingTop:16 }}>
+                    <p style={{ fontSize:14, color:T.inkMid, lineHeight:1.75, whiteSpace:'pre-wrap' }}>{msg.body}</p>
+                    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:16, flexWrap:'wrap', gap:8 }}>
+                      <div style={{ fontSize:11, color:T.inkLight, display:'flex', alignItems:'center', gap:5 }}>
+                        🔒 AES-256 encrypted · {date} at {time}
+                      </div>
+                      {isAdmin && (
+                        <Btn variant="danger" small onClick={e=>{ e.stopPropagation(); deleteMessage(msg.id) }}>Delete</Btn>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─── PROGRESS PICS ────────────────────────────────────────────────────────────
+function ProgressPicsPage({ user, isAdmin }) {
+  const { clients, selClientId, setSelClientId, clientId } = useAdminClient(user, isAdmin)
+  const [pics, setPics] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [uploading, setUploading] = useState(false)
+  const [uploadMsg, setUploadMsg] = useState('')
+  const [compareA, setCompareA] = useState(null)
+  const [compareB, setCompareB] = useState(null)
+  const [compareMode, setCompareMode] = useState(false)
+  const [caption, setCaption] = useState('')
+  const [selectedWeight, setSelectedWeight] = useState('')
+  const fileInputRef = useRef(null)
+  const isDemoMode = isDemo || clientId === 'demo' || !clientId
+
+  // Demo pics
+  const DEMO_PICS = [
+    { id:'p1', week_number:1, pic_date:'2026-03-30', url:'https://via.placeholder.com/400x500/1a1a1a/f1c232?text=Week+1', caption:'Day 1 — Starting point', weight_kg:93 },
+    { id:'p2', week_number:4, pic_date:'2026-04-20', url:'https://via.placeholder.com/400x500/1a1a1a/f1c232?text=Week+4', caption:'Week 4 progress', weight_kg:91.5 },
+    { id:'p3', week_number:8, pic_date:'2026-05-18', url:'https://via.placeholder.com/400x500/1a1a1a/f1c232?text=Week+8', caption:'Week 8 — Visible changes', weight_kg:90 },
+  ]
+
+  const load = async () => {
+    setLoading(true)
+    try {
+      if (isDemoMode) { setPics(DEMO_PICS); setLoading(false); return }
+      const data = await sbQuery('progress_pics', { eq:{ client_id: clientId }, order:'pic_date', asc:false })
+      if (!data) { setPics([]); setLoading(false); return }
+      // Get signed URLs for each pic (private bucket — must use signed URL)
+      const withUrls = await Promise.all((data||[]).map(async pic => {
+        const { data: urlData } = await supabase.storage.from('progress-pics').createSignedUrl(pic.storage_path, 3600)
+        return { ...pic, url: urlData?.signedUrl || '' }
+      }))
+      setPics(withUrls)
+    } catch(e) { console.error(e) }
+    finally { setLoading(false) }
+  }
+
+  useEffect(() => { if (clientId || isDemoMode) load() }, [clientId])
+
+  const upload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (file.size > 5*1024*1024) { setUploadMsg('Error: File must be under 5MB'); return }
+    setUploading(true); setUploadMsg('')
+    try {
+      if (isDemoMode) {
+        const url = URL.createObjectURL(file)
+        const weekNum = pics.length > 0 ? Math.max(...pics.map(p=>p.week_number)) + 1 : 1
+        setPics(prev => [{ id:'p'+Date.now(), week_number:weekNum, pic_date:new Date().toISOString().split('T')[0], url, caption, weight_kg:parseFloat(selectedWeight)||null }, ...prev])
+        setCaption(''); setSelectedWeight(''); setUploadMsg('✓ Added (demo mode)')
+        return
+      }
+      const weekNum = pics.length > 0 ? Math.max(...pics.map(p=>p.week_number)) + 1 : 1
+      const ext = file.name.split('.').pop()
+      const path = `${clientId}/${Date.now()}.${ext}`
+      // Upload to private Supabase Storage bucket
+      const { error: storageErr } = await supabase.storage.from('progress-pics').upload(path, file, { cacheControl:'3600', upsert:false })
+      if (storageErr) throw storageErr
+      // Save metadata
+      await sbInsert('progress_pics', {
+        client_id: clientId,
+        week_number: weekNum,
+        pic_date: new Date().toISOString().split('T')[0],
+        storage_path: path,
+        caption: caption || null,
+        weight_kg: parseFloat(selectedWeight) || null,
+      })
+      setCaption(''); setSelectedWeight('')
+      setUploadMsg('✓ Progress pic uploaded securely')
+      await load()
+    } catch(e) { setUploadMsg(`Error: ${e.message}`) }
+    finally { setUploading(false) }
+  }
+
+  const deletePic = async (pic) => {
+    if (!window.confirm('Delete this progress pic?')) return
+    if (isDemoMode) { setPics(prev=>prev.filter(p=>p.id!==pic.id)); if(compareA?.id===pic.id)setCompareA(null); if(compareB?.id===pic.id)setCompareB(null); return }
+    try {
+      await supabase.storage.from('progress-pics').remove([pic.storage_path])
+      await sbDelete('progress_pics', pic.id)
+      if (compareA?.id===pic.id) setCompareA(null)
+      if (compareB?.id===pic.id) setCompareB(null)
+      await load()
+    } catch(e) { alert(e.message) }
+  }
+
+  const selectForCompare = (pic) => {
+    if (!compareMode) return
+    if (compareA?.id===pic.id) { setCompareA(null); return }
+    if (compareB?.id===pic.id) { setCompareB(null); return }
+    if (!compareA) { setCompareA(pic); return }
+    if (!compareB) { setCompareB(pic); return }
+    // Both set — replace the older one
+    setCompareA(compareB); setCompareB(pic)
+  }
+
+  const isSelectedForCompare = (pic) => compareA?.id===pic.id || compareB?.id===pic.id
+
+  return (
+    <div style={{ padding:'20px 16px 24px', maxWidth:1080, margin:'0 auto' }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:20, flexWrap:'wrap', gap:12 }}>
+        <div>
+          <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:22, fontWeight:700 }}>Progress pics 📸</h2>
+          <p style={{ fontSize:13, color:T.inkLight, marginTop:3 }}>Stored privately · End-to-end secured</p>
+        </div>
+        <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+          {isAdmin && <ClientSelector clients={clients} selClientId={selClientId} setSelClientId={setSelClientId}/>}
+          <Btn variant={compareMode?'primary':'secondary'} onClick={()=>{ setCompareMode(!compareMode); setCompareA(null); setCompareB(null) }}>
+            {compareMode ? '✕ Exit compare' : '⚖ Compare'}
+          </Btn>
+          {!isAdmin && (
+            <Btn onClick={()=>fileInputRef.current?.click()} disabled={uploading}>
+              {uploading ? 'Uploading…' : '+ Add pic'}
+            </Btn>
+          )}
+          <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp,image/heic" onChange={upload} style={{ display:'none' }}/>
+        </div>
+      </div>
+
+      {/* Upload form (client only) */}
+      {!isAdmin && (
+        <Card style={{ marginBottom:16 }}>
+          <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:15, fontWeight:700, marginBottom:14 }}>Add this week's progress pic</h3>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 120px', gap:12, marginBottom:12 }}>
+            <Inp label="Caption (optional)" value={caption} onChange={e=>setCaption(e.target.value)} placeholder="e.g. Week 8 — feeling stronger"/>
+            <Inp label="Weight (kg)" type="number" value={selectedWeight} onChange={e=>setSelectedWeight(e.target.value)} placeholder="90.5" inputMode="decimal" step=".1"/>
+          </div>
+          <Btn onClick={()=>fileInputRef.current?.click()} disabled={uploading} full style={{ padding:'12px' }}>
+            {uploading ? 'Uploading securely…' : '📸 Choose photo & upload'}
+          </Btn>
+          <MsgBox msg={uploadMsg}/>
+          <div style={{ marginTop:10, display:'flex', alignItems:'center', gap:6, fontSize:11, color:T.inkLight }}>
+            🔒 Photos stored in private encrypted storage. Only you and your coach can access them.
+          </div>
+        </Card>
+      )}
+
+      {/* Compare mode banner */}
+      {compareMode && (
+        <div style={{ padding:'12px 16px', background:T.orangeL, borderRadius:12, marginBottom:16, border:`1px solid rgba(241,194,50,0.4)`, fontSize:13, color:T.inkMid, display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
+          <span>⚖️</span>
+          <span>Select <strong>2 photos</strong> to compare side by side · {compareA?1:0}/2 selected</span>
+          {compareA && compareB && <Btn small variant="primary" onClick={()=>{}}>View comparison ↓</Btn>}
+        </div>
+      )}
+
+      {/* Side-by-side comparison */}
+      {compareMode && compareA && compareB && (
+        <Card style={{ marginBottom:20 }}>
+          <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:16, fontWeight:700, marginBottom:16, textAlign:'center' }}>Progress comparison</h3>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+            {[compareA, compareB].map((pic, i) => (
+              <div key={pic.id} style={{ textAlign:'center' }}>
+                <div style={{ fontSize:11, fontWeight:700, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px', marginBottom:8 }}>{i===0?'Before':'After'}</div>
+                <img src={pic.url} alt={`Week ${pic.week_number}`}
+                  style={{ width:'100%', aspectRatio:'3/4', objectFit:'cover', borderRadius:14, border:`3px solid ${i===0?T.blue:T.green}`, display:'block' }}/>
+                <div style={{ marginTop:8 }}>
+                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14 }}>Week {pic.week_number}</div>
+                  <div style={{ fontSize:12, color:T.inkLight }}>{new Date(pic.pic_date+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+                  {pic.weight_kg && <div style={{ fontSize:12, fontWeight:600, color:i===0?T.blue:T.green, marginTop:3 }}>{pic.weight_kg} kg</div>}
+                  {pic.caption && <div style={{ fontSize:11, color:T.inkLight, fontStyle:'italic', marginTop:3 }}>"{pic.caption}"</div>}
+                </div>
+              </div>
+            ))}
+          </div>
+          {compareA.weight_kg && compareB.weight_kg && (
+            <div style={{ marginTop:16, padding:'12px 16px', background:T.greenL, borderRadius:12, textAlign:'center', border:`1px solid rgba(26,122,74,0.15)` }}>
+              <span style={{ fontSize:15, fontWeight:700, color:T.green }}>
+                {(compareA.weight_kg - compareB.weight_kg).toFixed(1)} kg lost between Week {compareA.week_number} → Week {compareB.week_number} 🔥
+              </span>
+            </div>
+          )}
+        </Card>
+      )}
+
+      {/* Grid */}
+      {loading ? (
+        <div style={{ textAlign:'center', padding:60, color:T.inkLight }}>Loading your progress pics…</div>
+      ) : pics.length===0 ? (
+        <Card style={{ textAlign:'center', padding:'50px 24px' }}>
+          <div style={{ fontSize:52, marginBottom:12 }}>📸</div>
+          <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:18, fontWeight:700, marginBottom:8 }}>No progress pics yet</h3>
+          <p style={{ color:T.inkLight, fontSize:14 }}>{isAdmin ? 'Client hasn\'t added any pics yet' : 'Add your first progress pic to start tracking your transformation'}</p>
+        </Card>
+      ) : (
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))', gap:14 }}>
+          {pics.map(pic => {
+            const isSel = isSelectedForCompare(pic)
+            return (
+              <div key={pic.id} onClick={() => selectForCompare(pic)}
+                style={{ position:'relative', borderRadius:16, overflow:'hidden', cursor:compareMode?'pointer':'default', border:`3px solid ${isSel?T.orange:T.border}`, transition:'all .2s', boxShadow:isSel?`0 0 0 2px ${T.orange}`:undefined }}>
+                <img src={pic.url} alt={`Week ${pic.week_number}`}
+                  style={{ width:'100%', aspectRatio:'3/4', objectFit:'cover', display:'block' }}/>
+                {/* Overlay */}
+                <div style={{ position:'absolute', bottom:0, left:0, right:0, background:'linear-gradient(0deg,rgba(0,0,0,0.8) 0%,transparent 100%)', padding:'20px 12px 12px' }}>
+                  <div style={{ fontFamily:"'Syne',sans-serif", color:'#fff', fontWeight:700, fontSize:14 }}>Week {pic.week_number}</div>
+                  {pic.weight_kg && <div style={{ color:T.orange, fontSize:12, fontWeight:600 }}>{pic.weight_kg} kg</div>}
+                  <div style={{ color:'rgba(255,255,255,0.6)', fontSize:11 }}>{new Date(pic.pic_date+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</div>
+                  {pic.caption && <div style={{ color:'rgba(255,255,255,0.7)', fontSize:11, fontStyle:'italic', marginTop:2 }}>"{pic.caption}"</div>}
+                </div>
+                {/* Compare check */}
+                {compareMode && (
+                  <div style={{ position:'absolute', top:8, right:8, width:26, height:26, borderRadius:'50%', background:isSel?T.orange:'rgba(0,0,0,0.4)', border:`2px solid ${isSel?T.orange:'rgba(255,255,255,0.4)'}`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    {isSel && <span style={{ color:T.ink, fontSize:14, fontWeight:800 }}>✓</span>}
+                  </div>
+                )}
+                {/* Delete */}
+                {!compareMode && (
+                  <button onClick={e=>{ e.stopPropagation(); deletePic(pic) }}
+                    style={{ position:'absolute', top:8, right:8, width:26, height:26, borderRadius:'50%', background:'rgba(0,0,0,0.6)', border:'none', color:'#fff', cursor:'pointer', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', WebkitTapHighlightColor:'transparent' }}>✕</button>
+                )}
+                {/* Lock icon */}
+                <div style={{ position:'absolute', top:8, left:8, fontSize:12, opacity:0.7 }}>🔒</div>
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ─── ADMIN PANEL ──────────────────────────────────────────────────────────────
 function AdminPanel({ user }) {
   const [clients,setClients]=useState([])
@@ -1761,8 +2223,8 @@ export default function App() {
 
   const isAdmin=user.role==='admin'
   const tabs=isAdmin
-    ?[['dashboard','Clients','👥'],['workout','Workouts','🏋️'],['nutrition','Nutrition','🥗'],['roadmap','Roadmap','🗺️']]
-    :[['dashboard','Home','🏠'],['weight','Weight','⚖️'],['workout','Workout','🏋️'],['nutrition','Nutrition','🥗'],['roadmap','Roadmap','🗺️']]
+    ?[['dashboard','Clients','👥'],['workout','Workouts','🏋️'],['nutrition','Nutrition','🥗'],['roadmap','Roadmap','🗺️'],['messages','Messages','💬'],['progress','Progress','📸']]
+    :[['dashboard','Home','🏠'],['weight','Weight','⚖️'],['workout','Workout','🏋️'],['nutrition','Nutrition','🥗'],['roadmap','Roadmap','🗺️'],['messages','Messages','💬'],['progress','Progress','📸']]
 
   const logout=async()=>{ if(!isDemo) await supabase.auth.signOut(); setUser(null) }
 
@@ -1772,6 +2234,8 @@ export default function App() {
     if(tab==='workout') return <WorkoutPage user={user} isAdmin={isAdmin}/>
     if(tab==='nutrition') return <NutritionPage user={user} isAdmin={isAdmin}/>
     if(tab==='roadmap') return <RoadmapPage user={user} isAdmin={isAdmin}/>
+    if(tab==='messages') return <MessagesPage user={user} isAdmin={isAdmin}/>
+    if(tab==='progress') return <ProgressPicsPage user={user} isAdmin={isAdmin}/>
     return null
   }
 
