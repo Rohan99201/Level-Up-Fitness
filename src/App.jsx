@@ -1682,15 +1682,24 @@ function MessagesPage({ user, isAdmin }) {
         return
       }
       if (isAdmin) {
-        const { data, error } = await supabase.rpc('get_messages_admin')
+        // Admin: direct query with join
+        const { data, error } = await supabase
+          .from('messages')
+          .select('*, clients(name)')
+          .order('sent_at', { ascending: false })
         if (error) throw error
-        setMessages(data || [])
+        const mapped = (data||[]).map(m => ({ ...m, client_name: m.clients?.name || null }))
+        setMessages(mapped)
         const cl = await sbQuery('clients', { order:'name', asc:true, select:'id,name' })
         setClients(cl || [])
       } else {
-        const { data, error } = await supabase.rpc('get_messages_client', { p_client_id: user.clientId })
+        // Client: direct query — RLS automatically filters to their messages + broadcasts
+        const { data, error } = await supabase
+          .from('messages')
+          .select('id, client_id, subject, body, message_type, is_read, read_at, sent_at')
+          .order('sent_at', { ascending: false })
         if (error) {
-          console.error('Messages RPC error:', error)
+          console.error('Messages error:', error)
           setMessages([])
         } else {
           setMessages(data || [])
