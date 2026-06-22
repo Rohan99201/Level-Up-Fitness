@@ -1583,46 +1583,112 @@ function RoadmapPage({ user, isAdmin }) {
 // Messages are encrypted server-side via pgcrypto (AES-256)
 // Clients read-only. Admin sends personal + broadcast.
 
+// ─── MESSAGES ─────────────────────────────────────────────────────────────────
+
+// Compose form as a standalone component (NOT nested) — prevents re-mount on keystroke
+function ComposeForm({ clients, onSend, onCancel }) {
+  const [msgType, setMsgType] = useState('personal')
+  const [clientId, setClientId] = useState('')
+  const [subject, setSubject] = useState('')
+  const [body, setBody] = useState('')
+  const [sending, setSending] = useState(false)
+  const [err, setErr] = useState('')
+
+  const send = async () => {
+    if (!subject.trim() || !body.trim()) { setErr('Error: Subject and message are required'); return }
+    if (msgType === 'personal' && !clientId) { setErr('Error: Please select a client'); return }
+    setSending(true); setErr('')
+    try {
+      await onSend({ client_id: msgType === 'broadcast' ? null : clientId, subject, body, message_type: msgType })
+      setSubject(''); setBody(''); setClientId(''); setErr('')
+    } catch(e) { setErr(`Error: ${e.message}`) }
+    finally { setSending(false) }
+  }
+
+  return (
+    <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+      <div>
+        <label style={{ fontSize:11, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px', marginBottom:8, display:'block' }}>Message type</label>
+        <div style={{ display:'flex', gap:8 }}>
+          {[['personal','👤 Personal'],['broadcast','📢 Broadcast (all)']].map(([v,lbl]) => (
+            <button key={v} onClick={() => setMsgType(v)}
+              style={{ flex:1, padding:'10px 12px', borderRadius:10, border:`1.5px solid ${msgType===v?T.orange:T.border}`, background:msgType===v?T.orangeL:T.surface, color:msgType===v?T.orangeD:T.ink, fontWeight:600, fontSize:13, cursor:'pointer', fontFamily:"'DM Sans',sans-serif" }}>
+              {lbl}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {msgType === 'personal' && (
+        <Sel label="Send to client" value={clientId} onChange={e => setClientId(e.target.value)}>
+          <option value="">— Select client —</option>
+          {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+        </Sel>
+      )}
+      {msgType === 'broadcast' && (
+        <div style={{ padding:'10px 14px', background:T.amberL, borderRadius:10, fontSize:12, color:T.amber, border:`1px solid rgba(180,83,9,0.2)` }}>
+          📢 This message will be visible to ALL clients
+        </div>
+      )}
+
+      <Inp label="Subject" value={subject} onChange={e => setSubject(e.target.value)} placeholder="Weekly check-in, Program update…"/>
+
+      <div>
+        <label style={{ fontSize:11, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px', marginBottom:6, display:'block' }}>Message</label>
+        <textarea value={body} onChange={e => setBody(e.target.value)} rows={5}
+          placeholder="Write your message here…"
+          style={{ width:'100%', padding:'12px 14px', borderRadius:12, border:`1.5px solid ${T.border}`, fontSize:15, outline:'none', resize:'vertical', fontFamily:"'DM Sans',sans-serif", boxSizing:'border-box', lineHeight:1.6, color:T.ink }}
+          onFocus={e => e.target.style.borderColor=T.orange}
+          onBlur={e => e.target.style.borderColor=T.border}
+        />
+      </div>
+
+      <div style={{ display:'flex', alignItems:'center', gap:8, padding:'10px 14px', background:T.greenL, borderRadius:10, fontSize:12, color:T.green, border:`1px solid rgba(26,122,74,0.15)` }}>
+        🔒 Message encrypted with AES-256 before storage
+      </div>
+
+      <MsgBox msg={err}/>
+
+      <div style={{ display:'flex', gap:9 }}>
+        <Btn onClick={send} disabled={sending} full>{sending ? 'Sending…' : 'Send message 🔒'}</Btn>
+        <Btn variant="ghost" onClick={onCancel} full>Cancel</Btn>
+      </div>
+    </div>
+  )
+}
+
 function MessagesPage({ user, isAdmin }) {
   const [messages, setMessages] = useState([])
   const [clients, setClients] = useState([])
   const [loading, setLoading] = useState(true)
   const [showCompose, setShowCompose] = useState(false)
-  const [form, setForm] = useState({ client_id: '', subject: '', body: '', message_type: 'personal' })
-  const [sending, setSending] = useState(false)
   const [sendMsg, setSendMsg] = useState('')
   const [expandedId, setExpandedId] = useState(null)
   const isDemoMode = isDemo || (!isAdmin && user.clientId === 'demo')
 
-  // ── Demo data ──
   const DEMO_MSGS = [
-    { id:'dm1', subject:'Welcome to LevelUp! 🎉', body:'Hey Rohan! Welcome aboard. Your program starts this week. Stay consistent and trust the process.', message_type:'personal', is_read:true,  sent_at:'2026-03-28T10:00:00Z', client_name:'ROHAN CHOUBEY' },
-    { id:'dm2', subject:'Weekly check-in — Week 2', body:'Great work this week! Your weights are trending down well. Make sure you\'re hitting 8k steps daily.', message_type:'personal', is_read:true,  sent_at:'2026-04-06T09:00:00Z', client_name:'ROHAN CHOUBEY' },
-    { id:'dm3', subject:'📢 April Tips — All Clients', body:'Reminder to everyone: drink at least 3L of water daily. Hydration is as important as your training!', message_type:'broadcast', is_read:false, sent_at:'2026-04-10T08:00:00Z', client_name:null },
-    { id:'dm4', subject:'Fat loss phase starting — Stay focused 🔥', body:'We\'re entering the fat loss phase now. Your calories will drop slightly. Follow the plan and reach out if you feel fatigued.', message_type:'personal', is_read:false, sent_at:'2026-04-14T11:00:00Z', client_name:'ROHAN CHOUBEY' },
+    { id:'dm1', subject:'Welcome to LevelUp! 🎉',        body:'Hey Rohan! Welcome aboard. Your program starts this week. Stay consistent and trust the process.',                                                                    message_type:'personal',  is_read:true,  sent_at:'2026-03-28T10:00:00Z', client_name:'ROHAN CHOUBEY' },
+    { id:'dm2', subject:'Weekly check-in — Week 2',       body:"Great work this week! Your weights are trending down well. Make sure you're hitting 8k steps daily.",                                                               message_type:'personal',  is_read:true,  sent_at:'2026-04-06T09:00:00Z', client_name:'ROHAN CHOUBEY' },
+    { id:'dm3', subject:'📢 April Tips — All Clients',    body:'Reminder to everyone: drink at least 3L of water daily. Hydration is as important as your training!',                                                                message_type:'broadcast', is_read:false, sent_at:'2026-04-10T08:00:00Z', client_name:null },
+    { id:'dm4', subject:'Fat loss phase starting 🔥',     body:"We're entering the fat loss phase now. Your calories will drop slightly. Follow the plan and reach out if you feel fatigued.",                                      message_type:'personal',  is_read:false, sent_at:'2026-04-14T11:00:00Z', client_name:'ROHAN CHOUBEY' },
   ]
-  const DEMO_CLIENTS = [{ id:'1', name:'ROHAN CHOUBEY' }]
 
   const load = async () => {
     setLoading(true)
     try {
       if (isDemoMode) {
         setMessages(DEMO_MSGS)
-        if (isAdmin) setClients(DEMO_CLIENTS)
-        setLoading(false)
+        if (isAdmin) setClients([{ id:'1', name:'ROHAN CHOUBEY' }])
         return
       }
       if (isAdmin) {
-        // Admin sees all messages with decrypted body via RPC
         const { data, error } = await supabase.rpc('get_messages_admin')
         if (error) throw error
         setMessages(data || [])
         const cl = await sbQuery('clients', { order:'name', asc:true, select:'id,name' })
         setClients(cl || [])
       } else {
-        // Client: fetch their messages + broadcasts, decrypt body
-        const clientId = user.clientId
-        const { data, error } = await supabase.rpc('get_messages_client', { p_client_id: clientId })
+        const { data, error } = await supabase.rpc('get_messages_client', { p_client_id: user.clientId })
         if (error) throw error
         setMessages(data || [])
       }
@@ -1632,12 +1698,10 @@ function MessagesPage({ user, isAdmin }) {
 
   useEffect(() => { load() }, [user])
 
-  // Real-time subscription
   useEffect(() => {
     if (isDemoMode) return
-    const filter = isAdmin ? undefined : `client_id=eq.${user.clientId}`
     const sub = supabase.channel('messages-rt')
-      .on('postgres_changes', { event:'INSERT', schema:'public', table:'messages', ...(filter?{filter}:{}) }, () => load())
+      .on('postgres_changes', { event:'INSERT', schema:'public', table:'messages' }, () => load())
       .subscribe()
     return () => supabase.removeChannel(sub)
   }, [user])
@@ -1650,33 +1714,26 @@ function MessagesPage({ user, isAdmin }) {
     } catch(e) { console.error(e) }
   }
 
-  const sendMessage = async () => {
-    if (!form.subject || !form.body) { setSendMsg('Error: Subject and message required'); return }
-    if (form.message_type==='personal' && !form.client_id) { setSendMsg('Error: Select a client'); return }
-    setSending(true); setSendMsg('')
-    try {
-      if (isDemoMode) {
-        const newMsg = { id:'dm'+Date.now(), ...form, is_read:false, sent_at:new Date().toISOString(), client_name: clients.find(c=>c.id===form.client_id)?.name || null }
-        setMessages(prev => [newMsg, ...prev])
-        setForm({ client_id:'', subject:'', body:'', message_type:'personal' })
-        setShowCompose(false)
-        setSendMsg('✓ Message sent (demo)')
-      } else {
-        // Call RPC that encrypts body server-side before storing
-        const { error } = await supabase.rpc('send_message_encrypted', {
-          p_client_id:    form.message_type==='broadcast' ? null : form.client_id,
-          p_subject:      form.subject,
-          p_body:         form.body,
-          p_message_type: form.message_type
-        })
-        if (error) throw error
-        setForm({ client_id:'', subject:'', body:'', message_type:'personal' })
-        setShowCompose(false)
-        setSendMsg('✓ Message sent and encrypted')
-        await load()
-      }
-    } catch(e) { setSendMsg(`Error: ${e.message}`) }
-    finally { setSending(false) }
+  const handleSend = async (payload) => {
+    if (isDemoMode) {
+      const newMsg = { id:'dm'+Date.now(), ...payload, is_read:false, sent_at:new Date().toISOString(), client_name: clients.find(c=>c.id===payload.client_id)?.name||null }
+      setMessages(prev => [newMsg, ...prev])
+      setShowCompose(false)
+      setSendMsg('✓ Message sent (demo)')
+      setTimeout(() => setSendMsg(''), 3000)
+      return
+    }
+    const { error } = await supabase.rpc('send_message_encrypted', {
+      p_client_id:    payload.client_id,
+      p_subject:      payload.subject,
+      p_body:         payload.body,
+      p_message_type: payload.message_type
+    })
+    if (error) throw error
+    setShowCompose(false)
+    setSendMsg('✓ Message sent and encrypted')
+    setTimeout(() => setSendMsg(''), 3000)
+    await load()
   }
 
   const deleteMessage = async (id) => {
@@ -1686,54 +1743,6 @@ function MessagesPage({ user, isAdmin }) {
   }
 
   const unread = messages.filter(m => !m.is_read).length
-
-  const ComposeModal = () => (
-    <Modal title="Send message" onClose={() => { setShowCompose(false); setSendMsg('') }}>
-      <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
-        {/* Type toggle */}
-        <div>
-          <label style={{ fontSize:11, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px', marginBottom:8, display:'block' }}>Message type</label>
-          <div style={{ display:'flex', gap:8 }}>
-            {[['personal','👤 Personal'],['broadcast','📢 Broadcast (all)']].map(([v,lbl])=>(
-              <button key={v} onClick={()=>setForm(p=>({...p,message_type:v,client_id:v==='broadcast'?'':p.client_id}))}
-                style={{ flex:1, padding:'9px 12px', borderRadius:10, border:`1.5px solid ${form.message_type===v?T.orange:T.border}`, background:form.message_type===v?T.orangeL:T.surface, color:form.message_type===v?T.orangeD:T.ink, fontWeight:600, fontSize:13, cursor:'pointer' }}>
-                {lbl}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {form.message_type==='personal' && (
-          <Sel label="Send to client" value={form.client_id} onChange={e=>setForm(p=>({...p,client_id:e.target.value}))}>
-            <option value="">— Select client —</option>
-            {clients.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}
-          </Sel>
-        )}
-        {form.message_type==='broadcast' && (
-          <div style={{ padding:'10px 14px', background:T.amberL, borderRadius:10, fontSize:12, color:T.amber, border:`1px solid rgba(180,83,9,0.2)` }}>
-            📢 This message will be visible to ALL clients
-          </div>
-        )}
-        <Inp label="Subject" value={form.subject} onChange={e=>setForm(p=>({...p,subject:e.target.value}))} placeholder="Weekly check-in, Program update…"/>
-        <div>
-          <label style={{ fontSize:11, fontWeight:600, color:T.inkLight, textTransform:'uppercase', letterSpacing:'0.6px', marginBottom:6, display:'block' }}>Message</label>
-          <textarea value={form.body} onChange={e=>setForm(p=>({...p,body:e.target.value}))} rows={5}
-            placeholder="Write your message here…"
-            style={{ width:'100%', padding:'12px 14px', borderRadius:12, border:`1.5px solid ${T.border}`, fontSize:15, outline:'none', resize:'vertical', fontFamily:"'DM Sans',sans-serif", boxSizing:'border-box', lineHeight:1.6 }}
-            onFocus={e=>e.target.style.borderColor=T.orange} onBlur={e=>e.target.style.borderColor=T.border}
-          />
-        </div>
-        <div style={{ display:'flex', alignItems:'center', gap:8, padding:'10px 14px', background:'#F0FDF4', borderRadius:10, fontSize:12, color:T.green, border:`1px solid rgba(26,122,74,0.15)` }}>
-          🔒 Message encrypted with AES-256 before storage
-        </div>
-        <MsgBox msg={sendMsg}/>
-        <div style={{ display:'flex', gap:9 }}>
-          <Btn onClick={sendMessage} disabled={sending} full>{sending?'Sending…':'Send message 🔒'}</Btn>
-          <Btn variant="ghost" onClick={()=>setShowCompose(false)} full>Cancel</Btn>
-        </div>
-      </div>
-    </Modal>
-  )
 
   return (
     <div style={{ padding:'20px 16px 24px', maxWidth:1080, margin:'0 auto' }}>
@@ -1747,20 +1756,27 @@ function MessagesPage({ user, isAdmin }) {
             {isAdmin ? 'Send encrypted messages to your clients' : 'Messages from your coach — read only'}
           </p>
         </div>
-        {isAdmin && <Btn onClick={()=>setShowCompose(true)} variant="primary">✉ Compose</Btn>}
+        {isAdmin && <Btn onClick={() => setShowCompose(!showCompose)} variant={showCompose?'secondary':'primary'}>{showCompose ? '✕ Cancel' : '✉ Compose'}</Btn>}
       </div>
 
-      {showCompose && <ComposeModal/>}
-      {sendMsg && !showCompose && <MsgBox msg={sendMsg}/>}
+      {/* Compose — rendered as sibling, NOT nested function, so no remount on keystroke */}
+      {showCompose && (
+        <div style={{ background:T.surface, borderRadius:18, border:`1px solid ${T.border}`, padding:'20px', marginBottom:18, boxShadow:'0 4px 20px rgba(0,0,0,0.08)' }}>
+          <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:16, fontWeight:700, marginBottom:16 }}>New message</h3>
+          <ComposeForm clients={clients} onSend={handleSend} onCancel={() => setShowCompose(false)}/>
+        </div>
+      )}
+
+      {sendMsg && <MsgBox msg={sendMsg}/>}
 
       {loading ? (
         <div style={{ textAlign:'center', padding:60, color:T.inkLight }}>Loading messages…</div>
       ) : messages.length===0 ? (
-        <Card style={{ textAlign:'center', padding:'50px 24px' }}>
+        <div style={{ background:T.surface, borderRadius:18, border:`1px solid ${T.border}`, padding:'50px 24px', textAlign:'center' }}>
           <div style={{ fontSize:48, marginBottom:12 }}>✉️</div>
           <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:18, fontWeight:700, marginBottom:8 }}>No messages yet</h3>
           <p style={{ color:T.inkLight, fontSize:14 }}>{isAdmin ? 'Compose a message to get started' : 'Your coach will send you messages here'}</p>
-        </Card>
+        </div>
       ) : (
         <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
           {messages.map(msg => {
@@ -1770,40 +1786,34 @@ function MessagesPage({ user, isAdmin }) {
             const time = new Date(msg.sent_at).toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' })
             return (
               <div key={msg.id} onClick={() => { setExpandedId(isExpanded?null:msg.id); markRead(msg) }}
-                style={{ background:T.surface, borderRadius:16, border:`1.5px solid ${!msg.is_read&&!isAdmin ? T.orange : T.border}`, padding:0, cursor:'pointer', transition:'all .2s', overflow:'hidden', boxShadow:!msg.is_read&&!isAdmin?`0 0 0 1px ${T.orangeL}`:'none' }}>
-                {/* Header */}
+                style={{ background:T.surface, borderRadius:16, border:`1.5px solid ${!msg.is_read&&!isAdmin?T.orange:T.border}`, cursor:'pointer', transition:'all .2s', overflow:'hidden', boxShadow:!msg.is_read&&!isAdmin?`0 0 0 1px ${T.orangeL}`:'none' }}>
                 <div style={{ padding:'16px 18px', display:'flex', alignItems:'flex-start', gap:12 }}>
-                  <div style={{ width:40, height:40, borderRadius:12, background: isPersonal?T.orangeL:'#EDE9FE', display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, flexShrink:0 }}>
+                  <div style={{ width:40, height:40, borderRadius:12, background:isPersonal?T.orangeL:'#EDE9FE', display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, flexShrink:0 }}>
                     {isPersonal ? '💬' : '📢'}
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
                     <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:8, flexWrap:'wrap' }}>
                       <h4 style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:T.ink }}>{msg.subject}</h4>
                       <div style={{ display:'flex', gap:6, alignItems:'center', flexShrink:0 }}>
-                        {!msg.is_read && !isAdmin && <div style={{ width:8, height:8, borderRadius:'50%', background:T.orange }}/>}
+                        {!msg.is_read && !isAdmin && <div style={{ width:8, height:8, borderRadius:'50%', background:T.orange, flexShrink:0 }}/>}
                         <span style={{ fontSize:11, color:T.inkLight, whiteSpace:'nowrap' }}>{date} {time}</span>
                       </div>
                     </div>
-                    <div style={{ display:'flex', gap:8, marginTop:5, alignItems:'center' }}>
+                    <div style={{ display:'flex', gap:8, marginTop:5, alignItems:'center', flexWrap:'wrap' }}>
                       {isAdmin && msg.client_name && <Badge color="blue">{msg.client_name}</Badge>}
                       {!isPersonal && <Badge color="purple">Broadcast</Badge>}
-                      {!isAdmin && <div style={{ display:'flex', alignItems:'center', gap:4, fontSize:11, color:T.green }}><span>🔒</span> Encrypted</div>}
+                      {!isAdmin && <span style={{ fontSize:11, color:T.green }}>🔒 Encrypted</span>}
                       {msg.is_read && !isAdmin && <Badge color="gray">Read</Badge>}
                     </div>
                     {!isExpanded && <p style={{ fontSize:13, color:T.inkLight, marginTop:6, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{msg.body}</p>}
                   </div>
                 </div>
-                {/* Expanded body */}
                 {isExpanded && (
-                  <div style={{ padding:'0 18px 18px 18px', borderTop:`1px solid ${T.border}`, paddingTop:16 }}>
+                  <div style={{ padding:'0 18px 18px', borderTop:`1px solid ${T.border}`, paddingTop:16 }}>
                     <p style={{ fontSize:14, color:T.inkMid, lineHeight:1.75, whiteSpace:'pre-wrap' }}>{msg.body}</p>
                     <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:16, flexWrap:'wrap', gap:8 }}>
-                      <div style={{ fontSize:11, color:T.inkLight, display:'flex', alignItems:'center', gap:5 }}>
-                        🔒 AES-256 encrypted · {date} at {time}
-                      </div>
-                      {isAdmin && (
-                        <Btn variant="danger" small onClick={e=>{ e.stopPropagation(); deleteMessage(msg.id) }}>Delete</Btn>
-                      )}
+                      <span style={{ fontSize:11, color:T.inkLight }}>🔒 AES-256 encrypted · {date} at {time}</span>
+                      {isAdmin && <Btn variant="danger" small onClick={e=>{ e.stopPropagation(); deleteMessage(msg.id) }}>Delete</Btn>}
                     </div>
                   </div>
                 )}
