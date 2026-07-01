@@ -1381,18 +1381,97 @@ function NutritionPage({ user, isAdmin }) {
   const filtered=foods.filter(f=>f.food_name?.toLowerCase().includes(search.toLowerCase()))
   const t=targets||{}
 
+  // ── Food name autocomplete ──────────────────────────────────────────────────
+  const [foodSuggestions, setFoodSuggestions] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
+
+  const handleFoodNameChange = (val) => {
+    setMealForm(p => ({...p, food_name: val}))
+    if (val.trim().length < 1) { setFoodSuggestions([]); setShowSuggestions(false); return }
+    const matches = foods.filter(f => f.food_name?.toLowerCase().includes(val.toLowerCase()))
+    setFoodSuggestions(matches.slice(0, 8))
+    setShowSuggestions(matches.length > 0)
+  }
+
+  const selectFoodSuggestion = (food) => {
+    // Autofill all macros scaled to current qty, or use DB portion size
+    const ratio = mealForm.qty_g && food.portion_g ? mealForm.qty_g / food.portion_g : 1
+    setMealForm(p => ({
+      ...p,
+      food_name:  food.food_name,
+      calories:   parseFloat((food.calories  * ratio).toFixed(1)),
+      protein_g:  parseFloat((food.protein_g * ratio).toFixed(1)),
+      fat_g:      parseFloat((food.fat_g     * ratio).toFixed(1)),
+      carbs_g:    parseFloat((food.carbs_g   * ratio).toFixed(1)),
+      fibre_g:    parseFloat((food.fibre_g   * ratio).toFixed(1)),
+    }))
+    setFoodSuggestions([])
+    setShowSuggestions(false)
+  }
+
   const MealForm=(
     <div style={{display:'flex',flexDirection:'column',gap:12}}>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
         <Inp label="Meal number" type="number" value={mealForm.meal_number} onChange={e=>setMealForm(p=>({...p,meal_number:parseInt(e.target.value)||1,meal_name:`MEAL ${e.target.value}`}))} min="1"/>
         <Inp label="Meal name" value={mealForm.meal_name} onChange={e=>setMealForm(p=>({...p,meal_name:e.target.value}))} placeholder="MEAL 1"/>
       </div>
-      <Inp label="Food name *" value={mealForm.food_name} onChange={e=>setMealForm(p=>({...p,food_name:e.target.value}))} placeholder="Oats"/>
+
+      {/* Food name with autocomplete */}
+      <div style={{position:'relative'}}>
+        <label style={{fontSize:11,fontWeight:600,color:T.inkLight,textTransform:'uppercase',letterSpacing:'0.6px',marginBottom:6,display:'block'}}>Food name *</label>
+        <input
+          value={mealForm.food_name}
+          onChange={e=>handleFoodNameChange(e.target.value)}
+          onBlur={()=>setTimeout(()=>setShowSuggestions(false),150)}
+          onFocus={()=>mealForm.food_name.length>0&&setShowSuggestions(foodSuggestions.length>0)}
+          placeholder="Type to search food database…"
+          autoComplete="off"
+          style={{width:'100%',padding:'10px 14px',borderRadius:10,border:`1.5px solid ${showSuggestions?T.orange:T.border}`,fontSize:15,outline:'none',boxSizing:'border-box',background:T.surface,color:T.ink,transition:'border-color .15s',fontFamily:"'DM Sans',sans-serif"}}
+        />
+        {showSuggestions && foodSuggestions.length>0 && (
+          <div style={{position:'absolute',top:'100%',left:0,right:0,zIndex:999,background:T.surface,border:`1.5px solid ${T.orange}`,borderTop:'none',borderRadius:'0 0 12px 12px',boxShadow:'0 8px 24px rgba(0,0,0,0.12)',maxHeight:240,overflowY:'auto'}}>
+            {foodSuggestions.map((food,i)=>(
+              <button key={i} onMouseDown={()=>selectFoodSuggestion(food)}
+                style={{width:'100%',padding:'11px 14px',background:'transparent',border:'none',borderBottom:`1px solid ${T.border}`,textAlign:'left',cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center',transition:'background .1s',fontFamily:"'DM Sans',sans-serif"}}
+                onMouseEnter={e=>e.currentTarget.style.background=T.orangeL}
+                onMouseLeave={e=>e.currentTarget.style.background='transparent'}
+              >
+                <div>
+                  <div style={{fontWeight:600,fontSize:14,color:T.ink}}>{food.food_name}</div>
+                  <div style={{fontSize:11,color:T.inkLight,marginTop:2}}>
+                    per {food.portion_g}g · {food.calories} kcal · P: {food.protein_g}g · C: {food.carbs_g}g · F: {food.fat_g}g
+                  </div>
+                </div>
+                <span style={{fontSize:11,color:T.orange,fontWeight:600,marginLeft:8,flexShrink:0}}>Autofill ↵</span>
+              </button>
+            ))}
+            <div style={{padding:'8px 14px',fontSize:11,color:T.inkLight,background:T.surfaceAlt,borderRadius:'0 0 10px 10px'}}>
+              {foodSuggestions.length} result{foodSuggestions.length!==1?'s':''} · Macros autofill on select
+            </div>
+          </div>
+        )}
+      </div>
+
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
         <Sel label="Category" value={mealForm.category} onChange={e=>setMealForm(p=>({...p,category:e.target.value}))}>
           {['Proteins','Carbohydrates','Fats','Vegetables','Dairy','Supplements'].map(c=><option key={c}>{c}</option>)}
         </Sel>
-        <Inp label="Quantity (g)" type="number" value={mealForm.qty_g} onChange={e=>setMealForm(p=>({...p,qty_g:parseFloat(e.target.value)||0}))}/>
+        <div>
+          <Inp label="Quantity (g)" type="number" value={mealForm.qty_g}
+            onChange={e=>{
+              const qty=parseFloat(e.target.value)||0
+              // Recalculate macros if a food is selected from DB
+              const dbFood=foods.find(f=>f.food_name===mealForm.food_name)
+              if(dbFood&&dbFood.portion_g){
+                const ratio=qty/dbFood.portion_g
+                setMealForm(p=>({...p,qty_g:qty,calories:parseFloat((dbFood.calories*ratio).toFixed(1)),protein_g:parseFloat((dbFood.protein_g*ratio).toFixed(1)),fat_g:parseFloat((dbFood.fat_g*ratio).toFixed(1)),carbs_g:parseFloat((dbFood.carbs_g*ratio).toFixed(1)),fibre_g:parseFloat((dbFood.fibre_g*ratio).toFixed(1))}))
+              } else {
+                setMealForm(p=>({...p,qty_g:qty}))
+              }
+            }}
+          />
+          {foods.find(f=>f.food_name===mealForm.food_name)&&<div style={{fontSize:10,color:T.orange,marginTop:3,fontWeight:600}}>⚡ Macros auto-scale with quantity</div>}
+        </div>
         {[['Calories','calories'],['Protein (g)','protein_g'],['Fat (g)','fat_g'],['Carbs (g)','carbs_g'],['Fibre (g)','fibre_g']].map(([lbl,k])=>(
           <Inp key={k} label={lbl} type="number" value={mealForm[k]} onChange={e=>setMealForm(p=>({...p,[k]:parseFloat(e.target.value)||0}))} step=".1" inputMode="decimal"/>
         ))}
